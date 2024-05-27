@@ -1,0 +1,46 @@
+{
+  "name": "t-mobile-technical-assignment",
+  "private": true,
+  "version": "1.0.0",
+  "module": "true",
+  "scripts": {
+    "build": "vue-tsc && vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "verify": "vue-tsc --project ./src/tsconfig.json --noEmit",
+    "test": "vitest run --coverage --config ./vitest.config.ts",
+    "lint": "eslint \"app/**/*.{ts,vue}\" --fix",
+    "pre-commit": "npm run lint && npm run prettify && npm run verify && npm run test",
+    "prettify": "npx prettier . --write"
+  },
+  "dependencies": {
+    "pinia": "^2.1.7",
+    "postcss-plugin": "^1.0.0",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@testing-library/vue": "^8.0.3",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vue/tsconfig": "^0.5.1",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-prettier-vue": "^5.0.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vue": "^9.26.0",
+    "postcss-load-config": "^5.1.0",
+    "postcss-nesting": "^12.1.5",
+    "postcss-prettify": "^0.3.4",
+    "prettier": "^3.2.5",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "8.0.0-alpha.13",
+    "vite": "^5.2.0",
+    "vitest": "^1.6.0",
+    "vue-tsc": "^2.0.6"
+  }
+}

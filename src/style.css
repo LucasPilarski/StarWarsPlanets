@@ -1,0 +1,17 @@
+:root {
+  --app-height: calc(100vh - 20px);
+}
+
+body {
+  margin: 0;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.link__active {
+  color: white !important;
+  background-color: black;
+}
