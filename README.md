@@ -1,22 +1,25 @@
 # How to use
-Install node version 22.2
+Install node version 22.0 or newer.
 
 Type `npm i` in the console.
 
 Type `npm run dev` to run locally.
 
-# Task description
+# Why only one initial fetch request?
+SWAPI has been abandoned for years, with no chance to implement advanced filtering, sorting and such. I have two options before
+me:
+* Download all the data beforehand, store them in localstorage when necessary, implement full range of data filtering,
+* Use only API data, implement only some filtering options
 
-Zadanie polega na utworzeniu aplikacji wyświetlającej listę planet wykorzystując VUE, z funkcjonalnościami takimi jak paginacja, sortowanie, oraz wyszukiwarka.
-Całość powinna być oparta o zewnętrzne API znajdującego się pod tym adresem:
+The problem with the latter is that sorting would be done only for the current page, not the entire dataset, as it should be. On
+top of that filtering would be limited only to planet names. Therefore, I decoded to go with the former.
 
-https://swapi.dev/api/planets
+# App structure
+Screen:
 
-Każdy element powinien być ostylowany oraz powinien zawierać następujące parametry: name, population, rotation_period, climate, gravity, created, url. Całość chcemy, by była responsywna (375px).
-Zachęcamy do rozbudowy zadania o dodatkowe funkcjonalności/narzędzia. Finalny projekt zapisz jako repozytorium w githubie i udostępnij nam link. W zadaniu staraj się zwracać uwagę na dobre praktyki."
+Components:
 
-Będziemy wdzięczni za rozwiązanie powyższego zadania max do wtorku (04.06)
-
+Pinia: 
 # Todo
 
 * Load data from the API
@@ -25,3 +28,6 @@ Będziemy wdzięczni za rozwiązanie powyższego zadania max do wtorku (04.06)
 * Differentiate between empty and populated data
 * Add loading indicator
 * If possible use routing for data loading
+* Split filters into basic (name, firing list reload on change) and advanced (the rest)
+* Tests for Pinia
+* Tests for components

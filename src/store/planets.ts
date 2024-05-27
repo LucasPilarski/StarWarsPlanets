@@ -10,33 +10,37 @@ export type PlanetsApiResponse = {
 }
 
 export type PlanetsState = {
-  // Do I want to keep it that way just because api response key is results? Should it be planets?
-  results: Planet[]
-  count: number;
-  next: string | null
-  previous: string | null
+  list: Planet[]
+  filters: Record<FilterFields, string>
+  sort: string
+  limit: number
+  page: number
 }
 
+export type FilterFields = 'name' | 'population' | 'rotation_period' | 'climate' | 'gravity';
+
 export type UserState = {
-  filter: string
+  filters: Record<FilterFields, string>
   page: number
 }
 
 export const usePlanetsStore = defineStore("planets", () => {
  const planetsState = ref<PlanetsState>({
-   results: [],
-   count: 0,
-   next: null,
-   previous: null
+     list: [],
+     filters: {
+         name: '',
+         population: '',
+         rotation_period: '',
+         climate: '',
+         gravity: '',
+     },
+     sort: '',
+     limit: 10,
+     page: 1
  })
 
-  const userState = ref<UserState>({
-    filter: '',
-    page: 0
-  })
-
-  const planets = computed(() => {
-    return planetsState.value.results.map((planet => ({
+  const planets = computed(() => planetsState.value.list.slice((planetsState.value.page - 1) * planetsState.value.limit, planetsState.value.page * planetsState.value.limit)
+      .map((planet => ({
       name: planet.name,
       population: planet.population,
       rotation_period: planet.rotation_period,
@@ -45,15 +49,49 @@ export const usePlanetsStore = defineStore("planets", () => {
       created: planet.created.split('T')[0],
       url: planet.url,
     })))
-  })
+  )
 
-  const  fetchPlanets = () => {
-    fetch(`https://swapi.dev/api/planets?search=${userState.value.filter}`)
-      .then(response => response.json())
-      .then((response: PlanetsApiResponse) => {
-        planetsState.value = response
-  })
+    const pagination = computed(() => ({
+        currentPage: planetsState.value.page,
+        lastPage: Math.ceil(planetsState.value.list.length / planetsState.value.limit)
+    }))
+
+    const loadPlanets = (url?: string) => {
+        fetch(url ?? `https://swapi.dev/api/planets`)
+            .then(response => response.json())
+            .then((response: PlanetsApiResponse) => {
+                planetsState.value.list = planetsState.value.list.concat(response.results)
+                if (response.next) {
+                    loadPlanets(response.next)
+                } else {
+                    localStorage.setItem("planets", JSON.stringify(planetsState.value.list))
+                }
+            })
+    }
+
+  const fetchPlanets = () => {
+      if (localStorage.getItem('planets') !== null) {
+          planetsState.value.list = planetsState.value.list.concat(JSON.parse(localStorage.getItem('planets') as string))
+      } else {
+          loadPlanets()
+  }
+}
+
+  const showNextPlanets = () => {
+      planetsState.value.page++
   }
 
-  return { fetchPlanets, planets }
+  const showPreviousPlanets = () => {
+      planetsState.value.page--
+  }
+
+  const changePage = (value: number) => {
+      planetsState.value.page = value;
+  }
+
+  const updateFilter = (key: FilterFields, value: string) => {
+      planetsState.value.filters[key] = value
+  }
+
+  return { fetchPlanets, planets, pagination, changePage, showPreviousPlanets, showNextPlanets, updateFilter }
 });
