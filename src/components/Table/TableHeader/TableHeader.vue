@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <thead class="tableHeader__container">
@@ -11,5 +9,6 @@
 </template>
 
 <style scoped>
-.tableHeader__container {}
+.tableHeader__container {
+}
 </style>

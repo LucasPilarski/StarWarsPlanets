@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {usePlanetsStore} from "store/planets.ts";
+import { onMounted } from "vue";
+import { usePlanetsStore } from "store/planets.ts";
 
-const planetsStore = usePlanetsStore()
+const planetsStore = usePlanetsStore();
 onMounted(() => {
-  planetsStore.fetchPlanets()
-})
+  planetsStore.fetchPlanets();
+});
 </script>
 
 <template>

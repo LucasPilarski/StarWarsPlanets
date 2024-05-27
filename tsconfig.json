@@ -29,7 +29,7 @@
       "types/*": ["src/types/*"],
       "utils/*": ["src/utils/*"],
       "public/*": ["src/public/*"]
-    },
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.js"],
   "exclude": ["node_modules", "dist"]

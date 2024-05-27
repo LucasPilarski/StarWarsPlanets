@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <tbody class="tableBody__container">
@@ -9,5 +7,6 @@
 </template>
 
 <style scoped>
-.tableBody__container {}
+.tableBody__container {
+}
 </style>
