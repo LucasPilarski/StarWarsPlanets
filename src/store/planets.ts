@@ -1,82 +1,93 @@
 import { defineStore } from "pinia";
-import type { Planet } from "@/types";
+import type { MappedPlanet, Planet } from "@/types";
 import { computed, ref } from "vue";
 
-export type PlanetsApiResponse = {
+type PlanetsApiResponse = {
   count: number;
   next: string | null;
   previous: string | null;
   results: Planet[];
 };
 
-export type PlanetsState = {
+type PlanetsState = {
   list: Planet[];
+  filteredList: MappedPlanet[];
   filters: Record<FilterFields, string>;
   sort: string;
   limit: number;
   page: number;
+  climates: string[];
 };
 
 export type FilterFields =
   | "name"
-  | "population"
-  | "rotation_period"
+  | "population_min"
+  | "population_max"
+  | "rotation_period_min"
+  | "rotation_period_max"
   | "climate"
   | "gravity";
-
-export type UserState = {
-  filters: Record<FilterFields, string>;
-  page: number;
-};
 
 export const usePlanetsStore = defineStore("planets", () => {
   const planetsState = ref<PlanetsState>({
     list: [],
+    filteredList: [],
     filters: {
       name: "",
-      population: "",
-      rotation_period: "",
+      population_min: "",
+      population_max: "",
+      rotation_period_min: "",
+      rotation_period_max: "",
       climate: "",
       gravity: "",
     },
     sort: "",
     limit: 10,
     page: 1,
+    climates: [],
   });
 
   const planets = computed(() =>
-    planetsState.value.list
-      .slice(
-        (planetsState.value.page - 1) * planetsState.value.limit,
-        planetsState.value.page * planetsState.value.limit,
-      )
-      .map((planet) => ({
-        name: planet.name,
-        population: planet.population,
-        rotation_period: planet.rotation_period,
-        climate: planet.climate,
-        gravity: planet.gravity,
-        created: planet.created.split("T")[0],
-        url: planet.url,
-      })),
+    planetsState.value.filteredList.slice(
+      (planetsState.value.page - 1) * planetsState.value.limit,
+      planetsState.value.page * planetsState.value.limit,
+    ),
   );
 
   const pagination = computed(() => ({
+    limit: planetsState.value.limit,
     currentPage: planetsState.value.page,
     lastPage: Math.ceil(
-      planetsState.value.list.length / planetsState.value.limit,
+      planetsState.value.filteredList.length / planetsState.value.limit,
     ),
   }));
 
-  const loadPlanets = (url?: string) => {
+  const climateOptions = computed(() => {
+    return [{ label: "All", value: "" }].concat(
+      planetsState.value.climates.map((climate: string) => ({
+        label: climate[0].toUpperCase() + climate.slice(1),
+        value: climate,
+      })),
+    );
+  });
+
+  const handlePlanet = (planet: Planet) => {
+    planetsState.value.list.push(planet);
+    planetsState.value.filteredList.push(planet);
+    planet.climate.split(", ").forEach((climate) => {
+      if (!planetsState.value.climates.includes(climate)) {
+        planetsState.value.climates.push(climate);
+      }
+    });
+  };
+
+  const fetchPlanets = (url?: string) => {
     fetch(url ?? `https://swapi.dev/api/planets`)
       .then((response) => response.json())
       .then((response: PlanetsApiResponse) => {
-        planetsState.value.list = planetsState.value.list.concat(
-          response.results,
-        );
+        response.results.forEach(handlePlanet);
         if (response.next) {
-          loadPlanets(response.next);
+          fetchPlanets(response.next);
         } else {
           localStorage.setItem(
             "planets",
@@ -86,13 +97,12 @@ export const usePlanetsStore = defineStore("planets", () => {
       });
   };
 
-  const fetchPlanets = () => {
+  const loadPlanets = () => {
     if (localStorage.getItem("planets") !== null) {
-      planetsState.value.list = planetsState.value.list.concat(
-        JSON.parse(localStorage.getItem("planets") as string),
-      );
+      const planetsData = JSON.parse(localStorage.getItem("planets") as string);
+      planetsData.forEach(handlePlanet);
     } else {
-      loadPlanets();
+      fetchPlanets();
     }
   };
 
@@ -112,13 +122,65 @@ export const usePlanetsStore = defineStore("planets", () => {
     planetsState.value.filters[key] = value;
   };
 
+  const clearFilters = () => {
+    Object.keys(planetsState.value.filters).forEach((key) => {
+      planetsState.value.filters[key as FilterFields] = "";
+    });
+    filterPlanets();
+  };
+
+  const changeLimit = (value: string) => {
+    planetsState.value.limit = parseInt(value);
+    changePage(1);
+  };
+
+  const filterPlanets = () => {
+    const { filters } = planetsState.value;
+    const filteredPlanets = planetsState.value.list.filter(
+      ({ name, population, climate }) => {
+        if (
+          filters.name !== "" &&
+          !name.toLowerCase().includes(filters.name.toLowerCase())
+        ) {
+          return false;
+        }
+        if (
+          filters.climate !== "" &&
+          !climate.split(", ").includes(filters.climate)
+        ) {
+          return false;
+        }
+        if (
+          filters.population_min !== "" &&
+          parseInt(population) <= parseInt(filters.population_min)
+        ) {
+          return false;
+        }
+        if (
+          filters.population_max !== "" &&
+          parseInt(population) >= parseInt(filters.population_max)
+        ) {
+          return false;
+        }
+        return true;
+      },
+    );
+    changePage(filteredPlanets.length > 0 ? 1 : 0);
+    planetsState.value.filteredList = filteredPlanets;
+  };
+
   return {
-    fetchPlanets,
+    loadPlanets,
     planets,
     pagination,
     changePage,
     showPreviousPlanets,
     showNextPlanets,
     updateFilter,
+    filterPlanets,
+    clearFilters,
+    filters: planetsState.value.filters,
+    climateOptions,
+    changeLimit,
   };
 });

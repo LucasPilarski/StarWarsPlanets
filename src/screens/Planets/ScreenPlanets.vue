@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import { type FilterFields, usePlanetsStore } from "store/planets.ts";
+import { usePlanetsStore } from "store/planets.ts";
 import TablePagination from "screens/Planets/TablePagination.vue";
 import TableHeader from "components/Table/TableHeader/TableHeader.vue";
 import TableBody from "components/Table/TableBody/TableBody.vue";
+import PlanetsFilters from "screens/Planets/PlanetsFilters.vue";
+import PlanetRow from "screens/Planets/PlanetRow.vue";
 
 const planetsStore = usePlanetsStore();
-
-const updateFilter = (event: KeyboardEvent, field: FilterFields) => {
-  if (event.target) {
-    planetsStore.updateFilter(field, event.target.value);
-  }
-};
 
 const changePage = (newPage: number) => {
   planetsStore.changePage(newPage);
@@ -20,14 +16,19 @@ const changePage = (newPage: number) => {
 <template>
   <h2>Star Wars Planets</h2>
 
-  <div>
-    <label>
-      Name
-      <input type="text" @keyup="updateFilter($event, 'name')" />
-    </label>
+  <PlanetsFilters
+    :climateOptions="planetsStore.climateOptions"
+    :filters="planetsStore.filters"
+    @filterPlanets="planetsStore.filterPlanets"
+    @updateFilter="planetsStore.updateFilter"
+    @clearFilters="planetsStore.clearFilters"
+  />
 
-    <button @click="planetsStore.fetchPlanets()">Filter results</button>
-  </div>
+  <TablePagination
+    :pagination="planetsStore.pagination"
+    @change-page="changePage"
+    @changeLimit="planetsStore.changeLimit"
+  />
 
   <table>
     <TableHeader>
@@ -40,25 +41,13 @@ const changePage = (newPage: number) => {
       <td>Url</td>
     </TableHeader>
     <TableBody>
-      <tr v-for="planet in planetsStore.planets" :key="planet.name">
-        <td>{{ planet.name }}</td>
-        <td>{{ planet.population }}</td>
-        <td>{{ planet.rotation_period }}</td>
-        <td>{{ planet.climate }}</td>
-        <td>{{ planet.gravity }}</td>
-        <td>{{ planet.created }}</td>
-        <td>
-          <a :href="planet.url" target="_blank">Link</a>
-        </td>
-      </tr>
+      <PlanetRow
+        v-for="planet in planetsStore.planets"
+        :planet="planet"
+        :key="planet.name"
+      />
     </TableBody>
   </table>
-
-  <TablePagination
-    :current-page="planetsStore.pagination.currentPage"
-    :last-page="planetsStore.pagination.lastPage"
-    @change-page="changePage"
-  />
 </template>
 
 <style scoped></style>

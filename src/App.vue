@@ -4,7 +4,7 @@ import { usePlanetsStore } from "store/planets.ts";
 
 const planetsStore = usePlanetsStore();
 onMounted(() => {
-  planetsStore.fetchPlanets();
+  planetsStore.loadPlanets();
 });
 </script>
 

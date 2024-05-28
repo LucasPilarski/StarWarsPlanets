@@ -10,5 +10,8 @@
 
 <style scoped>
 .tableHeader__container {
+  background-color: black;
+  color: white;
+  font-weight: bold;
 }
 </style>

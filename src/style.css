@@ -11,7 +11,15 @@ img {
   height: auto;
 }
 
-.link__active {
-  color: white !important;
-  background-color: black;
+table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+tbody tr:nth-child(even) {
+  background: lightgray;
 }

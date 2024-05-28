@@ -36,3 +36,4 @@ Pinia:
 - Split filters into basic (name, firing list reload on change) and advanced (the rest)
 - Tests for Pinia
 - Tests for components
+- Map climate options based on the API response

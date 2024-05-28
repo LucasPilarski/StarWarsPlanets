@@ -1,39 +1,61 @@
 <script setup lang="ts">
-defineEmits(["changePage"]);
+import type { PropType } from "vue";
+import CommonSelect from "components/Input/CommonSelect.vue";
+
+defineEmits(["changePage", "changeLimit"]);
 defineProps({
-  currentPage: {
-    type: Number,
+  pagination: {
+    type: Object as PropType<{
+      currentPage: number;
+      lastPage: number;
+      limit: string | number;
+    }>,
     required: true,
-    default: 1,
+    default: { currentPage: 1, lastPage: 1, limit: "10" },
   },
-  lastPage: Number,
 });
 </script>
 
 <template>
   <div>
-    <button @click="$emit('changePage', 1)" :disabled="currentPage === 1">
+    <button
+      @click="$emit('changePage', 1)"
+      :disabled="pagination.currentPage <= 1"
+    >
       <<
     </button>
     <button
-      @click="$emit('changePage', currentPage - 1)"
-      :disabled="currentPage === 1"
+      @click="$emit('changePage', pagination.currentPage - 1)"
+      :disabled="pagination.currentPage <= 1"
     >
       <
     </button>
-    {{ currentPage }} / {{ lastPage }}
+    {{ pagination.currentPage }} / {{ pagination.lastPage }}
     <button
-      @click="$emit('changePage', currentPage + 1)"
-      :disabled="currentPage === lastPage"
+      @click="$emit('changePage', pagination.currentPage + 1)"
+      :disabled="pagination.currentPage === pagination.lastPage"
     >
       >
     </button>
     <button
-      @click="$emit('changePage', lastPage)"
-      :disabled="currentPage === lastPage"
+      @click="$emit('changePage', pagination.lastPage)"
+      :disabled="pagination.currentPage === pagination.lastPage"
     >
       >>
     </button>
+    <label>
+      Limit
+      <CommonSelect
+        :value="pagination.limit"
+        @optionPicked="$emit('changeLimit', $event.target.value)"
+        :options="[
+          { label: '10', value: '10' },
+          { label: '25', value: '25' },
+          { label: '50', value: '50' },
+          { label: '100', value: '100' },
+        ]"
+      />
+    </label>
   </div>
 </template>
 
