@@ -18,5 +18,6 @@ onMounted(() => {
 .main__container {
   height: var(--app-height);
   padding: 10px 5px;
+  overflow: hidden;
 }
 </style>

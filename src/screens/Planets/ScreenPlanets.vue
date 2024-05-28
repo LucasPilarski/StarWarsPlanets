@@ -30,24 +30,26 @@ const changePage = (newPage: number) => {
     @changeLimit="planetsStore.changeLimit"
   />
 
-  <table>
-    <TableHeader>
-      <td>Name</td>
-      <td>Population</td>
-      <td>Rotation period</td>
-      <td>Climate</td>
-      <td>Gravity</td>
-      <td>Created</td>
-      <td>Url</td>
-    </TableHeader>
-    <TableBody>
-      <PlanetRow
-        v-for="planet in planetsStore.planets"
-        :planet="planet"
-        :key="planet.name"
-      />
-    </TableBody>
-  </table>
+  <div>
+    <table>
+      <TableHeader>
+        <td>Name</td>
+        <td>Population</td>
+        <td>Rotation period</td>
+        <td>Climate</td>
+        <td>Gravity</td>
+        <td>Created</td>
+        <td>Url</td>
+      </TableHeader>
+      <TableBody>
+        <PlanetRow
+            v-for="planet in planetsStore.planets"
+            :planet="planet"
+            :key="planet.name"
+        />
+      </TableBody>
+    </table>
+  </div>
 </template>
 
 <style scoped></style>

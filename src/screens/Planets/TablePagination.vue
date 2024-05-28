@@ -17,7 +17,7 @@ defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="pagination__container">
     <button
       @click="$emit('changePage', 1)"
       :disabled="pagination.currentPage <= 1"
@@ -59,4 +59,12 @@ defineProps({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.pagination__container {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  width: 250px;
+  justify-content: space-between;
+}
+</style>

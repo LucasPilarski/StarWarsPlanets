@@ -66,5 +66,6 @@ defineProps({
 .label__container {
   display: flex;
   padding: 5px 0;
+  flex-direction: column;
 }
 </style>
