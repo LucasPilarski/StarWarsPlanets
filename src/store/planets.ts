@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Planet, SortDirection, TableHeader } from "@/types";
+import type { MappedPlanet, Planet, SortDirection, TableHeader } from "@/types";
 import { computed, ref } from "vue";
 
 type PlanetsApiResponse = {
@@ -20,10 +20,18 @@ type PlanetsState = {
   climates: string[];
   advanceFiltering: boolean;
   tableHeaders: TableHeader[];
+  // Temporary solution, this should be done using ids
+  // @TODO Add ids?
+  selectedPlanets: string[];
 };
 
 export type SortColumn =
-  "" | "name" | "population" | "rotation_period" | "climate" | "gravity"
+  | ""
+  | "name"
+  | "population"
+  | "rotation_period"
+  | "climate"
+  | "gravity";
 
 export type FilterFields =
   | "name"
@@ -66,14 +74,20 @@ export const usePlanetsStore = defineStore("planets", () => {
       { label: "Created", value: "created", canSort: false },
       { label: "Url", value: "url", canSort: false },
     ],
+    selectedPlanets: [],
   });
 
-  const planets = computed(() => {
+  const planets = computed<MappedPlanet[]>(() => {
     sortPlanets();
-    return planetsState.value.filteredList.slice(
-      (planetsState.value.page - 1) * planetsState.value.limit,
-      planetsState.value.page * planetsState.value.limit,
-    );
+    return planetsState.value.filteredList
+      .map((planet) => ({
+        ...planet,
+        isSelected: planetsState.value.selectedPlanets.includes(planet.name),
+      }))
+      .slice(
+        (planetsState.value.page - 1) * planetsState.value.limit,
+        planetsState.value.page * planetsState.value.limit,
+      );
   });
 
   const headers = computed(() => {
@@ -104,13 +118,13 @@ export const usePlanetsStore = defineStore("planets", () => {
   const sortPlanets = () => {
     if (planetsState.value.sortColumn !== "") {
       planetsState.value.filteredList.sort((planetA, planetB) => {
-          const fieldA: string = planetA[planetsState.value.sortColumn];
+        const fieldA: string = planetA[planetsState.value.sortColumn];
         const fieldB: string = planetB[planetsState.value.sortColumn];
         if (isNaN(parseInt(fieldA))) {
           /*
-          * There are only two options, asc and desc. If asc is not picked desc is used explicitly, there is no empty option.
-          * Empty option means no column has been picked for sorting, so there is no need to use said value.
-          * */
+           * There are only two options, asc and desc. If asc is not picked desc is used explicitly, there is no empty option.
+           * Empty option means no column has been picked for sorting, so there is no need to use said value.
+           * */
           if (planetsState.value.sortDirection === "asc") {
             return fieldA > fieldB ? 1 : -1;
           }
@@ -140,23 +154,23 @@ export const usePlanetsStore = defineStore("planets", () => {
   const fetchPlanets = (url?: string) => {
     return new Promise((resolve, reject) => {
       fetch(url ?? `https://swapi.dev/api/planets`)
-          .then((response) => response.json())
-          .then((response: PlanetsApiResponse) => {
-            response.results.forEach(handlePlanet);
-            if (response.next) {
-              fetchPlanets(response.next);
-            } else {
-              localStorage.setItem(
-                  "planets",
-                  JSON.stringify(planetsState.value.list),
-              );
-              // @TODO Use better resolve
-              resolve(null)
-            }
-          })
-          // @TODO Use better reject
-          .catch(() => reject());
-    })
+        .then((response) => response.json())
+        .then((response: PlanetsApiResponse) => {
+          response.results.forEach(handlePlanet);
+          if (response.next) {
+            fetchPlanets(response.next);
+          } else {
+            localStorage.setItem(
+              "planets",
+              JSON.stringify(planetsState.value.list),
+            );
+            // @TODO Use better resolve
+            resolve(null);
+          }
+        })
+        // @TODO Use better reject
+        .catch(() => reject());
+    });
   };
 
   const loadPlanets = async () => {
@@ -170,12 +184,14 @@ export const usePlanetsStore = defineStore("planets", () => {
 
   const changePage = (value: number) => {
     planetsState.value.page = value;
+    unselectAllPlanets();
   };
 
   const updateFilter = (key: FilterFields, value: string) => {
     planetsState.value.filters[key] = value;
     if (key === "name" && !advancedFiltering.value) {
       filterPlanets();
+      unselectAllPlanets();
     }
   };
 
@@ -184,12 +200,14 @@ export const usePlanetsStore = defineStore("planets", () => {
       planetsState.value.filters[key as FilterFields] = "";
     });
     filterPlanets();
+    unselectAllPlanets();
   };
 
   const changeLimit = (value: string) => {
     planetsState.value.limit = parseInt(value);
     if (pagination.value.lastPage > 0) {
       changePage(1);
+      unselectAllPlanets();
     }
   };
 
@@ -201,6 +219,7 @@ export const usePlanetsStore = defineStore("planets", () => {
       planetsState.value.sortColumn = column;
       planetsState.value.sortDirection = "asc";
     }
+    unselectAllPlanets();
   };
 
   const filterPlanets = () => {
@@ -249,6 +268,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     );
     changePage(filteredPlanets.length > 0 ? 1 : 0);
     planetsState.value.filteredList = filteredPlanets;
+    unselectAllPlanets();
   };
 
   const toggleAdvancedFilters = () => {
@@ -258,6 +278,45 @@ export const usePlanetsStore = defineStore("planets", () => {
   const advancedFiltering = computed(() => {
     return planetsState.value.advanceFiltering;
   });
+
+  const selectPlanet = (name: string) => {
+    if (!planetsState.value.selectedPlanets.includes(name)) {
+      planetsState.value.selectedPlanets.push(name);
+    } else {
+      planetsState.value.selectedPlanets =
+        planetsState.value.selectedPlanets.filter((planet) => planet !== name);
+    }
+  };
+
+  const planetsPopulation = computed(() => {
+    return planetsState.value.filteredList.reduce((acc, curr) => {
+      if (
+        planetsState.value.selectedPlanets.includes(curr.name) &&
+        !isNaN(parseInt(curr.population))
+      ) {
+        acc += parseInt(curr.population);
+      }
+      return acc;
+    }, 0);
+  });
+
+  const allPlanetsSelected = computed(() => {
+    return planets.value.length === planetsState.value.selectedPlanets.length;
+  });
+
+  const toggleSelectAllPlanets = () => {
+    if (!allPlanetsSelected.value) {
+      planetsState.value.selectedPlanets = planets.value.map(
+        (planet) => planet.name,
+      );
+    } else {
+      unselectAllPlanets();
+    }
+  };
+
+  const unselectAllPlanets = () => {
+    planetsState.value.selectedPlanets = [];
+  };
 
   return {
     loadPlanets,
@@ -274,5 +333,9 @@ export const usePlanetsStore = defineStore("planets", () => {
     toggleAdvancedFilters,
     tableHeaders: headers,
     changeSorting,
+    selectPlanet,
+    planetsPopulation,
+    allPlanetsSelected,
+    toggleSelectAllPlanets,
   };
 });

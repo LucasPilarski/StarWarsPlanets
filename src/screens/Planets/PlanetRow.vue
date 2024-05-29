@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { Planet } from "@/types";
+import type { MappedPlanet } from "@/types";
+
+defineEmits(["planetSelected"]);
 
 defineProps({
   planet: {
-    type: Object as PropType<Planet>,
+    type: Object as PropType<MappedPlanet>,
     required: true,
     default: () => ({}),
   },
@@ -13,6 +15,13 @@ defineProps({
 
 <template>
   <tr class="planetRow__container">
+    <td>
+      <input
+        type="checkbox"
+        :checked="planet.isSelected"
+        @change="$emit('planetSelected', planet.name)"
+      />
+    </td>
     <td>{{ planet.name }}</td>
     <td>{{ planet.population }}</td>
     <td>{{ planet.rotation_period }}</td>

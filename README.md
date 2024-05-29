@@ -49,5 +49,5 @@ Thanks to that all the data was in one place and components are, as some people 
 - Tests for Pinia
 - Tests for components
 - Map climate options based on the API response
-- Sorting
-- Simple (immediate filtering) and advanced (need a button) searching
+- Select rows, calculate planets population
+- Resolve and catch for data fetching

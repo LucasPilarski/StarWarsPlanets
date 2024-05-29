@@ -3,14 +3,14 @@ import PlanetRow from "screens/Planets/PlanetRow.vue";
 import TableHeader from "components/Table/TableHeader/TableHeader.vue";
 import TableBody from "components/Table/TableBody/TableBody.vue";
 import type { PropType } from "vue";
-import type { MappedTableHeader, Planet } from "@/types";
+import type { MappedPlanet, MappedTableHeader } from "@/types";
 import PlanetHeader from "screens/Planets/PlanetHeader.vue";
 
-defineEmits(["sort"]);
+defineEmits(["sort", "planetSelected", "allPlanetsSelected"]);
 
 defineProps({
   planets: {
-    type: Array as PropType<Planet[]>,
+    type: Array as PropType<MappedPlanet[]>,
     required: true,
     default: () => [],
   },
@@ -19,12 +19,22 @@ defineProps({
     required: true,
     default: () => [],
   },
+  allPlanetsSelected: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 </script>
 
 <template>
   <table v-if="planets.length > 0">
     <TableHeader>
+      <input
+        type="checkbox"
+        :checked="allPlanetsSelected"
+        @change="$emit('allPlanetsSelected')"
+      />
       <PlanetHeader
         v-for="header in headers"
         :key="header.value"
@@ -37,6 +47,7 @@ defineProps({
         v-for="planet in planets"
         :key="planet.name"
         :planet="planet"
+        @planet-selected="$emit('planetSelected', $event)"
       />
     </TableBody>
   </table>

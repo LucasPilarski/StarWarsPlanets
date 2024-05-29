@@ -33,8 +33,15 @@ const changePage = (newPage: number) => {
   <PlanetsTable
     :planets="planetsStore.planets"
     :headers="planetsStore.tableHeaders"
+    :all-planets-selected="planetsStore.allPlanetsSelected"
     @sort="planetsStore.changeSorting"
+    @planet-selected="planetsStore.selectPlanet"
+    @all-planets-selected="planetsStore.toggleSelectAllPlanets"
   />
+
+  <p v-if="planetsStore.planetsPopulation > 0">
+    Selected planets population is {{ planetsStore.planetsPopulation }}
+  </p>
 </template>
 
 <style scoped></style>

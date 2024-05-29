@@ -41,7 +41,7 @@ defineProps({
       :disabled="pagination.currentPage === pagination.lastPage"
       @click="$emit('changePage', pagination.lastPage)"
     >
-      Lst
+      Last
     </button>
     <label>
       Limit
@@ -64,7 +64,7 @@ defineProps({
   padding: 10px 0;
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 290px;
   justify-content: space-between;
 }
 </style>

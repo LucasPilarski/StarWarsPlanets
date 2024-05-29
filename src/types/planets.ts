@@ -18,6 +18,10 @@ export type Planet = {
   edited: string; // ISO 8601 date format
 };
 
+export type MappedPlanet = Planet & {
+  isSelected: boolean;
+};
+
 export type TableHeader = {
   label: string;
   value: string;
