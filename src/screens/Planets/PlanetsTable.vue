@@ -30,11 +30,13 @@ defineProps({
 <template>
   <table v-if="planets.length > 0">
     <TableHeader>
-      <input
-        type="checkbox"
-        :checked="allPlanetsSelected"
-        @change="$emit('allPlanetsSelected')"
-      />
+      <td>
+        <input
+          type="checkbox"
+          :checked="allPlanetsSelected"
+          @change="$emit('allPlanetsSelected')"
+        />
+      </td>
       <PlanetHeader
         v-for="header in headers"
         :key="header.value"

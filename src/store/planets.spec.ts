@@ -1,5 +1,6 @@
 import {
-  afterAll, afterEach,
+  afterAll,
+  afterEach,
   beforeAll,
   beforeEach,
   describe,
@@ -10,7 +11,6 @@ import { setActivePinia, createPinia } from "pinia";
 import { usePlanetsStore } from "store/planets.ts";
 import mockData from "store/mockData.ts";
 import { globalMocks } from "tests/globalMocks.ts";
-import { after } from "node:test";
 
 describe("Planets Store", () => {
   beforeAll(() => {
@@ -20,7 +20,7 @@ describe("Planets Store", () => {
   describe("Using API data", () => {
     beforeEach(() => {
       setActivePinia(createPinia());
-    })
+    });
     test("Properly loads planets data from the API", async () => {
       const store = usePlanetsStore();
       await store.loadPlanets();
@@ -45,12 +45,12 @@ describe("Planets Store", () => {
       await store.loadPlanets();
     });
 
-    test("Properly loads planets data from localStorage",  () => {
+    test("Properly loads planets data from localStorage", () => {
       const store = usePlanetsStore();
       expect(store.planets.length).toBeGreaterThan(0);
     });
 
-    test("Returns the number of planets equal to the table page limit",  () => {
+    test("Returns the number of planets equal to the table page limit", () => {
       const store = usePlanetsStore();
       expect(store.planets.length).toBe(10);
     });
@@ -75,7 +75,7 @@ describe("Planets Store", () => {
       await store.loadPlanets();
     });
 
-    test("Dont sort planets if no sorting column is picked",  () => {
+    test("Dont sort planets if no sorting column is picked", () => {
       const store = usePlanetsStore();
       // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tatooine");
@@ -86,7 +86,7 @@ describe("Planets Store", () => {
       expect(store.planets[9].name).toBe("Kamino");
     });
 
-    test("Sort planets by their name in the descending order",  () => {
+    test("Sort planets by their name in the descending order", () => {
       const store = usePlanetsStore();
       store.changeSorting("name");
       // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
@@ -98,7 +98,7 @@ describe("Planets Store", () => {
       expect(store.planets[9].name).toBe("Kamino");
     });
 
-    test("Sort planets by their name in the ascending order",  () => {
+    test("Sort planets by their name in the ascending order", () => {
       const store = usePlanetsStore();
 
       // Click two times to switch between sorting direction
@@ -114,7 +114,7 @@ describe("Planets Store", () => {
       expect(store.planets[9].name).toBe("Kashyyyk");
     });
 
-    test("Sort planets by their population in the ascending order",  () => {
+    test("Sort planets by their population in the ascending order", () => {
       const store = usePlanetsStore();
 
       store.changeSorting("population");
@@ -129,7 +129,7 @@ describe("Planets Store", () => {
       expect(store.planets[9].population).toBe("45000000");
     });
 
-    test("Sort planets by their population in the descending order",  () => {
+    test("Sort planets by their population in the descending order", () => {
       const store = usePlanetsStore();
 
       // Click two times to switch between sorting direction
@@ -146,7 +146,7 @@ describe("Planets Store", () => {
       expect(store.planets[9].population).toBe("95000000");
     });
   });
-  
+
   describe("Filtering function", () => {
     beforeAll(() => {
       // Set the data once since it will be used by the entire suite and not changed by it
@@ -161,88 +161,88 @@ describe("Planets Store", () => {
 
     afterEach(() => {
       const store = usePlanetsStore();
-      store.clearFilters()
-    })
+      store.clearFilters();
+    });
 
     test("Does not filter planets when no filter is provided", () => {
       const store = usePlanetsStore();
 
       /*
-      * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
-      * Therefore we have to first increase the limit and then apply filtering.
-      * */
-      store.changeLimit('20')
-      store.filterPlanets()
+       * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("20");
+      store.filterPlanets();
 
       expect(store.planets.length).equals(mockData.length);
-    })
-    
+    });
+
     test("Filter planets based on their names when the names filter is provided", () => {
       const store = usePlanetsStore();
 
       /*
-      * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
-      * Therefore we have to first increase the limit and then apply filtering.
-      * */
-      store.changeLimit('20')
+       * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("20");
       store.changeFilter("name", "Tat");
-      store.filterPlanets()
+      store.filterPlanets();
 
       /*
-      * There is only one planet with letters "Tat" in its name.
-      * */
+       * There is only one planet with letters "Tat" in its name.
+       * */
       expect(store.planets.length).equals(1);
-    })
+    });
 
     test("Filter planets based on their climate when the climate filter is provided", () => {
       const store = usePlanetsStore();
 
       /*
-      * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
-      * Therefore we have to first increase the limit and then apply filtering.
-      * */
-      store.changeLimit('20')
+       * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("20");
       store.changeFilter("climate", "arid");
-      store.filterPlanets()
+      store.filterPlanets();
 
       /*
-      * There are three planets with arid climate in mock data.
-      * */
+       * There are three planets with arid climate in mock data.
+       * */
       expect(store.planets.length).equals(3);
-    })
+    });
 
     test("Filter planets based on their population when the min population filter is provided", () => {
       const store = usePlanetsStore();
 
       /*
-      * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
-      * Therefore we have to first increase the limit and then apply filtering.
-      * */
-      store.changeLimit('20')
+       * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("20");
       store.changeFilter("population_min", "1000000000000");
-      store.filterPlanets()
+      store.filterPlanets();
 
       /*
-      * There are four planets with that many people (or unknown value).
-      * */
+       * There are four planets with that many people (or unknown value).
+       * */
       expect(store.planets.length).equals(4);
-    })
+    });
 
     test("Filter planets based on their population when the max population filter is provided", () => {
       const store = usePlanetsStore();
 
       /*
-      * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
-      * Therefore we have to first increase the limit and then apply filtering.
-      * */
-      store.changeLimit('20')
+       * There 20 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("20");
       store.changeFilter("population_max", "1000");
-      store.filterPlanets()
+      store.filterPlanets();
 
       /*
-      * There are four planets with up to 1000 people.
-      * */
+       * There are four planets with up to 1000 people.
+       * */
       expect(store.planets.length).equals(4);
-    })
+    });
   });
 });

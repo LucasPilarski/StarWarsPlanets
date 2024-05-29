@@ -22,7 +22,7 @@ defineProps({
     required: true,
     default: () => [],
   },
-  advanceFiltering: Boolean,
+  expandedFiltering: Boolean,
 });
 </script>
 
@@ -36,14 +36,14 @@ defineProps({
           @keyup="$emit('changeFilter', 'name', $event.target.value)"
         />
         <CommonSelect
-          v-show="advanceFiltering"
+          v-show="expandedFiltering"
           :label="'Climate'"
           :value="filters.climate"
           :options="climateOptions"
           @option-picked="$emit('changeFilter', 'climate', $event.target.value)"
         />
       </div>
-      <div v-show="advanceFiltering" class="filters__column">
+      <div v-show="expandedFiltering" class="filters__column">
         <CommonText
           :value="filters.population_min"
           label="Population min"
@@ -72,9 +72,9 @@ defineProps({
     </div>
     <div class="filters__buttons">
       <button @click="$emit('toggleAdvancedFilters')">
-        {{ !advanceFiltering ? "Advanced filtering" : "Simple filtering" }}
+        {{ !expandedFiltering ? "Advanced filtering" : "Simple filtering" }}
       </button>
-      <button v-show="advanceFiltering" @click="$emit('filterPlanets')">
+      <button v-show="expandedFiltering" @click="$emit('filterPlanets')">
         Filter results
       </button>
       <button @click="$emit('clearFilters')">Clear filters</button>

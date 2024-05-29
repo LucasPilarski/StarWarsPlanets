@@ -7,9 +7,9 @@ import { globalMocks } from "tests/globalMocks.ts";
 import mockData from "store/mockData.ts";
 
 /*
-* This component is a parent for multiple other components whose sole role is to display data and emit events.
-* Therefore by testing it we can also test the rest of them.
-* */
+ * This component is a parent for multiple other components whose sole role is to display data and emit events.
+ * Therefore by testing it we can also test the rest of them.
+ * */
 
 describe("Screen planets component", () => {
   beforeAll(() => {
@@ -35,14 +35,18 @@ describe("Screen planets component", () => {
 
   test("Renders next list of planets when proper pagination button is clicked", async () => {
     const { container } = render(ScreenPlanets);
-    const firstPlanetName = container
-      .querySelector(".planetRow__container")?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
+    const firstPlanetName =
+      container
+        .querySelector(".planetRow__container")
+        ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
     fireEvent.click(
       container.querySelector("#pagination__nextPageButton") as Element,
     );
     await waitFor(() => {
-      const secondPlanetName = container
-        .querySelector(".planetRow__container")?.querySelector(".planetRow__name")?.textContent ?? mockData[10].name;
+      const secondPlanetName =
+        container
+          .querySelector(".planetRow__container")
+          ?.querySelector(".planetRow__name")?.textContent ?? mockData[10].name;
       expect(firstPlanetName).not.toBe(secondPlanetName);
     });
   });

@@ -1,5 +1,11 @@
 import { defineStore } from "pinia";
-import type { MappedPlanet, Planet, SortDirection, TableHeader } from "@/types";
+import type {
+  MappedPlanet,
+  Planet,
+  SelectOption,
+  SortDirection,
+  TableHeader,
+} from "@/types";
 import { computed, ref } from "vue";
 
 type PlanetsApiResponse = {
@@ -17,8 +23,8 @@ type PlanetsState = {
   sortDirection: SortDirection;
   limit: number;
   page: number;
-  climates: string[];
-  advanceFiltering: boolean;
+  climateOptions: SelectOption[];
+  expandedFiltering: boolean;
   tableHeaders: TableHeader[];
   // Temporary solution, this should be done using ids
   // @TODO Add ids?
@@ -63,8 +69,8 @@ export const usePlanetsStore = defineStore("planets", () => {
     sortDirection: "asc",
     limit: 10,
     page: 1,
-    climates: [],
-    advanceFiltering: false,
+    climateOptions: [{ label: "All", value: "" }],
+    expandedFiltering: false,
     tableHeaders: [
       { label: "Name", value: "name", canSort: true },
       { label: "Population", value: "population", canSort: true },
@@ -106,15 +112,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     ),
   }));
 
-  const climateOptions = computed(() => {
-    return [{ label: "All", value: "" }].concat(
-      planetsState.value.climates.map((climate: string) => ({
-        label: climate[0].toUpperCase() + climate.slice(1),
-        value: climate,
-      })),
-    );
-  });
-
   const sortPlanets = () => {
     if (planetsState.value.sortColumn !== "") {
       planetsState.value.filteredList.sort((planetA, planetB) => {
@@ -145,8 +142,15 @@ export const usePlanetsStore = defineStore("planets", () => {
     planetsState.value.list.push(planet);
     planetsState.value.filteredList.push(planet);
     planet.climate.split(", ").forEach((climate) => {
-      if (!planetsState.value.climates.includes(climate)) {
-        planetsState.value.climates.push(climate);
+      if (
+        !planetsState.value.climateOptions.find(
+          (option) => option.value === climate,
+        )
+      ) {
+        planetsState.value.climateOptions.push({
+          label: climate[0].toUpperCase() + climate.slice(1),
+          value: climate,
+        });
       }
     });
   };
@@ -189,7 +193,7 @@ export const usePlanetsStore = defineStore("planets", () => {
 
   const changeFilter = (key: FilterFields, value: string) => {
     planetsState.value.filters[key] = value;
-    if (key === "name" && !advancedFiltering.value) {
+    if (key === "name" && !planetsState.value.expandedFiltering) {
       filterPlanets();
       unselectAllPlanets();
     }
@@ -271,7 +275,8 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   const toggleAdvancedFilters = () => {
-    planetsState.value.advanceFiltering = !planetsState.value.advanceFiltering;
+    planetsState.value.expandedFiltering =
+      !planetsState.value.expandedFiltering;
   };
 
   const selectPlanet = (name: string) => {
@@ -315,22 +320,20 @@ export const usePlanetsStore = defineStore("planets", () => {
 
   return {
     planetsState,
-    loadPlanets,
+    tableHeaders: headers,
     planets,
     pagination,
+    planetsPopulation,
+    allPlanetsSelected,
+    loadPlanets,
     changePage,
     changeFilter,
     filterPlanets,
     clearFilters,
-    filters: planetsState.value.filters,
-    climateOptions,
     changeLimit,
     toggleAdvancedFilters,
-    tableHeaders: headers,
     changeSorting,
     selectPlanet,
-    planetsPopulation,
-    allPlanetsSelected,
     toggleSelectAllPlanets,
   };
 });

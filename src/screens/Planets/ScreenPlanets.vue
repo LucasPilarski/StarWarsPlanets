@@ -12,9 +12,9 @@ const planetsStore = usePlanetsStore();
     <h2>Star Wars Planets</h2>
 
     <PlanetsFilters
-      :climate-options="planetsStore.climateOptions"
-      :filters="planetsStore.filters"
-      :advance-filtering="planetsStore.planetsState.advanceFiltering"
+      :climate-options="planetsStore.planetsState.climateOptions"
+      :filters="planetsStore.planetsState.filters"
+      :expanded-filtering="planetsStore.planetsState.expandedFiltering"
       @filter-planets="planetsStore.filterPlanets"
       @change-filter="planetsStore.changeFilter"
       @clear-filters="planetsStore.clearFilters"
