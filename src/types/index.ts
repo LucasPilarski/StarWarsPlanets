@@ -1,6 +1,2 @@
 export * from "./planets.ts";
-
-export type SelectOption = {
-  label: string;
-  value: string;
-};
+export * from "./input.ts";

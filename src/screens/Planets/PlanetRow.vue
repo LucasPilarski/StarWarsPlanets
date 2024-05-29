@@ -22,13 +22,13 @@ defineProps({
         @change="$emit('planetSelected', planet.name)"
       />
     </td>
-    <td>{{ planet.name }}</td>
-    <td>{{ planet.population }}</td>
-    <td>{{ planet.rotation_period }}</td>
-    <td>{{ planet.climate }}</td>
-    <td>{{ planet.gravity }}</td>
-    <td>{{ planet.created.split("T")[0] }}</td>
-    <td>
+    <td class="planetRow__name">{{ planet.name }}</td>
+    <td class="planetRow__population">{{ planet.population }}</td>
+    <td class="planetRow__rotationPeriod">{{ planet.rotation_period }}</td>
+    <td class="planetRow__climate">{{ planet.climate }}</td>
+    <td class="planetRow__gravity">{{ planet.gravity }}</td>
+    <td class="planetRow__created">{{ planet.created.split("T")[0] }}</td>
+    <td class="planetRow__link">
       <a :href="planet.url" target="_blank">Link</a>
     </td>
   </tr>

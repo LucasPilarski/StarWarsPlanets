@@ -11,6 +11,7 @@ const alias = [
   "types",
   "store",
   "public",
+  "tests",
 ].reduce((acc, curr) => {
   acc[curr] = path.resolve(__dirname, `${BASE_PATH}/${curr}`);
   return acc;

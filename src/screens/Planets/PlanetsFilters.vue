@@ -8,7 +8,7 @@ import CommonText from "components/Input/CommonText.vue";
 defineEmits([
   "filterPlanets",
   "clearFilters",
-  "updateFilter",
+  "changeFilter",
   "toggleAdvancedFilters",
 ]);
 defineProps({
@@ -24,8 +24,6 @@ defineProps({
   },
   advanceFiltering: Boolean,
 });
-/* @TODO Add gravity filter */
-/* @TODO Add created filter? Can that be done easily? */
 </script>
 
 <template>
@@ -35,39 +33,39 @@ defineProps({
         <CommonText
           :value="filters.name"
           label="Name"
-          @keyup="$emit('updateFilter', 'name', $event.target.value)"
+          @keyup="$emit('changeFilter', 'name', $event.target.value)"
         />
         <CommonSelect
           v-show="advanceFiltering"
           :label="'Climate'"
           :value="filters.climate"
           :options="climateOptions"
-          @option-picked="$emit('updateFilter', 'climate', $event.target.value)"
+          @option-picked="$emit('changeFilter', 'climate', $event.target.value)"
         />
       </div>
       <div v-show="advanceFiltering" class="filters__column">
         <CommonText
           :value="filters.population_min"
           label="Population min"
-          @keyup="$emit('updateFilter', 'population_min', $event.target.value)"
+          @keyup="$emit('changeFilter', 'population_min', $event.target.value)"
         />
         <CommonText
           :value="filters.population_max"
           label="Population max"
-          @keyup="$emit('updateFilter', 'population_max', $event.target.value)"
+          @keyup="$emit('changeFilter', 'population_max', $event.target.value)"
         />
         <CommonText
           :value="filters.rotation_period_min"
           label="Rotation period min"
           @keyup="
-            $emit('updateFilter', 'rotation_period_min', $event.target.value)
+            $emit('changeFilter', 'rotation_period_min', $event.target.value)
           "
         />
         <CommonText
           :value="filters.rotation_period_max"
           label="Rotation period max"
           @keyup="
-            $emit('updateFilter', 'rotation_period_max', $event.target.value)
+            $emit('changeFilter', 'rotation_period_max', $event.target.value)
           "
         />
       </div>

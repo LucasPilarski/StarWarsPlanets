@@ -187,7 +187,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     unselectAllPlanets();
   };
 
-  const updateFilter = (key: FilterFields, value: string) => {
+  const changeFilter = (key: FilterFields, value: string) => {
     planetsState.value.filters[key] = value;
     if (key === "name" && !advancedFiltering.value) {
       filterPlanets();
@@ -238,28 +238,27 @@ export const usePlanetsStore = defineStore("planets", () => {
         ) {
           return false;
         }
-        // @TODO How to filter unknown population?
         if (
           filters.population_min !== "" &&
-          parseInt(population) <= parseInt(filters.population_min)
+          parseInt(population) < parseInt(filters.population_min)
         ) {
           return false;
         }
         if (
           filters.population_max !== "" &&
-          parseInt(population) >= parseInt(filters.population_max)
+          parseInt(population) > parseInt(filters.population_max)
         ) {
           return false;
         }
         if (
           filters.rotation_period_min !== "" &&
-          parseInt(rotation_period) <= parseInt(filters.rotation_period_min)
+          parseInt(rotation_period) < parseInt(filters.rotation_period_min)
         ) {
           return false;
         }
         if (
           filters.rotation_period_max !== "" &&
-          parseInt(rotation_period) >= parseInt(filters.rotation_period_max)
+          parseInt(rotation_period) > parseInt(filters.rotation_period_max)
         ) {
           return false;
         }
@@ -301,7 +300,7 @@ export const usePlanetsStore = defineStore("planets", () => {
   });
 
   const allPlanetsSelected = computed(() => {
-    return planets.value.length === planetsState.value.selectedPlanets.length;
+    return pagination.value.limit === planetsState.value.selectedPlanets.length;
   });
 
   const toggleSelectAllPlanets = () => {
@@ -323,7 +322,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     planets,
     pagination,
     changePage,
-    updateFilter,
+    changeFilter,
     filterPlanets,
     clearFilters,
     filters: planetsState.value.filters,

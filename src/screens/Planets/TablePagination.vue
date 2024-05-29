@@ -32,6 +32,7 @@ defineProps({
     </button>
     {{ pagination.currentPage }} / {{ pagination.lastPage }}
     <button
+      id="pagination__nextPageButton"
       :disabled="pagination.currentPage === pagination.lastPage"
       @click="$emit('changePage', pagination.currentPage + 1)"
     >

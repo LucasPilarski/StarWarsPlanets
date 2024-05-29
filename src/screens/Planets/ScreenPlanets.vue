@@ -5,43 +5,41 @@ import PlanetsFilters from "screens/Planets/PlanetsFilters.vue";
 import PlanetsTable from "screens/Planets/PlanetsTable.vue";
 
 const planetsStore = usePlanetsStore();
-
-const changePage = (newPage: number) => {
-  planetsStore.changePage(newPage);
-};
 </script>
 
 <template>
-  <h2>Star Wars Planets</h2>
+  <div class="screenPlanets_container">
+    <h2>Star Wars Planets</h2>
 
-  <PlanetsFilters
-    :climate-options="planetsStore.climateOptions"
-    :filters="planetsStore.filters"
-    :advance-filtering="planetsStore.advancedFiltering"
-    @filter-planets="planetsStore.filterPlanets"
-    @update-filter="planetsStore.updateFilter"
-    @clear-filters="planetsStore.clearFilters"
-    @toggle-advanced-filters="planetsStore.toggleAdvancedFilters"
-  />
+    <PlanetsFilters
+      :climate-options="planetsStore.climateOptions"
+      :filters="planetsStore.filters"
+      :advance-filtering="planetsStore.advancedFiltering"
+      @filter-planets="planetsStore.filterPlanets"
+      @change-filter="planetsStore.changeFilter"
+      @clear-filters="planetsStore.clearFilters"
+      @toggle-advanced-filters="planetsStore.toggleAdvancedFilters"
+    />
 
-  <TablePagination
-    :pagination="planetsStore.pagination"
-    @change-page="changePage"
-    @change-limit="planetsStore.changeLimit"
-  />
+    <TablePagination
+      :pagination="planetsStore.pagination"
+      @change-page="planetsStore.changePage($event)"
+      @change-limit="planetsStore.changeLimit"
+    />
 
-  <PlanetsTable
-    :planets="planetsStore.planets"
-    :headers="planetsStore.tableHeaders"
-    :all-planets-selected="planetsStore.allPlanetsSelected"
-    @sort="planetsStore.changeSorting"
-    @planet-selected="planetsStore.selectPlanet"
-    @all-planets-selected="planetsStore.toggleSelectAllPlanets"
-  />
+    <PlanetsTable
+      :planets="planetsStore.planets"
+      :headers="planetsStore.tableHeaders"
+      :all-planets-selected="planetsStore.allPlanetsSelected"
+      @sort="planetsStore.changeSorting"
+      @planet-selected="planetsStore.selectPlanet"
+      @all-planets-selected="planetsStore.toggleSelectAllPlanets"
+    />
 
-  <p v-if="planetsStore.planetsPopulation > 0">
-    Selected planets population is {{ planetsStore.planetsPopulation }}
-  </p>
+    <p v-if="planetsStore.planetsPopulation > 0">
+      Selected planets population is {{ planetsStore.planetsPopulation }}
+    </p>
+  </div>
 </template>
 
 <style scoped></style>

@@ -28,7 +28,8 @@
       "store/*": ["src/store/*"],
       "types/*": ["src/types/*"],
       "utils/*": ["src/utils/*"],
-      "public/*": ["src/public/*"]
+      "public/*": ["src/public/*"],
+      "tests/*": ["src/tests/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.js"],

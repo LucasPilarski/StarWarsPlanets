@@ -37,17 +37,19 @@ putting also filters there felt like a continuation of that idea.
 
 Thanks to that all the data was in one place and components are, as some people like to describe them, dumb.
 
+# No "created" or "gravity" filters?
+
+No, not enough time. Also, "created" field would require some additional work on validation for date strings, which would take
+even more time, so I decided to skip both.
+
 # Todo
 
-- Load data from the API
-- Store data in Pinia
-- Display data in a simple table
 - Differentiate between empty and populated data
 - Add loading indicator
-- If possible use routing for data loading
-- Split filters into basic (name, firing list reload on change) and advanced (the rest)
 - Tests for Pinia
 - Tests for components
-- Map climate options based on the API response
-- Select rows, calculate planets population
 - Resolve and catch for data fetching
+- Styles
+- Different table for smaller screens
+- Cleanup
+- Add checkbox for ignoring unknown data when using advanced filtering

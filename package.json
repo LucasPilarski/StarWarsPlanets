@@ -14,10 +14,8 @@
     "prettify": "npx prettier . --write"
   },
   "dependencies": {
-    "@pinia/plugin-debounce": "^1.0.1",
     "pinia": "^2.1.7",
     "postcss-plugin": "^1.0.0",
-    "ts-debounce": "^4.0.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.2"
   },
@@ -27,6 +25,7 @@
     "@types/node": "^20.12.12",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.1.0",

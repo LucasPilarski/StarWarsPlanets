@@ -13,6 +13,7 @@ const alias = [
   "store",
   "layouts",
   "public",
+  "tests",
 ].reduce((acc, curr) => {
   acc[curr] = path.resolve(__dirname, `${BASE_PATH}/${curr}`);
   return acc;
@@ -26,6 +27,7 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["text", "json", "html", "clover", "text-summary"],
+      exclude: ["/node_modules/**"],
     },
   },
 });
