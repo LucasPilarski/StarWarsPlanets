@@ -1,6 +1,7 @@
 export default [
   {
     name: "Tatooine",
+    id: "1",
     rotation_period: "23",
     orbital_period: "304",
     diameter: "10465",
@@ -34,6 +35,7 @@ export default [
   },
   {
     name: "Alderaan",
+    id: "2",
     rotation_period: "24",
     orbital_period: "364",
     diameter: "12500",
@@ -54,6 +56,7 @@ export default [
   },
   {
     name: "Yavin IV",
+    id: "3",
     rotation_period: "24",
     orbital_period: "4818",
     diameter: "10200",
@@ -70,6 +73,7 @@ export default [
   },
   {
     name: "Hoth",
+    id: "4",
     rotation_period: "23",
     orbital_period: "549",
     diameter: "7200",
@@ -86,6 +90,7 @@ export default [
   },
   {
     name: "Dagobah",
+    id: "5",
     rotation_period: "23",
     orbital_period: "341",
     diameter: "8900",
@@ -106,6 +111,7 @@ export default [
   },
   {
     name: "Bespin",
+    id: "6",
     rotation_period: "12",
     orbital_period: "5110",
     diameter: "118000",
@@ -122,6 +128,7 @@ export default [
   },
   {
     name: "Endor",
+    id: "7",
     rotation_period: "18",
     orbital_period: "402",
     diameter: "4900",
@@ -138,6 +145,7 @@ export default [
   },
   {
     name: "Naboo",
+    id: "8",
     rotation_period: "26",
     orbital_period: "312",
     diameter: "12120",
@@ -171,6 +179,7 @@ export default [
   },
   {
     name: "Coruscant",
+    id: "9",
     rotation_period: "24",
     orbital_period: "368",
     diameter: "12240",
@@ -196,6 +205,7 @@ export default [
   },
   {
     name: "Kamino",
+    id: "10",
     rotation_period: "27",
     orbital_period: "463",
     diameter: "19720",
@@ -216,6 +226,7 @@ export default [
   },
   {
     name: "Geonosis",
+    id: "11",
     rotation_period: "30",
     orbital_period: "256",
     diameter: "11370",
@@ -232,6 +243,7 @@ export default [
   },
   {
     name: "Utapau",
+    id: "12",
     rotation_period: "27",
     orbital_period: "351",
     diameter: "12900",
@@ -248,6 +260,7 @@ export default [
   },
   {
     name: "Mustafar",
+    id: "13",
     rotation_period: "36",
     orbital_period: "412",
     diameter: "4200",
@@ -264,6 +277,7 @@ export default [
   },
   {
     name: "Kashyyyk",
+    id: "14",
     rotation_period: "26",
     orbital_period: "381",
     diameter: "12765",
@@ -283,6 +297,7 @@ export default [
   },
   {
     name: "Polis Massa",
+    id: "15",
     rotation_period: "24",
     orbital_period: "590",
     diameter: "0",
@@ -299,6 +314,7 @@ export default [
   },
   {
     name: "Mygeeto",
+    id: "16",
     rotation_period: "12",
     orbital_period: "167",
     diameter: "10088",
@@ -315,6 +331,7 @@ export default [
   },
   {
     name: "Felucia",
+    id: "17",
     rotation_period: "34",
     orbital_period: "231",
     diameter: "9100",
@@ -331,6 +348,7 @@ export default [
   },
   {
     name: "Cato Neimoidia",
+    id: "18",
     rotation_period: "25",
     orbital_period: "278",
     diameter: "0",
@@ -347,6 +365,7 @@ export default [
   },
   {
     name: "Saleucami",
+    id: "19",
     rotation_period: "26",
     orbital_period: "392",
     diameter: "14920",
@@ -363,6 +382,7 @@ export default [
   },
   {
     name: "Stewjon",
+    id: "20",
     rotation_period: "unknown",
     orbital_period: "unknown",
     diameter: "0",

@@ -15,10 +15,14 @@ const planetsStore = usePlanetsStore();
       :climate-options="planetsStore.planetsState.climateOptions"
       :filters="planetsStore.planetsState.filters"
       :expanded-filtering="planetsStore.planetsState.expandedFiltering"
+      :hide-unknown-results="planetsStore.planetsState.hideUnknownResults"
       @filter-planets="planetsStore.filterPlanets"
       @change-filter="planetsStore.changeFilter"
       @clear-filters="planetsStore.clearFilters"
-      @toggle-advanced-filters="planetsStore.toggleAdvancedFilters"
+      @toggle-expanded-filters="planetsStore.toggleExpandedFilters"
+      @toggle-filtering-unknown-results="
+        planetsStore.toggleFilteringUnknownResults
+      "
     />
 
     <TablePagination

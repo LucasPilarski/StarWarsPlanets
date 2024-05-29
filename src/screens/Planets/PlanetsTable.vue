@@ -30,7 +30,7 @@ defineProps({
 <template>
   <table v-if="planets.length > 0">
     <TableHeader>
-      <td>
+      <td class="planetsTable__selectAll">
         <input
           type="checkbox"
           :checked="allPlanetsSelected"
@@ -56,4 +56,9 @@ defineProps({
   <div v-else>No results to show</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.planetsTable__selectAll {
+  width: 30px;
+  padding: 5px 10px;
+}
+</style>

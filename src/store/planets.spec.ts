@@ -136,7 +136,7 @@ describe("Planets Store", () => {
       store.changeSorting("population");
       store.changeSorting("population");
       // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
-      expect(store.planets[0].name).toBe("Hoth");
+      expect(store.planets[0].name).toBe("Stewjon");
       expect(store.planets[0].population).toBe("unknown");
       expect(store.planets[1].name).toBe("Dagobah");
       expect(store.planets[1].population).toBe("unknown");
@@ -243,6 +243,44 @@ describe("Planets Store", () => {
        * There are four planets with up to 1000 people.
        * */
       expect(store.planets.length).equals(4);
+    });
+  });
+
+  describe("Planet population calculation", () => {
+    beforeAll(() => {
+      // Set the data once since it will be used by the entire suite and not changed by it
+      localStorage.setItem("planets", JSON.stringify(mockData));
+    });
+
+    beforeEach(async () => {
+      setActivePinia(createPinia());
+      const store = usePlanetsStore();
+      await store.loadPlanets();
+    });
+
+    afterEach(() => {
+      const store = usePlanetsStore();
+      store.clearFilters();
+    });
+
+    test("Returns properly calculated sum of population of selected planets", () => {
+      const store = usePlanetsStore();
+
+      store.changeLimit("20");
+      store.selectPlanet("1");
+      store.selectPlanet("2");
+      store.selectPlanet("3");
+
+      expect(store.planetsPopulation).toBe(2000201000);
+    });
+
+    test("Returns properly calculated sum of population of selected planets when all planets are selected", () => {
+      const store = usePlanetsStore();
+
+      store.changeLimit("20");
+      store.toggleSelectAllPlanets();
+
+      expect(store.planetsPopulation).toBe(1109114721000);
     });
   });
 });

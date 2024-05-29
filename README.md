@@ -50,7 +50,5 @@ even more time, so I decided to skip both.
 - Tests for components
 - Resolve and catch for data fetching
 - Styles
-- Different table for smaller screens
+- Different table for smaller screens (https://css-tricks.com/responsive-data-tables/)
 - Cleanup
-- Add checkbox for ignoring unknown data when using advanced filtering
-- Combine store computed into at best one

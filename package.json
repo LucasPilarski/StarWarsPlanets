@@ -7,7 +7,7 @@
     "build": "vue-tsc && vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "verify": "vue-tsc --project ./src/tsconfig.json --noEmit",
+    "verify": "vue-tsc --project ./tsconfig.json --noEmit",
     "test": "vitest run --coverage --config ./vitest.config.ts",
     "lint": "eslint \"src/**/*.{ts,vue}\" --fix",
     "pre-commit": "npm run lint && npm run prettify && npm run verify && npm run test",

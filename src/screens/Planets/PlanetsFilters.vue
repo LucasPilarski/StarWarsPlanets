@@ -9,7 +9,8 @@ defineEmits([
   "filterPlanets",
   "clearFilters",
   "changeFilter",
-  "toggleAdvancedFilters",
+  "toggleExpandedFilters",
+  "toggleFilteringUnknownResults",
 ]);
 defineProps({
   filters: {
@@ -23,6 +24,11 @@ defineProps({
     default: () => [],
   },
   expandedFiltering: Boolean,
+  hideUnknownResults: {
+    type: Object as PropType<Record<string, boolean>>,
+    required: true,
+    default: () => ({}),
+  },
 });
 </script>
 
@@ -42,6 +48,35 @@ defineProps({
           :options="climateOptions"
           @option-picked="$emit('changeFilter', 'climate', $event.target.value)"
         />
+        <div class="filters__checkboxes">
+          Hide unknown results for:
+          <label>
+            Population
+            <input
+              type="checkbox"
+              :checked="hideUnknownResults.population"
+              @change="$emit('toggleFilteringUnknownResults', 'population')"
+            />
+          </label>
+          <label>
+            Rotation period
+            <input
+              type="checkbox"
+              :checked="hideUnknownResults.rotation_period"
+              @change="
+                $emit('toggleFilteringUnknownResults', 'rotation_period')
+              "
+            />
+          </label>
+          <label>
+            Climate
+            <input
+              type="checkbox"
+              :checked="hideUnknownResults.climate"
+              @change="$emit('toggleFilteringUnknownResults', 'climate')"
+            />
+          </label>
+        </div>
       </div>
       <div v-show="expandedFiltering" class="filters__column">
         <CommonText
@@ -71,7 +106,7 @@ defineProps({
       </div>
     </div>
     <div class="filters__buttons">
-      <button @click="$emit('toggleAdvancedFilters')">
+      <button @click="$emit('toggleExpandedFilters')">
         {{ !expandedFiltering ? "Advanced filtering" : "Simple filtering" }}
       </button>
       <button v-show="expandedFiltering" @click="$emit('filterPlanets')">
@@ -97,9 +132,8 @@ defineProps({
   padding: 5px 0 0;
 }
 
-.label__container {
+.filters__checkboxes {
   display: flex;
-  padding: 5px 0;
   flex-direction: column;
 }
 </style>

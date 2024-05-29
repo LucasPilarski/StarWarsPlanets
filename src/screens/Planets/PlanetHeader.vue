@@ -27,7 +27,11 @@ const handleClick = () => {
 </script>
 
 <template>
-  <td class="planetHeader__container" @click="handleClick">
+  <td
+    class="planetHeader__container"
+    :class="{ planetHeader__clickable: header.canSort }"
+    @click="handleClick"
+  >
     <span>{{ header.label }}</span>
     <SortIcon v-show="header.sortBy" :direction="header.sortDirection" />
   </td>
@@ -36,9 +40,10 @@ const handleClick = () => {
 <style scoped>
 .planetHeader__container {
   padding: 5px 10px;
+  height: 30px;
 }
 
-.planetHeader__container:hover {
+.planetHeader__clickable:hover {
   cursor: pointer;
 }
 </style>

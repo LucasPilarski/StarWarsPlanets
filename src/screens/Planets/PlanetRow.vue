@@ -15,11 +15,11 @@ defineProps({
 
 <template>
   <tr class="planetRow__container">
-    <td>
+    <td class="planetRow__select">
       <input
         type="checkbox"
         :checked="planet.isSelected"
-        @change="$emit('planetSelected', planet.name)"
+        @change="$emit('planetSelected', planet.id)"
       />
     </td>
     <td class="planetRow__name">{{ planet.name }}</td>
@@ -35,7 +35,43 @@ defineProps({
 </template>
 
 <style scoped>
+.planetRow__container {
+  height: 50px;
+}
+
 .planetRow__container td {
   padding: 5px 10px;
+}
+
+.planetRow__select {
+  width: 30px;
+}
+
+.planetRow__name {
+  width: 120px;
+}
+
+.planetRow__population {
+  width: 120px;
+}
+
+.planetRow__rotationPeriod {
+  width: 100px;
+}
+
+.planetRow__climate {
+  width: 100px;
+}
+
+.planetRow__gravity {
+  width: 100px;
+}
+
+.planetRow__created {
+  width: 100px;
+}
+
+.planetRow__link {
+  width: 50px;
 }
 </style>

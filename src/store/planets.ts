@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type {
-  MappedPlanet,
+  MappedPlanet, MappedTableHeader,
   Planet,
   SelectOption,
   SortDirection,
@@ -16,8 +16,7 @@ type PlanetsApiResponse = {
 };
 
 type PlanetsState = {
-  list: Planet[];
-  filteredList: Planet[];
+  list: MappedPlanet[];
   filters: Record<FilterFields, string>;
   sortColumn: SortColumn;
   sortDirection: SortDirection;
@@ -25,10 +24,8 @@ type PlanetsState = {
   page: number;
   climateOptions: SelectOption[];
   expandedFiltering: boolean;
+  hideUnknownResults: Record<string, boolean>;
   tableHeaders: TableHeader[];
-  // Temporary solution, this should be done using ids
-  // @TODO Add ids?
-  selectedPlanets: string[];
 };
 
 export type SortColumn =
@@ -53,7 +50,6 @@ export type FilterFields =
 export const usePlanetsStore = defineStore("planets", () => {
   const planetsState = ref<PlanetsState>({
     list: [],
-    filteredList: [],
     filters: {
       name: "",
       population_min: "",
@@ -71,6 +67,11 @@ export const usePlanetsStore = defineStore("planets", () => {
     page: 1,
     climateOptions: [{ label: "All", value: "" }],
     expandedFiltering: false,
+    hideUnknownResults: {
+      population: false,
+      rotation_period: false,
+      climate: false,
+    },
     tableHeaders: [
       { label: "Name", value: "name", canSort: true },
       { label: "Population", value: "population", canSort: true },
@@ -80,23 +81,18 @@ export const usePlanetsStore = defineStore("planets", () => {
       { label: "Created", value: "created", canSort: false },
       { label: "Url", value: "url", canSort: false },
     ],
-    selectedPlanets: [],
   });
 
   const planets = computed<MappedPlanet[]>(() => {
-    sortPlanets();
-    return planetsState.value.filteredList
-      .map((planet) => ({
-        ...planet,
-        isSelected: planetsState.value.selectedPlanets.includes(planet.name),
-      }))
+    return planetsState.value.list
+      .filter((planet) => planet.isAvailable)
       .slice(
         (planetsState.value.page - 1) * planetsState.value.limit,
         planetsState.value.page * planetsState.value.limit,
       );
   });
 
-  const headers = computed(() => {
+  const headers = computed<MappedTableHeader[]>(() => {
     return planetsState.value.tableHeaders.map((header) => ({
       ...header,
       sortBy: header.value === planetsState.value.sortColumn,
@@ -108,13 +104,14 @@ export const usePlanetsStore = defineStore("planets", () => {
     limit: planetsState.value.limit,
     currentPage: planetsState.value.page,
     lastPage: Math.ceil(
-      planetsState.value.filteredList.length / planetsState.value.limit,
+      planetsState.value.list.filter((planet) => planet.isAvailable).length /
+        planetsState.value.limit,
     ),
   }));
 
   const sortPlanets = () => {
     if (planetsState.value.sortColumn !== "") {
-      planetsState.value.filteredList.sort((planetA, planetB) => {
+      planetsState.value.list.sort((planetA, planetB) => {
         const fieldA: string = planetA[planetsState.value.sortColumn];
         const fieldB: string = planetB[planetsState.value.sortColumn];
         if (isNaN(parseInt(fieldA))) {
@@ -139,8 +136,12 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   const handlePlanet = (planet: Planet) => {
-    planetsState.value.list.push(planet);
-    planetsState.value.filteredList.push(planet);
+    planetsState.value.list.push({
+      ...planet,
+      isSelected: false,
+      isAvailable: true,
+      id: String(planetsState.value.list.length + 1),
+    });
     planet.climate.split(", ").forEach((climate) => {
       if (
         !planetsState.value.climateOptions.find(
@@ -203,8 +204,9 @@ export const usePlanetsStore = defineStore("planets", () => {
     Object.keys(planetsState.value.filters).forEach((key) => {
       planetsState.value.filters[key as FilterFields] = "";
     });
-    filterPlanets();
+    clearHideUnknownResults();
     unselectAllPlanets();
+    filterPlanets(true);
   };
 
   const changeLimit = (value: string) => {
@@ -223,99 +225,145 @@ export const usePlanetsStore = defineStore("planets", () => {
       planetsState.value.sortColumn = column;
       planetsState.value.sortDirection = "asc";
     }
+    sortPlanets();
     unselectAllPlanets();
   };
 
-  const filterPlanets = () => {
+  const filterPlanets = (showAll: boolean = false) => {
     const { filters } = planetsState.value;
-    const filteredPlanets = planetsState.value.list.filter(
-      ({ name, population, climate, rotation_period }) => {
-        if (
-          filters.name !== "" &&
-          !name.toLowerCase().includes(filters.name.toLowerCase())
-        ) {
-          return false;
-        }
-        if (
-          filters.climate !== "" &&
-          !climate.split(", ").includes(filters.climate)
-        ) {
-          return false;
-        }
-        if (
-          filters.population_min !== "" &&
-          parseInt(population) < parseInt(filters.population_min)
-        ) {
-          return false;
-        }
-        if (
-          filters.population_max !== "" &&
-          parseInt(population) > parseInt(filters.population_max)
-        ) {
-          return false;
-        }
-        if (
-          filters.rotation_period_min !== "" &&
-          parseInt(rotation_period) < parseInt(filters.rotation_period_min)
-        ) {
-          return false;
-        }
-        if (
-          filters.rotation_period_max !== "" &&
-          parseInt(rotation_period) > parseInt(filters.rotation_period_max)
-        ) {
-          return false;
-        }
-        return true;
-      },
-    );
-    changePage(filteredPlanets.length > 0 ? 1 : 0);
-    planetsState.value.filteredList = filteredPlanets;
+    let atLeastOnePlanetAvailable = showAll;
+    planetsState.value.list = planetsState.value.list.map((planet) => {
+      const { name, population, climate, rotation_period } = planet;
+      planet.isAvailable = true;
+      /*
+       * Sometimes we want to make all the planets available, so there is no need to check every filter,
+       * we just need to toggle one parameter for every planet;
+       */
+      if (showAll) {
+        return planet;
+      }
+      if (
+        filters.name !== "" &&
+        !name.toLowerCase().includes(filters.name.toLowerCase())
+      ) {
+        planet.isAvailable = false;
+      }
+      if (
+        (climate === "unknown" &&
+          planetsState.value.hideUnknownResults.climate) ||
+        (filters.climate !== "" &&
+          !climate.split(", ").includes(filters.climate))
+      ) {
+        planet.isAvailable = false;
+      }
+      if (
+        (population === "unknown" &&
+          planetsState.value.hideUnknownResults.population) ||
+        (filters.population_min !== "" &&
+          parseInt(population) < parseInt(filters.population_min))
+      ) {
+        planet.isAvailable = false;
+      }
+      if (
+        (population === "unknown" &&
+          planetsState.value.hideUnknownResults.population) ||
+        (filters.population_max !== "" &&
+          parseInt(population) > parseInt(filters.population_max))
+      ) {
+        planet.isAvailable = false;
+      }
+      if (
+        (rotation_period === "unknown" &&
+          planetsState.value.hideUnknownResults.rotation_period) ||
+        (filters.rotation_period_min !== "" &&
+          parseInt(rotation_period) < parseInt(filters.rotation_period_min))
+      ) {
+        planet.isAvailable = false;
+      }
+      if (
+        (rotation_period === "unknown" &&
+          planetsState.value.hideUnknownResults.rotation_period) ||
+        (filters.rotation_period_max !== "" &&
+          parseInt(rotation_period) > parseInt(filters.rotation_period_max))
+      ) {
+        planet.isAvailable = false;
+      }
+
+      if (planet.isAvailable) {
+        atLeastOnePlanetAvailable = true;
+      }
+      return planet;
+    });
+    changePage(atLeastOnePlanetAvailable ? 1 : 0);
     unselectAllPlanets();
   };
 
-  const toggleAdvancedFilters = () => {
+  const toggleExpandedFilters = () => {
     planetsState.value.expandedFiltering =
       !planetsState.value.expandedFiltering;
+
+    // In simple mode we want to show everything, even planets with unknown data
+    if (!planetsState.value.expandedFiltering) {
+      clearHideUnknownResults();
+    }
   };
 
-  const selectPlanet = (name: string) => {
-    if (!planetsState.value.selectedPlanets.includes(name)) {
-      planetsState.value.selectedPlanets.push(name);
-    } else {
-      planetsState.value.selectedPlanets =
-        planetsState.value.selectedPlanets.filter((planet) => planet !== name);
+  const clearHideUnknownResults = () => {
+    Object.keys(planetsState.value.hideUnknownResults).forEach((key) => {
+      planetsState.value.hideUnknownResults[key] = false;
+    });
+  };
+
+  const selectPlanet = (id: string) => {
+    const selectedPlanet = planetsState.value.list.find(
+      (planet) => planet.id === id,
+    );
+    if (selectedPlanet) {
+      selectedPlanet.isSelected = !selectedPlanet.isSelected;
     }
   };
 
   const planetsPopulation = computed(() => {
-    return planetsState.value.filteredList.reduce((acc, curr) => {
-      if (
-        planetsState.value.selectedPlanets.includes(curr.name) &&
-        !isNaN(parseInt(curr.population))
-      ) {
-        acc += parseInt(curr.population);
+    return planetsState.value.list.reduce((acc, planet) => {
+      if (planet.isSelected && !isNaN(parseInt(planet.population))) {
+        acc += parseInt(planet.population);
       }
       return acc;
     }, 0);
   });
 
   const allPlanetsSelected = computed(() => {
-    return pagination.value.limit === planetsState.value.selectedPlanets.length;
+    return (
+      planets.value.filter((planet) => planet.isSelected).length ===
+      pagination.value.limit
+    );
   });
 
   const toggleSelectAllPlanets = () => {
+    /*
+     * If at least one of the planet is not selected select them all
+     * Otherwise deselect all
+     */
     if (!allPlanetsSelected.value) {
-      planetsState.value.selectedPlanets = planets.value.map(
-        (planet) => planet.name,
-      );
+      planetsState.value.list = planetsState.value.list.map((planet) => ({
+        ...planet,
+        isSelected: true,
+      }));
     } else {
       unselectAllPlanets();
     }
   };
 
   const unselectAllPlanets = () => {
-    planetsState.value.selectedPlanets = [];
+    planetsState.value.list = planetsState.value.list.map((planet) => ({
+      ...planet,
+      isSelected: false,
+    }));
+  };
+
+  const toggleFilteringUnknownResults = (field: string) => {
+    planetsState.value.hideUnknownResults[field] =
+      !planetsState.value.hideUnknownResults[field];
   };
 
   return {
@@ -331,9 +379,10 @@ export const usePlanetsStore = defineStore("planets", () => {
     filterPlanets,
     clearFilters,
     changeLimit,
-    toggleAdvancedFilters,
+    toggleExpandedFilters,
     changeSorting,
     selectPlanet,
     toggleSelectAllPlanets,
+    toggleFilteringUnknownResults,
   };
 });

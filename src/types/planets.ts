@@ -20,6 +20,8 @@ export type Planet = {
 
 export type MappedPlanet = Planet & {
   isSelected: boolean;
+  isAvailable: boolean;
+  id: string;
 };
 
 export type TableHeader = {
