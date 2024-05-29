@@ -274,10 +274,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     planetsState.value.advanceFiltering = !planetsState.value.advanceFiltering;
   };
 
-  const advancedFiltering = computed(() => {
-    return planetsState.value.advanceFiltering;
-  });
-
   const selectPlanet = (name: string) => {
     if (!planetsState.value.selectedPlanets.includes(name)) {
       planetsState.value.selectedPlanets.push(name);
@@ -318,6 +314,7 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   return {
+    planetsState,
     loadPlanets,
     planets,
     pagination,
@@ -326,7 +323,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     filterPlanets,
     clearFilters,
     filters: planetsState.value.filters,
-    advancedFiltering,
     climateOptions,
     changeLimit,
     toggleAdvancedFilters,

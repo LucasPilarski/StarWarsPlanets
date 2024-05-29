@@ -14,7 +14,7 @@ const planetsStore = usePlanetsStore();
     <PlanetsFilters
       :climate-options="planetsStore.climateOptions"
       :filters="planetsStore.filters"
-      :advance-filtering="planetsStore.advancedFiltering"
+      :advance-filtering="planetsStore.planetsState.advanceFiltering"
       @filter-planets="planetsStore.filterPlanets"
       @change-filter="planetsStore.changeFilter"
       @clear-filters="planetsStore.clearFilters"

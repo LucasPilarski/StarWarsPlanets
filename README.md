@@ -53,3 +53,4 @@ even more time, so I decided to skip both.
 - Different table for smaller screens
 - Cleanup
 - Add checkbox for ignoring unknown data when using advanced filtering
+- Combine store computed into at best one
