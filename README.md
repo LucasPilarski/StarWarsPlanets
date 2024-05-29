@@ -26,13 +26,14 @@ The problem with the latter is that sorting would be done only for the current p
 top of that filtering would be limited only to planet names. Therefore, I decoded to go with the former.
 
 # Why filtering options are stored in the store?
+
 At first, I wanted to use getters to filter planets based on the... well, filters. Then I realized that the list would reload
-immediately the moment I change any filter, even by one character. That is a pretty bad UX, even with debounce and similar techniques, 
+immediately the moment I change any filter, even by one character. That is a pretty bad UX, even with debounce and similar techniques,
 so I decided to filter planets manually, via a button.
 
 Because of that I also had to decide whether to keep filters in the component and then send them to the store, or directly in the store.
 Since planets, pagination and similar data was already stored in Pinia, and I wanted to avoid unnecessary data duplication,
-putting also filters there felt like a continuation of that idea. 
+putting also filters there felt like a continuation of that idea.
 
 Thanks to that all the data was in one place and components are, as some people like to describe them, dumb.
 
@@ -48,3 +49,5 @@ Thanks to that all the data was in one place and components are, as some people 
 - Tests for Pinia
 - Tests for components
 - Map climate options based on the API response
+- Sorting
+- Simple (immediate filtering) and advanced (need a button) searching

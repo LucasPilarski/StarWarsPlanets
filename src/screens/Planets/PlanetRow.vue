@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { MappedPlanet } from "@/types";
+import type { Planet } from "@/types";
 
 defineProps({
   planet: {
-    type: Object as PropType<MappedPlanet>,
+    type: Object as PropType<Planet>,
     required: true,
     default: {},
   },

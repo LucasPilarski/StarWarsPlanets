@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { usePlanetsStore } from "store/planets.ts";
 import TablePagination from "screens/Planets/TablePagination.vue";
-import TableHeader from "components/Table/TableHeader/TableHeader.vue";
-import TableBody from "components/Table/TableBody/TableBody.vue";
 import PlanetsFilters from "screens/Planets/PlanetsFilters.vue";
-import PlanetRow from "screens/Planets/PlanetRow.vue";
+import PlanetsTable from "screens/Planets/PlanetsTable.vue";
 
 const planetsStore = usePlanetsStore();
 
@@ -30,26 +28,7 @@ const changePage = (newPage: number) => {
     @changeLimit="planetsStore.changeLimit"
   />
 
-  <div>
-    <table>
-      <TableHeader>
-        <td>Name</td>
-        <td>Population</td>
-        <td>Rotation period</td>
-        <td>Climate</td>
-        <td>Gravity</td>
-        <td>Created</td>
-        <td>Url</td>
-      </TableHeader>
-      <TableBody>
-        <PlanetRow
-            v-for="planet in planetsStore.planets"
-            :planet="planet"
-            :key="planet.name"
-        />
-      </TableBody>
-    </table>
-  </div>
+  <PlanetsTable :planets="planetsStore.planets" />
 </template>
 
 <style scoped></style>

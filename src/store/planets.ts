@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { MappedPlanet, Planet } from "@/types";
+import type { Planet } from "@/types";
 import { computed, ref } from "vue";
 
 type PlanetsApiResponse = {
@@ -11,7 +11,7 @@ type PlanetsApiResponse = {
 
 type PlanetsState = {
   list: Planet[];
-  filteredList: MappedPlanet[];
+  filteredList: Planet[];
   filters: Record<FilterFields, string>;
   sort: string;
   limit: number;
@@ -26,7 +26,9 @@ export type FilterFields =
   | "rotation_period_min"
   | "rotation_period_max"
   | "climate"
-  | "gravity";
+  | "gravity"
+  | "created_before"
+  | "created_after";
 
 export const usePlanetsStore = defineStore("planets", () => {
   const planetsState = ref<PlanetsState>({
@@ -40,6 +42,8 @@ export const usePlanetsStore = defineStore("planets", () => {
       rotation_period_max: "",
       climate: "",
       gravity: "",
+      created_before: "",
+      created_after: "",
     },
     sort: "",
     limit: 10,
@@ -106,14 +110,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     }
   };
 
-  const showNextPlanets = () => {
-    planetsState.value.page++;
-  };
-
-  const showPreviousPlanets = () => {
-    planetsState.value.page--;
-  };
-
   const changePage = (value: number) => {
     planetsState.value.page = value;
   };
@@ -137,7 +133,7 @@ export const usePlanetsStore = defineStore("planets", () => {
   const filterPlanets = () => {
     const { filters } = planetsState.value;
     const filteredPlanets = planetsState.value.list.filter(
-      ({ name, population, climate }) => {
+      ({ name, population, climate, rotation_period, created }) => {
         if (
           filters.name !== "" &&
           !name.toLowerCase().includes(filters.name.toLowerCase())
@@ -150,6 +146,7 @@ export const usePlanetsStore = defineStore("planets", () => {
         ) {
           return false;
         }
+        // @TODO How to filter unknown population?
         if (
           filters.population_min !== "" &&
           parseInt(population) <= parseInt(filters.population_min)
@@ -159,6 +156,18 @@ export const usePlanetsStore = defineStore("planets", () => {
         if (
           filters.population_max !== "" &&
           parseInt(population) >= parseInt(filters.population_max)
+        ) {
+          return false;
+        }
+        if (
+          filters.rotation_period_min !== "" &&
+          parseInt(rotation_period) <= parseInt(filters.rotation_period_min)
+        ) {
+          return false;
+        }
+        if (
+          filters.rotation_period_max !== "" &&
+          parseInt(rotation_period) >= parseInt(filters.rotation_period_max)
         ) {
           return false;
         }
@@ -174,8 +183,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     planets,
     pagination,
     changePage,
-    showPreviousPlanets,
-    showNextPlanets,
     updateFilter,
     filterPlanets,
     clearFilters,

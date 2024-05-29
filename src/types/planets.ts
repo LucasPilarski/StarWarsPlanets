@@ -17,14 +17,3 @@ export type Planet = {
   created: string; // ISO 8601 date format
   edited: string; // ISO 8601 date format
 };
-
-export type MappedPlanet = Omit<
-  Planet,
-  | "diameter"
-  | "orbital_period"
-  | "terrain"
-  | "surface_water"
-  | "residents"
-  | "films"
-  | "edited"
->;

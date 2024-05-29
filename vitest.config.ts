@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "node:path";
 
-const BASE_PATH = "app/frontend/src";
+const BASE_PATH = "src";
 
 const alias = [
   "components",
@@ -21,10 +21,11 @@ const alias = [
 export default defineConfig({
   plugins: [vue()],
   test: {
+    environment: "jsdom",
     alias,
     coverage: {
       provider: "istanbul",
-      reporter: ["text", "json", "html", "clover", "text-summary", "text-lcov"],
+      reporter: ["text", "json", "html", "clover", "text-summary"],
     },
   },
 });
