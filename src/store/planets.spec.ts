@@ -133,5 +133,8 @@ describe("Planets Store", () => {
         expect(store.planets[9].population).toBe('95000000')
       })
     })
+    describe.skip("Filtering function", () => {
+
+    })
   })
 });
