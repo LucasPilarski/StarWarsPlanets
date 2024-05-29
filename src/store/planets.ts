@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Planet } from "@/types";
+import type { Planet, SortDirection, TableHeader } from "@/types";
 import { computed, ref } from "vue";
 
 type PlanetsApiResponse = {
@@ -13,10 +13,13 @@ type PlanetsState = {
   list: Planet[];
   filteredList: Planet[];
   filters: Record<FilterFields, string>;
-  sort: string;
+  sortColumn: FilterFields | "";
+  sortDirection: SortDirection;
   limit: number;
   page: number;
   climates: string[];
+  advanceFiltering: boolean;
+  tableHeaders: TableHeader[];
 };
 
 export type FilterFields =
@@ -45,18 +48,38 @@ export const usePlanetsStore = defineStore("planets", () => {
       created_before: "",
       created_after: "",
     },
-    sort: "",
+    sortColumn: "",
+    sortDirection: "",
     limit: 10,
     page: 1,
     climates: [],
+    advanceFiltering: false,
+    tableHeaders: [
+      { label: "Name", value: "name", canSort: true },
+      { label: "Population", value: "population", canSort: true },
+      { label: "Rotation period", value: "rotation_period", canSort: true },
+      { label: "Climate", value: "climate", canSort: true },
+      { label: "Gravity", value: "gravity", canSort: true },
+      { label: "Created", value: "created", canSort: false },
+      { label: "Url", value: "url", canSort: false },
+    ],
   });
 
-  const planets = computed(() =>
-    planetsState.value.filteredList.slice(
+  const planets = computed(() => {
+    sortPlanets();
+    return planetsState.value.filteredList.slice(
       (planetsState.value.page - 1) * planetsState.value.limit,
       planetsState.value.page * planetsState.value.limit,
-    ),
-  );
+    );
+  });
+
+  const headers = computed(() => {
+    return planetsState.value.tableHeaders.map((header) => ({
+      ...header,
+      sortBy: header.value === planetsState.value.sortColumn,
+      sortDirection: planetsState.value.sortDirection,
+    }));
+  });
 
   const pagination = computed(() => ({
     limit: planetsState.value.limit,
@@ -74,6 +97,35 @@ export const usePlanetsStore = defineStore("planets", () => {
       })),
     );
   });
+
+  const sortPlanets = () => {
+    if (planetsState.value.sortColumn !== "") {
+      planetsState.value.filteredList.sort((planetA, planetB) => {
+        if (planetsState.value.sortDirection === "") {
+          return 0;
+        }
+        const fieldA: string = planetA[planetsState.value.sortColumn];
+        const fieldB: string = planetB[planetsState.value.sortColumn];
+        if (isNaN(parseInt(fieldA))) {
+          if (planetsState.value.sortDirection === "asc") {
+            return fieldA > fieldB ? 1 : -1;
+          }
+          if (planetsState.value.sortDirection === "desc") {
+            return fieldA > fieldB ? -1 : 1;
+          }
+        } else {
+          const valueA = parseInt(fieldA);
+          const valueB = parseInt(fieldB);
+          if (planetsState.value.sortDirection === "asc") {
+            return valueA > valueB ? 1 : -1;
+          }
+          if (planetsState.value.sortDirection === "desc") {
+            return valueA > valueB ? -1 : 1;
+          }
+        }
+      });
+    }
+  };
 
   const handlePlanet = (planet: Planet) => {
     planetsState.value.list.push(planet);
@@ -116,6 +168,9 @@ export const usePlanetsStore = defineStore("planets", () => {
 
   const updateFilter = (key: FilterFields, value: string) => {
     planetsState.value.filters[key] = value;
+    if (key === "name" && !advancedFiltering.value) {
+      filterPlanets();
+    }
   };
 
   const clearFilters = () => {
@@ -127,13 +182,25 @@ export const usePlanetsStore = defineStore("planets", () => {
 
   const changeLimit = (value: string) => {
     planetsState.value.limit = parseInt(value);
-    changePage(1);
+    if (pagination.value.lastPage > 0) {
+      changePage(1);
+    }
+  };
+
+  const changeSorting = (column: FilterFields) => {
+    if (planetsState.value.sortColumn === column) {
+      planetsState.value.sortDirection =
+        planetsState.value.sortDirection === "asc" ? "desc" : "asc";
+    } else {
+      planetsState.value.sortColumn = column;
+      planetsState.value.sortDirection = "asc";
+    }
   };
 
   const filterPlanets = () => {
     const { filters } = planetsState.value;
     const filteredPlanets = planetsState.value.list.filter(
-      ({ name, population, climate, rotation_period, created }) => {
+      ({ name, population, climate, rotation_period }) => {
         if (
           filters.name !== "" &&
           !name.toLowerCase().includes(filters.name.toLowerCase())
@@ -178,6 +245,14 @@ export const usePlanetsStore = defineStore("planets", () => {
     planetsState.value.filteredList = filteredPlanets;
   };
 
+  const toggleAdvancedFilters = () => {
+    planetsState.value.advanceFiltering = !planetsState.value.advanceFiltering;
+  };
+
+  const advancedFiltering = computed(() => {
+    return planetsState.value.advanceFiltering;
+  });
+
   return {
     loadPlanets,
     planets,
@@ -187,7 +262,11 @@ export const usePlanetsStore = defineStore("planets", () => {
     filterPlanets,
     clearFilters,
     filters: planetsState.value.filters,
+    advancedFiltering,
     climateOptions,
     changeLimit,
+    toggleAdvancedFilters,
+    tableHeaders: headers,
+    changeSorting,
   };
 });

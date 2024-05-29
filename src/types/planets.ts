@@ -17,3 +17,17 @@ export type Planet = {
   created: string; // ISO 8601 date format
   edited: string; // ISO 8601 date format
 };
+
+export type TableHeader = {
+  label: string;
+  value: string;
+  canSort: boolean;
+};
+
+export type MappedTableHeader = TableHeader & {
+  sortBy: boolean;
+  sortDirection: SortDirection;
+};
+
+// @TODO Move this one into enum?
+export type SortDirection = "asc" | "desc" | "";

@@ -15,20 +15,26 @@ const changePage = (newPage: number) => {
   <h2>Star Wars Planets</h2>
 
   <PlanetsFilters
-    :climateOptions="planetsStore.climateOptions"
+    :climate-options="planetsStore.climateOptions"
     :filters="planetsStore.filters"
-    @filterPlanets="planetsStore.filterPlanets"
-    @updateFilter="planetsStore.updateFilter"
-    @clearFilters="planetsStore.clearFilters"
+    :advance-filtering="planetsStore.advancedFiltering"
+    @filter-planets="planetsStore.filterPlanets"
+    @update-filter="planetsStore.updateFilter"
+    @clear-filters="planetsStore.clearFilters"
+    @toggle-advanced-filters="planetsStore.toggleAdvancedFilters"
   />
 
   <TablePagination
     :pagination="planetsStore.pagination"
     @change-page="changePage"
-    @changeLimit="planetsStore.changeLimit"
+    @change-limit="planetsStore.changeLimit"
   />
 
-  <PlanetsTable :planets="planetsStore.planets" />
+  <PlanetsTable
+    :planets="planetsStore.planets"
+    :headers="planetsStore.tableHeaders"
+    @sort="planetsStore.changeSorting"
+  />
 </template>
 
 <style scoped></style>

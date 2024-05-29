@@ -11,7 +11,7 @@ defineProps({
       limit: string | number;
     }>,
     required: true,
-    default: { currentPage: 1, lastPage: 1, limit: "10" },
+    default: () => ({ currentPage: 1, lastPage: 1, limit: "10" }),
   },
 });
 </script>
@@ -19,41 +19,41 @@ defineProps({
 <template>
   <div class="pagination__container">
     <button
-      @click="$emit('changePage', 1)"
       :disabled="pagination.currentPage <= 1"
+      @click="$emit('changePage', 1)"
     >
-      <<
+      First
     </button>
     <button
-      @click="$emit('changePage', pagination.currentPage - 1)"
       :disabled="pagination.currentPage <= 1"
+      @click="$emit('changePage', pagination.currentPage - 1)"
     >
-      <
+      Previous
     </button>
     {{ pagination.currentPage }} / {{ pagination.lastPage }}
     <button
-      @click="$emit('changePage', pagination.currentPage + 1)"
       :disabled="pagination.currentPage === pagination.lastPage"
+      @click="$emit('changePage', pagination.currentPage + 1)"
     >
-      >
+      Next
     </button>
     <button
-      @click="$emit('changePage', pagination.lastPage)"
       :disabled="pagination.currentPage === pagination.lastPage"
+      @click="$emit('changePage', pagination.lastPage)"
     >
-      >>
+      Lst
     </button>
     <label>
       Limit
       <CommonSelect
         :value="pagination.limit"
-        @optionPicked="$emit('changeLimit', $event.target.value)"
         :options="[
           { label: '10', value: '10' },
           { label: '25', value: '25' },
           { label: '50', value: '50' },
           { label: '100', value: '100' },
         ]"
+        @option-picked="$emit('changeLimit', $event.target.value)"
       />
     </label>
   </div>

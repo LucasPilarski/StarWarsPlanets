@@ -6,13 +6,13 @@ defineProps({
   planet: {
     type: Object as PropType<Planet>,
     required: true,
-    default: {},
+    default: () => ({}),
   },
 });
 </script>
 
 <template>
-  <tr>
+  <tr class="planetRow__container">
     <td>{{ planet.name }}</td>
     <td>{{ planet.population }}</td>
     <td>{{ planet.rotation_period }}</td>
@@ -25,4 +25,8 @@ defineProps({
   </tr>
 </template>
 
-<style scoped></style>
+<style scoped>
+.planetRow__container td {
+  padding: 5px 10px;
+}
+</style>

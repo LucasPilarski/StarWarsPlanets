@@ -2,8 +2,18 @@
 import type { PropType } from "vue";
 
 defineProps({
-  label: String,
-  value: [String, Number],
+  label: {
+    type: String,
+    default: "",
+  },
+  value: {
+    type: [String, Number],
+    default: "",
+  },
+  name: {
+    type: String,
+    default: "",
+  },
   options: {
     type: Array as PropType<{ label: string; value: string | number }[]>,
     required: true,

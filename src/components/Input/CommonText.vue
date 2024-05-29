@@ -1,18 +1,27 @@
 <script setup lang="ts">
 defineProps({
-  label: String,
-  value: [String],
-  key: String,
+  label: {
+    type: String,
+    default: "",
+  },
+  value: {
+    type: String,
+    default: "",
+  },
+  name: {
+    type: String,
+    default: "",
+  },
 });
 
 /* @TODO Pass key to the keyUp event (the same goes for the rest of the inputs) */
-defineEmits(["keyUp"]);
+defineEmits(["keyup"]);
 </script>
 
 <template>
   <label class="text__container">
     {{ label }}
-    <input :value="value" type="text" @keyUp="$emit('keyUp', $event)" />
+    <input :value="value" type="text" @keyup="$emit('keyup', $event)" />
   </label>
 </template>
 

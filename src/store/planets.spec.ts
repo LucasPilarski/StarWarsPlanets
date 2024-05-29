@@ -8,7 +8,7 @@ describe("Planets Store", () => {
     setActivePinia(createPinia());
     localStorage.setItem("planets", JSON.stringify(mockData));
     const store = usePlanetsStore();
-    store.loadPlanets()
+    store.loadPlanets();
   });
 
   test("Properly loads planets data from localStorage", () => {
@@ -18,12 +18,12 @@ describe("Planets Store", () => {
 
   test("Returns the number of planets equal to the table page limit", () => {
     const store = usePlanetsStore();
-    expect(store.planets.length).toBe(10)
-  })
+    expect(store.planets.length).toBe(10);
+  });
 
   test("Returns 20 planets when the limit is set to 20", () => {
     const store = usePlanetsStore();
-    store.changeLimit('20')
-    expect(store.planets.length).toBe(20)
-  })
+    store.changeLimit("20");
+    expect(store.planets.length).toBe(20);
+  });
 });

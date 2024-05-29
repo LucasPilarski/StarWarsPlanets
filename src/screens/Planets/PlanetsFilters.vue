@@ -5,18 +5,24 @@ import CommonSelect from "components/Input/CommonSelect.vue";
 import type { SelectOption } from "@/types";
 import CommonText from "components/Input/CommonText.vue";
 
-defineEmits(["filterPlanets", "clearFilters", "updateFilter"]);
+defineEmits([
+  "filterPlanets",
+  "clearFilters",
+  "updateFilter",
+  "toggleAdvancedFilters",
+]);
 defineProps({
   filters: {
     type: Object as PropType<Record<FilterFields, string>>,
     required: true,
-    default: {},
+    default: () => ({}),
   },
   climateOptions: {
     type: Array as PropType<SelectOption[]>,
     required: true,
     default: () => [],
   },
+  advanceFiltering: Boolean,
 });
 /* @TODO Add gravity filter */
 /* @TODO Add created filter? Can that be done easily? */
@@ -29,44 +35,50 @@ defineProps({
         <CommonText
           :value="filters.name"
           label="Name"
-          @keyUp="$emit('updateFilter', 'name', $event.target.value)"
+          @keyup="$emit('updateFilter', 'name', $event.target.value)"
         />
         <CommonSelect
+          v-show="advanceFiltering"
           :label="'Climate'"
           :value="filters.climate"
           :options="climateOptions"
           @option-picked="$emit('updateFilter', 'climate', $event.target.value)"
         />
       </div>
-      <div class="filters__column">
+      <div v-show="advanceFiltering" class="filters__column">
         <CommonText
           :value="filters.population_min"
           label="Population min"
-          @keyUp="$emit('updateFilter', 'population_min', $event.target.value)"
+          @keyup="$emit('updateFilter', 'population_min', $event.target.value)"
         />
         <CommonText
           :value="filters.population_max"
           label="Population max"
-          @keyUp="$emit('updateFilter', 'population_max', $event.target.value)"
+          @keyup="$emit('updateFilter', 'population_max', $event.target.value)"
         />
         <CommonText
           :value="filters.rotation_period_min"
           label="Rotation period min"
-          @keyUp="
+          @keyup="
             $emit('updateFilter', 'rotation_period_min', $event.target.value)
           "
         />
         <CommonText
           :value="filters.rotation_period_max"
           label="Rotation period max"
-          @keyUp="
+          @keyup="
             $emit('updateFilter', 'rotation_period_max', $event.target.value)
           "
         />
       </div>
     </div>
     <div class="filters__buttons">
-      <button @click="$emit('filterPlanets')">Filter results</button>
+      <button @click="$emit('toggleAdvancedFilters')">
+        {{ !advanceFiltering ? "Advanced filtering" : "Simple filtering" }}
+      </button>
+      <button v-show="advanceFiltering" @click="$emit('filterPlanets')">
+        Filter results
+      </button>
       <button @click="$emit('clearFilters')">Clear filters</button>
     </div>
   </div>
