@@ -13,7 +13,7 @@ type PlanetsState = {
   list: Planet[];
   filteredList: Planet[];
   filters: Record<FilterFields, string>;
-  sortColumn: FilterFields | "";
+  sortColumn: SortColumn;
   sortDirection: SortDirection;
   limit: number;
   page: number;
@@ -21,6 +21,9 @@ type PlanetsState = {
   advanceFiltering: boolean;
   tableHeaders: TableHeader[];
 };
+
+export type SortColumn =
+  "" | "name" | "population" | "rotation_period" | "climate" | "gravity"
 
 export type FilterFields =
   | "name"
@@ -49,7 +52,7 @@ export const usePlanetsStore = defineStore("planets", () => {
       created_after: "",
     },
     sortColumn: "",
-    sortDirection: "",
+    sortDirection: "asc",
     limit: 10,
     page: 1,
     climates: [],
@@ -101,27 +104,24 @@ export const usePlanetsStore = defineStore("planets", () => {
   const sortPlanets = () => {
     if (planetsState.value.sortColumn !== "") {
       planetsState.value.filteredList.sort((planetA, planetB) => {
-        if (planetsState.value.sortDirection === "") {
-          return 0;
-        }
-        const fieldA: string = planetA[planetsState.value.sortColumn];
+          const fieldA: string = planetA[planetsState.value.sortColumn];
         const fieldB: string = planetB[planetsState.value.sortColumn];
         if (isNaN(parseInt(fieldA))) {
+          /*
+          * There are only two options, asc and desc. If asc is not picked desc is used explicitly, there is no empty option.
+          * Empty option means no column has been picked for sorting, so there is no need to use said value.
+          * */
           if (planetsState.value.sortDirection === "asc") {
             return fieldA > fieldB ? 1 : -1;
           }
-          if (planetsState.value.sortDirection === "desc") {
-            return fieldA > fieldB ? -1 : 1;
-          }
+          return fieldA > fieldB ? -1 : 1;
         } else {
           const valueA = parseInt(fieldA);
           const valueB = parseInt(fieldB);
           if (planetsState.value.sortDirection === "asc") {
             return valueA > valueB ? 1 : -1;
           }
-          if (planetsState.value.sortDirection === "desc") {
-            return valueA > valueB ? -1 : 1;
-          }
+          return valueA > valueB ? -1 : 1;
         }
       });
     }
@@ -138,27 +138,33 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   const fetchPlanets = (url?: string) => {
-    fetch(url ?? `https://swapi.dev/api/planets`)
-      .then((response) => response.json())
-      .then((response: PlanetsApiResponse) => {
-        response.results.forEach(handlePlanet);
-        if (response.next) {
-          fetchPlanets(response.next);
-        } else {
-          localStorage.setItem(
-            "planets",
-            JSON.stringify(planetsState.value.list),
-          );
-        }
-      });
+    return new Promise((resolve, reject) => {
+      fetch(url ?? `https://swapi.dev/api/planets`)
+          .then((response) => response.json())
+          .then((response: PlanetsApiResponse) => {
+            response.results.forEach(handlePlanet);
+            if (response.next) {
+              fetchPlanets(response.next);
+            } else {
+              localStorage.setItem(
+                  "planets",
+                  JSON.stringify(planetsState.value.list),
+              );
+              // @TODO Use better resolve
+              resolve(null)
+            }
+          })
+          // @TODO Use better reject
+          .catch(() => reject());
+    })
   };
 
-  const loadPlanets = () => {
+  const loadPlanets = async () => {
     if (localStorage.getItem("planets") !== null) {
       const planetsData = JSON.parse(localStorage.getItem("planets") as string);
       planetsData.forEach(handlePlanet);
     } else {
-      fetchPlanets();
+      await fetchPlanets();
     }
   };
 
@@ -187,7 +193,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     }
   };
 
-  const changeSorting = (column: FilterFields) => {
+  const changeSorting = (column: SortColumn) => {
     if (planetsState.value.sortColumn === column) {
       planetsState.value.sortDirection =
         planetsState.value.sortDirection === "asc" ? "desc" : "asc";

@@ -3,8 +3,8 @@ import { onMounted } from "vue";
 import { usePlanetsStore } from "store/planets.ts";
 
 const planetsStore = usePlanetsStore();
-onMounted(() => {
-  planetsStore.loadPlanets();
+onMounted(async () => {
+  await planetsStore.loadPlanets();
 });
 </script>
 

@@ -30,4 +30,4 @@ export type MappedTableHeader = TableHeader & {
 };
 
 // @TODO Move this one into enum?
-export type SortDirection = "asc" | "desc" | "";
+export type SortDirection = "asc" | "desc";
