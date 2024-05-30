@@ -29,18 +29,20 @@ const planetsStore = usePlanetsStore();
       />
 
       <div class="screenPlanets__limitSection">
-        <p>Selected planets population is {{ planetsStore.planetsPopulation }}</p>
+        <p>
+          Selected planets population is {{ planetsStore.planetsPopulation }}
+        </p>
         <label class="screenPlanets__limit">
           Limit
           <CommonSelect
-              :value="planetsStore.pagination.limit"
-              :options="[
-          { label: '10', value: '10' },
-          { label: '25', value: '25' },
-          { label: '50', value: '50' },
-          { label: '100', value: '100' },
-        ]"
-              @option-picked="planetsStore.changeLimit($event.target.value)"
+            :value="planetsStore.pagination.limit"
+            :options="[
+              { label: '10', value: '10' },
+              { label: '25', value: '25' },
+              { label: '50', value: '50' },
+              { label: '100', value: '100' },
+            ]"
+            @option-picked="planetsStore.changeLimit($event.target.value)"
           />
         </label>
       </div>
@@ -56,8 +58,8 @@ const planetsStore = usePlanetsStore();
     />
 
     <TablePagination
-        :pagination="planetsStore.pagination"
-        @change-page="planetsStore.changePage($event)"
+      :pagination="planetsStore.pagination"
+      @change-page="planetsStore.changePage($event)"
     />
   </div>
 </template>

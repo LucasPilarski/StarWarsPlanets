@@ -33,7 +33,12 @@ defineProps({
     <table>
       <TableHeader>
         <td class="planetsTable__selectAll">
-          <CommonInputCheckbox name="" label="" :checked="allPlanetsSelected"  @change="$emit('allPlanetsSelected')" />
+          <CommonInputCheckbox
+            name=""
+            label=""
+            :checked="allPlanetsSelected"
+            @change="$emit('allPlanetsSelected')"
+          />
         </td>
         <PlanetHeader
           v-for="header in headers"
