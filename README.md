@@ -8,22 +8,24 @@ Run with `npm run dev` command.
 
 # App structure
 
-I decided to go with the centralized approach: components will only display data and emit events, Pinia will store everything. In some cases
-the data could - and maybe even should - be kept in the components, but the consistency was more important. Planets screen component is
-responsible for communication between store (getting data, calling functions) and the rest of the components tree (gathering events, passing data).
+I decided to go with the centralized approach: components will only display data and emit events, Pinia will store everything and modify the data when necessary. In some cases
+the data could - and maybe even should, for example with filters - be kept in the components, but the consistency was more important. 
 
-No routing except for only the main one. More than that would be unnecessary.
+Planets screen component is responsible for communication between store (getting data, calling functions) and the rest of the components tree (gathering events, passing data). It
+serves as a middleman between the store and its children.
+
+No routing except for only the main one. More than that would be unnecessary. I tried to use it for data fetching, but realized that API is too simple for that to be necessary.
 
 # Why only one initial fetch request?
 
 SWAPI has been abandoned for years, with no chance to implement advanced filtering, sorting and such. I had two options before
 me:
 
-- Download all the data beforehand, store them in localstorage when necessary, implement full range of data filtering on the FE,
+- Download all the data beforehand, store them in localstorage, implement full range of data filtering on the FE,
 - Use only API data, implement only some filtering options, maybe try to do something more with the limited data.
 
 The problem with the latter is that sorting would be done only for the current page, not the entire dataset, as it normally should be. On
-top of that filtering would be limited only to planet names. Therefore, I decoded to go with the former.
+top of that filtering would be limited only to planet names since other methods are either limited or non-existent. Therefore, I decided to go with the former.
 
 # Why filtering options are stored in the store?
 
@@ -51,4 +53,5 @@ even more time, so I decided to skip both.
 - Resolve and catch for data fetching
 - Styles
 - Different table for smaller screens (https://css-tricks.com/responsive-data-tables/)
+- For mobile devices visible inputs for sorting (column, asc/desc)
 - Cleanup
