@@ -14,9 +14,8 @@ onMounted(async () => {
   </main>
 </template>
 
-<style>
+<style scoped lang="postcss">
 .main__container {
-  height: var(--app-height);
   padding: 10px 5px;
   overflow: hidden;
 }

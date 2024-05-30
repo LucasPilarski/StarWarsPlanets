@@ -28,37 +28,49 @@ defineProps({
 </script>
 
 <template>
-  <table v-if="planets.length > 0">
-    <TableHeader>
-      <td class="planetsTable__selectAll">
-        <input
-          type="checkbox"
-          :checked="allPlanetsSelected"
-          @change="$emit('allPlanetsSelected')"
+  <div v-if="planets.length > 0" class="planetsTable__container">
+    <table>
+      <TableHeader>
+        <td class="planetsTable__selectAll">
+          <input
+            type="checkbox"
+            :checked="allPlanetsSelected"
+            @change="$emit('allPlanetsSelected')"
+          />
+        </td>
+        <PlanetHeader
+          v-for="header in headers"
+          :key="header.value"
+          :header="header"
+          @sort="$emit('sort', $event)"
         />
-      </td>
-      <PlanetHeader
-        v-for="header in headers"
-        :key="header.value"
-        :header="header"
-        @sort="$emit('sort', $event)"
-      />
-    </TableHeader>
-    <TableBody>
-      <PlanetRow
-        v-for="planet in planets"
-        :key="planet.name"
-        :planet="planet"
-        @planet-selected="$emit('planetSelected', $event)"
-      />
-    </TableBody>
-  </table>
+      </TableHeader>
+      <TableBody>
+        <PlanetRow
+          v-for="planet in planets"
+          :key="planet.name"
+          :planet="planet"
+          @planet-selected="$emit('planetSelected', $event)"
+        />
+      </TableBody>
+    </table>
+  </div>
   <div v-else>No results to show</div>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
+.planetsTable__container {
+  height: 400px;
+  overflow: auto;
+
+  @media only screen and (max-width: 760px) {
+    height: auto;
+    overflow: auto;
+  }
+}
+
 .planetsTable__selectAll {
-  width: 30px;
-  padding: 5px 10px;
+  //width: 30px;
+  //padding: 5px 10px;
 }
 </style>

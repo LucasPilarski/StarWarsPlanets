@@ -9,7 +9,7 @@ Run with `npm run dev` command.
 # App structure
 
 I decided to go with the centralized approach: components will only display data and emit events, Pinia will store everything and modify the data when necessary. In some cases
-the data could - and maybe even should, for example with filters - be kept in the components, but the consistency was more important. 
+the data could - and maybe even should, for example with filters - be kept in the components, but the consistency was more important.
 
 Planets screen component is responsible for communication between store (getting data, calling functions) and the rest of the components tree (gathering events, passing data). It
 serves as a middleman between the store and its children.
@@ -55,3 +55,4 @@ even more time, so I decided to skip both.
 - Different table for smaller screens (https://css-tricks.com/responsive-data-tables/)
 - For mobile devices visible inputs for sorting (column, asc/desc)
 - Cleanup
+- Separate store for filtering?

@@ -8,10 +8,13 @@
   </thead>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .tableHeader__container {
   background-color: black;
   color: white;
   font-weight: bold;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 }
 </style>

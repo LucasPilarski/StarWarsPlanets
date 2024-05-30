@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import type { FilterFields } from "store/planets.ts";
-import CommonSelect from "components/Input/CommonSelect.vue";
+import CommonSelect from "components/Input/CommonInputSelect.vue";
 import type { SelectOption } from "@/types";
-import CommonText from "components/Input/CommonText.vue";
+import CommonText from "components/Input/CommonInputText.vue";
+import CommonCheckbox from "components/Input/CommonInputCheckbox.vue";
+import CommonButton from "components/Button/CommonButton.vue";
 
 defineEmits([
   "filterPlanets",
@@ -49,33 +51,25 @@ defineProps({
           @option-picked="$emit('changeFilter', 'climate', $event.target.value)"
         />
         <div class="filters__checkboxes">
-          Hide unknown results for:
-          <label>
-            Population
-            <input
-              type="checkbox"
-              :checked="hideUnknownResults.population"
-              @change="$emit('toggleFilteringUnknownResults', 'population')"
-            />
-          </label>
-          <label>
-            Rotation period
-            <input
-              type="checkbox"
-              :checked="hideUnknownResults.rotation_period"
-              @change="
-                $emit('toggleFilteringUnknownResults', 'rotation_period')
-              "
-            />
-          </label>
-          <label>
-            Climate
-            <input
-              type="checkbox"
-              :checked="hideUnknownResults.climate"
-              @change="$emit('toggleFilteringUnknownResults', 'climate')"
-            />
-          </label>
+          <span>Hide unknown results for:</span>
+          <CommonCheckbox
+            label="Population"
+            name="population"
+            :checked="hideUnknownResults.population"
+            @change="$emit('toggleFilteringUnknownResults', $event)"
+          />
+          <CommonCheckbox
+            label="Rotation period"
+            name="rotation_period"
+            :checked="hideUnknownResults.rotation_period"
+            @change="$emit('toggleFilteringUnknownResults', $event)"
+          />
+          <CommonCheckbox
+            label="Climate"
+            name="climate"
+            :checked="hideUnknownResults.climate"
+            @change="$emit('toggleFilteringUnknownResults', $event)"
+          />
         </div>
       </div>
       <div v-show="expandedFiltering" class="filters__column">
@@ -106,25 +100,29 @@ defineProps({
       </div>
     </div>
     <div class="filters__buttons">
-      <button @click="$emit('toggleExpandedFilters')">
-        {{ !expandedFiltering ? "Advanced filtering" : "Simple filtering" }}
-      </button>
-      <button v-show="expandedFiltering" @click="$emit('filterPlanets')">
-        Filter results
-      </button>
-      <button @click="$emit('clearFilters')">Clear filters</button>
+      <CommonButton :label="!expandedFiltering ? 'Advanced filtering' : 'Simple filtering'" @click="$emit('toggleExpandedFilters')" />
+      <CommonButton v-if="expandedFiltering" :label="'Filter results'" @click="$emit('filterPlanets')" />
+      <CommonButton :label="'Clear filters'" @click="$emit('clearFilters')" />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .filters__column {
   width: 48%;
+
+  @media only screen and (max-width: 760px) {
+    width: 100%;
+  }
 }
 
 .filters__list {
   display: flex;
   justify-content: space-between;
+
+  @media only screen and (max-width: 760px) {
+    flex-direction: column;
+  }
 }
 
 .filters__buttons {

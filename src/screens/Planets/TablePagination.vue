@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import CommonSelect from "components/Input/CommonSelect.vue";
+import CommonSelect from "components/Input/CommonInputSelect.vue";
+import CommonButton from "components/Button/CommonButton.vue";
 
 defineEmits(["changePage", "changeLimit"]);
 defineProps({
@@ -18,32 +19,17 @@ defineProps({
 
 <template>
   <div class="pagination__container">
-    <button
-      :disabled="pagination.currentPage <= 1"
-      @click="$emit('changePage', 1)"
-    >
-      First
-    </button>
-    <button
-      :disabled="pagination.currentPage <= 1"
-      @click="$emit('changePage', pagination.currentPage - 1)"
-    >
-      Previous
-    </button>
-    {{ pagination.currentPage }} / {{ pagination.lastPage }}
-    <button
-      id="pagination__nextPageButton"
-      :disabled="pagination.currentPage === pagination.lastPage"
-      @click="$emit('changePage', pagination.currentPage + 1)"
-    >
-      Next
-    </button>
-    <button
-      :disabled="pagination.currentPage === pagination.lastPage"
-      @click="$emit('changePage', pagination.lastPage)"
-    >
-      Last
-    </button>
+    <CommonButton label="First"       :disabled="pagination.currentPage <= 1"
+                  @click="$emit('changePage', 1)"  />
+    <CommonButton label="Previous"       :disabled="pagination.currentPage <= 1"
+                  @click="$emit('changePage', pagination.currentPage - 1)"  />
+   <div class="pagination__counter">
+     <span>{{ pagination.currentPage }}</span> / <span>{{ pagination.lastPage }}</span>
+   </div>
+    <CommonButton id="pagination__nextPageButton" label="Next"       :disabled="pagination.currentPage === pagination.lastPage"
+                  @click="$emit('changePage', pagination.currentPage + 1)" />
+    <CommonButton label="Last"        :disabled="pagination.currentPage === pagination.lastPage"
+                  @click="$emit('changePage', pagination.lastPage)"  />
     <label>
       Limit
       <CommonSelect
@@ -60,12 +46,15 @@ defineProps({
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .pagination__container {
   padding: 10px 0;
   display: flex;
   align-items: center;
-  width: 290px;
-  justify-content: space-between;
+}
+
+.pagination__counter {
+  width: 50px;
+  text-align: center;
 }
 </style>

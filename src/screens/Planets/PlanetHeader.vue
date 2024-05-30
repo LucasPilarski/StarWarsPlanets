@@ -37,7 +37,7 @@ const handleClick = () => {
   </td>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .planetHeader__container {
   padding: 5px 10px;
   height: 30px;

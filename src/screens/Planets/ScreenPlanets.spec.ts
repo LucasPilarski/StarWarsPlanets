@@ -22,7 +22,7 @@ describe("Screen planets component", () => {
   });
   test("Renders properly", () => {
     const { container } = render(ScreenPlanets);
-    expect(container.querySelector(".screenPlanets_container")).not.toBeNull();
+    expect(container.querySelector(".screenPlanets__container")).not.toBeNull();
   });
 
   test("Renders planets table properly", () => {

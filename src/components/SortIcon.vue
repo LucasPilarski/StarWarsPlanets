@@ -17,4 +17,4 @@ defineProps({
   <span v-else></span>
 </template>
 
-<style scoped></style>
+<style scoped lang="postcss"></style>

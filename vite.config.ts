@@ -17,17 +17,11 @@ const alias = [
   return acc;
 }, {});
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
   root: `src`,
   publicDir: path.resolve(__dirname, `${BASE_PATH}/public`),
   resolve: {
     alias,
-  },
-  css: {
-    postcss: {
-      plugins: [require("postcss-prettify"), require("postcss-nesting")],
-    },
   },
 });

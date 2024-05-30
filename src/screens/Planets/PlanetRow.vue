@@ -15,26 +15,36 @@ defineProps({
 
 <template>
   <tr class="planetRow__container">
-    <td class="planetRow__select">
+    <td data-label="Select" class="planetRow__select">
       <input
         type="checkbox"
         :checked="planet.isSelected"
         @change="$emit('planetSelected', planet.id)"
       />
     </td>
-    <td class="planetRow__name">{{ planet.name }}</td>
-    <td class="planetRow__population">{{ planet.population }}</td>
-    <td class="planetRow__rotationPeriod">{{ planet.rotation_period }}</td>
-    <td class="planetRow__climate">{{ planet.climate }}</td>
-    <td class="planetRow__gravity">{{ planet.gravity }}</td>
-    <td class="planetRow__created">{{ planet.created.split("T")[0] }}</td>
-    <td class="planetRow__link">
+    <td data-label="Name" class="planetRow__name">{{ planet.name }}</td>
+    <td data-label="Population" class="planetRow__population">
+      {{ planet.population }}
+    </td>
+    <td data-label="Rotation period" class="planetRow__rotationPeriod">
+      {{ planet.rotation_period }}
+    </td>
+    <td data-label="Climate" class="planetRow__climate">
+      {{ planet.climate }}
+    </td>
+    <td data-label="Gravity" class="planetRow__gravity">
+      {{ planet.gravity }}
+    </td>
+    <td data-label="Created" class="planetRow__created">
+      {{ planet.created.split("T")[0] }}
+    </td>
+    <td data-label="Link" class="planetRow__link">
       <a :href="planet.url" target="_blank">Link</a>
     </td>
   </tr>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .planetRow__container {
   height: 50px;
 }
@@ -73,5 +83,47 @@ defineProps({
 
 .planetRow__link {
   width: 50px;
+}
+
+@media only screen and (max-width: 760px) {
+  .planetRow__container {
+    height: auto;
+  }
+
+  .planetRow__container td {
+    padding: 0.3rem 0 0.3rem 50%;
+  }
+
+  .planetRow__select {
+    width: auto;
+  }
+
+  .planetRow__name {
+    width: auto;
+  }
+
+  .planetRow__population {
+    width: auto;
+  }
+
+  .planetRow__rotationPeriod {
+    width: auto;
+  }
+
+  .planetRow__climate {
+    width: auto;
+  }
+
+  .planetRow__gravity {
+    width: auto;
+  }
+
+  .planetRow__created {
+    width: auto;
+  }
+
+  .planetRow__link {
+    width: auto;
+  }
 }
 </style>

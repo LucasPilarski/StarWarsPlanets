@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import type {
-  MappedPlanet, MappedTableHeader,
+  MappedPlanet,
+  MappedTableHeader,
   Planet,
   SelectOption,
   SortDirection,
@@ -364,6 +365,10 @@ export const usePlanetsStore = defineStore("planets", () => {
   const toggleFilteringUnknownResults = (field: string) => {
     planetsState.value.hideUnknownResults[field] =
       !planetsState.value.hideUnknownResults[field];
+
+    if (!planetsState.value.expandedFiltering) {
+      filterPlanets();
+    }
   };
 
   return {

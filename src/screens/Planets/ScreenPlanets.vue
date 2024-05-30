@@ -8,28 +8,32 @@ const planetsStore = usePlanetsStore();
 </script>
 
 <template>
-  <div class="screenPlanets_container">
-    <h2>Star Wars Planets</h2>
+  <div class="screenPlanets__container">
+    <div class="screenPlanets__header">
+      <h2 class="screenPlanets__title">Star Wars Planets</h2>
 
-    <PlanetsFilters
-      :climate-options="planetsStore.planetsState.climateOptions"
-      :filters="planetsStore.planetsState.filters"
-      :expanded-filtering="planetsStore.planetsState.expandedFiltering"
-      :hide-unknown-results="planetsStore.planetsState.hideUnknownResults"
-      @filter-planets="planetsStore.filterPlanets"
-      @change-filter="planetsStore.changeFilter"
-      @clear-filters="planetsStore.clearFilters"
-      @toggle-expanded-filters="planetsStore.toggleExpandedFilters"
-      @toggle-filtering-unknown-results="
-        planetsStore.toggleFilteringUnknownResults
-      "
-    />
+      <PlanetsFilters
+        :climate-options="planetsStore.planetsState.climateOptions"
+        :filters="planetsStore.planetsState.filters"
+        :expanded-filtering="planetsStore.planetsState.expandedFiltering"
+        :hide-unknown-results="planetsStore.planetsState.hideUnknownResults"
+        @filter-planets="planetsStore.filterPlanets"
+        @change-filter="planetsStore.changeFilter"
+        @clear-filters="planetsStore.clearFilters"
+        @toggle-expanded-filters="planetsStore.toggleExpandedFilters"
+        @toggle-filtering-unknown-results="
+          planetsStore.toggleFilteringUnknownResults
+        "
+      />
 
-    <TablePagination
-      :pagination="planetsStore.pagination"
-      @change-page="planetsStore.changePage($event)"
-      @change-limit="planetsStore.changeLimit"
-    />
+      <TablePagination
+        :pagination="planetsStore.pagination"
+        @change-page="planetsStore.changePage($event)"
+        @change-limit="planetsStore.changeLimit"
+      />
+
+      <p>Selected planets population is {{ planetsStore.planetsPopulation }}</p>
+    </div>
 
     <PlanetsTable
       :planets="planetsStore.planets"
@@ -39,11 +43,17 @@ const planetsStore = usePlanetsStore();
       @planet-selected="planetsStore.selectPlanet"
       @all-planets-selected="planetsStore.toggleSelectAllPlanets"
     />
-
-    <p v-if="planetsStore.planetsPopulation > 0">
-      Selected planets population is {{ planetsStore.planetsPopulation }}
-    </p>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="postcss">
+.screenPlanets__title {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  @media only screen and (max-width: 760px) {
+    text-align: center;
+    font-size: 2rem;
+    margin: 0;
+  }
+}
+</style>
