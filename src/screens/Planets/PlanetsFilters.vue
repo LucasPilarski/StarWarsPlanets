@@ -100,8 +100,15 @@ defineProps({
       </div>
     </div>
     <div class="filters__buttons">
-      <CommonButton :label="!expandedFiltering ? 'Advanced filtering' : 'Simple filtering'" @click="$emit('toggleExpandedFilters')" />
-      <CommonButton v-if="expandedFiltering" :label="'Filter results'" @click="$emit('filterPlanets')" />
+      <CommonButton
+        :label="!expandedFiltering ? 'Advanced filtering' : 'Simple filtering'"
+        @click="$emit('toggleExpandedFilters')"
+      />
+      <CommonButton
+        v-if="expandedFiltering"
+        :label="'Filter results'"
+        @click="$emit('filterPlanets')"
+      />
       <CommonButton :label="'Clear filters'" @click="$emit('clearFilters')" />
     </div>
   </div>

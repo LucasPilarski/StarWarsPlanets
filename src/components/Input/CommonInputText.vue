@@ -21,7 +21,12 @@ defineEmits(["keyup"]);
 <template>
   <label class="text__container">
     <span class="text__label">{{ label }}</span>
-    <input class="text__input" :value="value" type="text" @keyup="$emit('keyup', $event)" />
+    <input
+      class="text__input"
+      :value="value"
+      type="text"
+      @keyup="$emit('keyup', $event)"
+    />
   </label>
 </template>
 
@@ -38,7 +43,7 @@ defineEmits(["keyup"]);
 }
 
 .text__input {
-  border: 2px solid black;
+  border: 1px solid black;
   padding: 3px 6px;
   border-radius: 10px;
 }

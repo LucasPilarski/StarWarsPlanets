@@ -1,23 +1,27 @@
 <script setup lang="ts">
-defineEmits(['click'])
+defineEmits(["click"]);
 defineProps({
   label: {
     type: String,
     required: true,
-    default: ''
+    default: "",
   },
   disabled: {
     type: Boolean,
     required: false,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 </script>
 
 <template>
-  <button :disabled="disabled" class="commonButton__container" @click="$emit('click')">
+  <button
+    :disabled="disabled"
+    class="commonButton__container"
+    @click="$emit('click')"
+  >
     <span class="commonButton__label">
-      {{label}}
+      {{ label }}
     </span>
   </button>
 </template>
@@ -39,7 +43,7 @@ defineProps({
     cursor: inherit;
     background: lightgray;
     color: black;
-    opacity: 50%
+    opacity: 50%;
   }
 }
 </style>

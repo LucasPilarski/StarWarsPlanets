@@ -27,7 +27,11 @@ defineEmits(["optionPicked"]);
 <template>
   <label class="select__container">
     <span class="text__label">{{ label }}</span>
-    <select class="text__input" :value="value" @change="$emit('optionPicked', $event)">
+    <select
+      class="text__input"
+      :value="value"
+      @change="$emit('optionPicked', $event)"
+    >
       <option
         v-for="option in options"
         :key="option.value"
@@ -46,14 +50,13 @@ defineEmits(["optionPicked"]);
   flex-direction: column;
 }
 
-
 .text__label {
   padding: 0 0 5px;
   font-weight: bold;
 }
 
 .text__input {
-  border: 2px solid black;
+  border: 1px solid black;
   padding: 3px 6px;
   border-radius: 10px;
 }
