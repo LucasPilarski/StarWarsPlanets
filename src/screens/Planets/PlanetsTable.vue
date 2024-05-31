@@ -6,6 +6,7 @@ import type { PropType } from "vue";
 import type { MappedPlanet, MappedTableHeader } from "@/types";
 import PlanetHeader from "screens/Planets/PlanetHeader.vue";
 import CommonInputCheckbox from "components/Input/CommonInputCheckbox.vue";
+import CommonCheckbox from "components/Input/CommonInputCheckbox.vue";
 
 defineEmits(["sort", "planetSelected", "allPlanetsSelected"]);
 
@@ -33,11 +34,10 @@ defineProps({
     <table>
       <TableHeader>
         <td class="planetsTable__selectAll">
-          <CommonInputCheckbox
-            name=""
-            label=""
-            :checked="allPlanetsSelected"
-            @change="$emit('allPlanetsSelected')"
+          <CommonCheckbox
+              name="allPlanetsSelected"
+              :checked="allPlanetsSelected"
+              @change="$emit('allPlanetsSelected')"
           />
         </td>
         <PlanetHeader
@@ -62,16 +62,14 @@ defineProps({
 
 <style scoped lang="postcss">
 .planetsTable__container {
-  max-height: 400px;
+ height: 400px;
   overflow: auto;
   border: 1px solid black;
-  min-height: 100px;
 
   @media only screen and (max-width: 760px) {
     height: auto;
     overflow: auto;
     border: none;
-    /* max-height: fit-content; */
   }
 }
 

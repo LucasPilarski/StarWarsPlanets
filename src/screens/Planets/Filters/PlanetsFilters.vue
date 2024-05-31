@@ -55,24 +55,26 @@ defineProps({
           <span class="filters__checkboxesLabel"
             >Hide unknown results for:</span
           >
-          <CommonCheckbox
-            label="Population"
-            name="population"
-            :checked="hideUnknownResults.population"
-            @change="$emit('toggleFilteringUnknownResults', $event)"
-          />
-          <CommonCheckbox
-            label="Rotation period"
-            name="rotation_period"
-            :checked="hideUnknownResults.rotation_period"
-            @change="$emit('toggleFilteringUnknownResults', $event)"
-          />
-          <CommonCheckbox
-            label="Climate"
-            name="climate"
-            :checked="hideUnknownResults.climate"
-            @change="$emit('toggleFilteringUnknownResults', $event)"
-          />
+          <div class="filters__checkboxesContainer">
+            <CommonCheckbox
+                label="Population"
+                name="population"
+                :checked="hideUnknownResults.population"
+                @change="$emit('toggleFilteringUnknownResults', $event)"
+            />
+            <CommonCheckbox
+                label="Rotation period"
+                name="rotation_period"
+                :checked="hideUnknownResults.rotation_period"
+                @change="$emit('toggleFilteringUnknownResults', $event)"
+            />
+            <CommonCheckbox
+                label="Climate"
+                name="climate"
+                :checked="hideUnknownResults.climate"
+                @change="$emit('toggleFilteringUnknownResults', $event)"
+            />
+          </div>
         </div>
       </div>
       <div v-show="expandedFiltering" class="filters__column">
@@ -143,7 +145,19 @@ defineProps({
 .filters__checkboxes {
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
+  max-width: 180px;
+  justify-content: space-between;
+  padding: 0 0 5px;
+}
+
+.filters__checkboxesContainer {
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    justify-content: space-between;
+  }
 }
 
 .filters__checkboxesLabel {

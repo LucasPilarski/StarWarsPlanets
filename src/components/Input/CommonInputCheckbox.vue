@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type {PropType} from "vue";
+
 defineEmits(["change"]);
 const { name } = defineProps({
   label: {
     type: String,
-    required: true,
+    required: false,
     default: "",
   },
   checked: Boolean,
@@ -12,11 +14,19 @@ const { name } = defineProps({
     required: true,
     default: "",
   },
+  variant: {
+    type: String as PropType<"horizontal" | "vertical">,
+    required: false,
+    default: 'horizontal'
+  }
 });
 </script>
 
 <template>
-  <label class="commonCheckbox__container">
+  <label :class="{
+    commonCheckbox__horizontal: variant === 'horizontal',
+    commonCheckbox__vertical: variant === 'vertical',
+  }" class="commonCheckbox__container">
     <span class="commonCheckbox__label">{{ label }}</span>
     <input
       class="commonCheckbox__input"
@@ -29,10 +39,16 @@ const { name } = defineProps({
 
 <style scoped lang="postcss">
 .commonCheckbox__container {
-  max-width: 180px;
   display: flex;
-  justify-content: space-between;
-  padding: 0 0 5px;
+  align-items: center;
+}
+
+.commonCheckbox__horizontal {
+  flex-direction: row;
+}
+
+.commonCheckbox__vertical {
+  flex-direction: column;
 }
 
 .commonCheckbox__label {
