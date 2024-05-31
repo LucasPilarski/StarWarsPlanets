@@ -49,10 +49,10 @@ export const usePlanetsStore = defineStore("planets", () => {
   });
 
   const resetState = () => {
-    mainState.value.list = []
-    mainState.value.limit = 10
-    mainState.value.page = 1
-  }
+    mainState.value.list = [];
+    mainState.value.limit = 10;
+    mainState.value.page = 1;
+  };
 
   const planets = computed<MappedPlanet[]>(() => {
     return mainState.value.list

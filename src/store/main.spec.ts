@@ -1,10 +1,4 @@
-import {
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  test,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
 import { usePlanetsStore } from "store/main.ts";
 import mockData from "tests//mockData.ts";
@@ -63,9 +57,9 @@ describe("Planets Store", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
-      store.resetState()
+      store.resetState();
       await store.loadPlanets();
-    })
+    });
 
     test("Dont sort planets if no sorting column is picked", () => {
       const store = usePlanetsStore();
@@ -143,9 +137,9 @@ describe("Planets Store", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
-      store.resetState()
+      store.resetState();
       await store.loadPlanets();
-    })
+    });
 
     test("Does not filter planets when no filter is provided", () => {
       const store = usePlanetsStore();
@@ -233,9 +227,9 @@ describe("Planets Store", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
-      store.resetState()
+      store.resetState();
       await store.loadPlanets();
-    })
+    });
 
     test("Returns properly calculated sum of population of selected planets", () => {
       const store = usePlanetsStore();
