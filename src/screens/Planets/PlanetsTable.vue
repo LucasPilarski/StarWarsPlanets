@@ -62,17 +62,20 @@ defineProps({
 
 <style scoped lang="postcss">
 .planetsTable__container {
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
+  border: 1px solid black;
+  min-height: 100px;
 
   @media only screen and (max-width: 760px) {
     height: auto;
     overflow: auto;
+    border: none;max-height: fit-content;
   }
 }
 
 .planetsTable__selectAll {
-  //width: 30px;
-  //padding: 5px 10px;
+  width: 30px;
+  padding: 5px 10px;
 }
 </style>

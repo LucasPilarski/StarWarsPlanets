@@ -13,7 +13,8 @@
   background-color: black;
   color: white;
   font-weight: bold;
-  position: fixed;
+  position: sticky;
+  top: 0;
   width: 100%;
   z-index: 1;
 }

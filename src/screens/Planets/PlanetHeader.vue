@@ -29,7 +29,7 @@ const handleClick = () => {
 <template>
   <td
     class="planetHeader__container"
-    :class="{ planetHeader__clickable: header.canSort }"
+    :class="{ planetHeader__clickable: header.canSort, [`planetHeader__${header.value}`]: true }"
     @click="handleClick"
   >
     <span>{{ header.label }}</span>
@@ -39,11 +39,85 @@ const handleClick = () => {
 
 <style scoped lang="postcss">
 .planetHeader__container {
-  padding: 5px 10px;
+  padding: 0 10px;
   height: 30px;
 }
 
 .planetHeader__clickable:hover {
   cursor: pointer;
+}
+
+.planetHeader__container {
+  height: 50px;
+}
+
+.planetHeader__name {
+  width: 120px;
+}
+
+.planetHeader__population {
+  width: 120px;
+}
+
+.planetHeader__rotation_period {
+  width: 120px;
+}
+
+.planetHeader__climate {
+  width: 100px;
+}
+
+.planetHeader__gravity {
+  width: 100px;
+}
+
+.planetHeader__created {
+  width: 100px;
+}
+
+.planetHeader__link {
+  width: 50px;
+}
+
+@media only screen and (max-width: 760px) {
+  .planetHeader__container {
+    height: auto;
+  }
+
+  .planetHeader__container td {
+    padding: 0.3rem 0 0.3rem 50%;
+  }
+
+  .planetHeader__select {
+    width: auto;
+  }
+
+  .planetHeader__name {
+    width: auto;
+  }
+
+  .planetHeader__population {
+    width: auto;
+  }
+
+  .planetHeader__rotationPeriod {
+    width: auto;
+  }
+
+  .planetHeader__climate {
+    width: auto;
+  }
+
+  .planetHeader__gravity {
+    width: auto;
+  }
+
+  .planetHeader__created {
+    width: auto;
+  }
+
+  .planetHeader__link {
+    width: auto;
+  }
 }
 </style>

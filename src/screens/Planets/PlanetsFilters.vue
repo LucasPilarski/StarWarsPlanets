@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { FilterFields } from "store/planets.ts";
+import type { FilterFields } from "store/main.ts";
 import CommonSelect from "components/Input/CommonInputSelect.vue";
 import type { SelectOption } from "@/types";
 import CommonText from "components/Input/CommonInputText.vue";
 import CommonCheckbox from "components/Input/CommonInputCheckbox.vue";
 import CommonButton from "components/Button/CommonButton.vue";
+import CommonNumber from "components/Input/CommonInputNumber.vue";
 
 defineEmits([
   "filterPlanets",
@@ -73,24 +74,24 @@ defineProps({
         </div>
       </div>
       <div v-show="expandedFiltering" class="filters__column">
-        <CommonText
+        <CommonNumber
           :value="filters.population_min"
           label="Population min"
           @keyup="$emit('changeFilter', 'population_min', $event.target.value)"
         />
-        <CommonText
+        <CommonNumber
           :value="filters.population_max"
           label="Population max"
           @keyup="$emit('changeFilter', 'population_max', $event.target.value)"
         />
-        <CommonText
+        <CommonNumber
           :value="filters.rotation_period_min"
           label="Rotation period min"
           @keyup="
             $emit('changeFilter', 'rotation_period_min', $event.target.value)
           "
         />
-        <CommonText
+        <CommonNumber
           :value="filters.rotation_period_max"
           label="Rotation period max"
           @keyup="
@@ -101,7 +102,7 @@ defineProps({
     </div>
     <div class="filters__buttons">
       <CommonButton
-        :label="!expandedFiltering ? 'Advanced filtering' : 'Simple filtering'"
+        :label="!expandedFiltering ? 'Expanded filtering' : 'Simple filtering'"
         @click="$emit('toggleExpandedFilters')"
       />
       <CommonButton

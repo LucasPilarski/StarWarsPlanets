@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { usePlanetsStore } from "store/planets.ts";
+import { usePlanetsStore } from "store/main.ts";
 
 const planetsStore = usePlanetsStore();
 onMounted(async () => {

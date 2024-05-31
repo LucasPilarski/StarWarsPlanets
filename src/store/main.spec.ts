@@ -8,7 +8,7 @@ import {
   test,
 } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
-import { usePlanetsStore } from "store/planets.ts";
+import { usePlanetsStore } from "store/main.ts";
 import mockData from "store/mockData.ts";
 import { globalMocks } from "tests/globalMocks.ts";
 

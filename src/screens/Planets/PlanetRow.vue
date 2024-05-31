@@ -26,7 +26,7 @@ defineProps({
     <td data-label="Population" class="planetRow__population">
       {{ planet.population }}
     </td>
-    <td data-label="Rotation period" class="planetRow__rotationPeriod">
+    <td data-label="Rotation period" class="planetRow__rotation_period">
       {{ planet.rotation_period }}
     </td>
     <td data-label="Climate" class="planetRow__climate">
@@ -47,6 +47,7 @@ defineProps({
 <style scoped lang="postcss">
 .planetRow__container {
   height: 50px;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 }
 
 .planetRow__container td {
@@ -65,8 +66,8 @@ defineProps({
   width: 120px;
 }
 
-.planetRow__rotationPeriod {
-  width: 100px;
+.planetRow__rotation_period {
+  width: 120px;
 }
 
 .planetRow__climate {

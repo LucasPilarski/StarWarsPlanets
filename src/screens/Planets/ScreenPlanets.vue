@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { usePlanetsStore } from "store/planets.ts";
+import { usePlanetsStore } from "store/main.ts";
 import TablePagination from "screens/Planets/TablePagination.vue";
 import PlanetsFilters from "screens/Planets/PlanetsFilters.vue";
 import PlanetsTable from "screens/Planets/PlanetsTable.vue";
 import CommonSelect from "components/Input/CommonInputSelect.vue";
-import CommonButton from "components/Button/CommonButton.vue";
 
 const planetsStore = usePlanetsStore();
 </script>
@@ -15,10 +14,10 @@ const planetsStore = usePlanetsStore();
       <h2 class="screenPlanets__title">Star Wars Planets</h2>
 
       <PlanetsFilters
-        :climate-options="planetsStore.planetsState.climateOptions"
-        :filters="planetsStore.planetsState.filters"
-        :expanded-filtering="planetsStore.planetsState.expandedFiltering"
-        :hide-unknown-results="planetsStore.planetsState.hideUnknownResults"
+        :climate-options="planetsStore.climateOptions"
+        :filters="planetsStore.filtersState.filters"
+        :expanded-filtering="planetsStore.filtersState.expandedFiltering"
+        :hide-unknown-results="planetsStore.filtersState.hideUnknownResults"
         @filter-planets="planetsStore.filterPlanets"
         @change-filter="planetsStore.changeFilter"
         @clear-filters="planetsStore.clearFilters"

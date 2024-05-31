@@ -2,7 +2,7 @@ import { describe, test, expect, beforeEach, beforeAll } from "vitest";
 import { fireEvent, render, waitFor } from "@testing-library/vue";
 import ScreenPlanets from "./ScreenPlanets.vue";
 import { createPinia, setActivePinia } from "pinia";
-import { usePlanetsStore } from "store/planets.ts";
+import { usePlanetsStore } from "store/main.ts";
 import { globalMocks } from "tests/globalMocks.ts";
 import mockData from "store/mockData.ts";
 
