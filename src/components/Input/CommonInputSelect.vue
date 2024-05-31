@@ -6,6 +6,10 @@ defineProps({
     type: String,
     default: "",
   },
+  labelClass: {
+    type: String,
+    default: "",
+  },
   value: {
     type: [String, Number],
     default: "",
@@ -26,7 +30,7 @@ defineEmits(["optionPicked"]);
 
 <template>
   <label class="select__container">
-    <span class="text__label">{{ label }}</span>
+    <span class="text__label" :class="labelClass">{{ label }}</span>
     <select
       class="text__input"
       :value="value"
@@ -59,5 +63,9 @@ defineEmits(["optionPicked"]);
   border: 1px solid black;
   padding: 3px 6px;
   border-radius: 10px;
+}
+
+.screenPlanets__limitLabel {
+  padding-top: 5px;
 }
 </style>

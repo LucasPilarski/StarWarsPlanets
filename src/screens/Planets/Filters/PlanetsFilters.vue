@@ -52,7 +52,9 @@ defineProps({
           @option-picked="$emit('changeFilter', 'climate', $event.target.value)"
         />
         <div class="filters__checkboxes">
-          <span>Hide unknown results for:</span>
+          <span class="filters__checkboxesLabel"
+            >Hide unknown results for:</span
+          >
           <CommonCheckbox
             label="Population"
             name="population"
@@ -141,5 +143,11 @@ defineProps({
 .filters__checkboxes {
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
+}
+
+.filters__checkboxesLabel {
+  padding-bottom: 5px;
+  font-weight: bold;
 }
 </style>

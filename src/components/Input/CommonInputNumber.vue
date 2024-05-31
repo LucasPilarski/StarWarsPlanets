@@ -17,19 +17,21 @@ defineProps({
 const emit = defineEmits(["keyup"]);
 
 const handleKeyup = (e: KeyboardEvent) => {
-  (e.target as HTMLInputElement).value = (e.target as HTMLInputElement).value.replace(/\D+/g, '')
-  emit('keyup', e)
-}
+  (e.target as HTMLInputElement).value = (
+    e.target as HTMLInputElement
+  ).value.replace(/\D+/g, "");
+  emit("keyup", e);
+};
 </script>
 
 <template>
   <label class="text__container">
     <span class="text__label">{{ label }}</span>
     <input
-        class="text__input"
-        :value="value"
-        type="number"
-        @keyup="handleKeyup"
+      class="text__input"
+      :value="value"
+      type="number"
+      @keyup="handleKeyup"
     />
   </label>
 </template>

@@ -29,7 +29,10 @@ const handleClick = () => {
 <template>
   <td
     class="planetHeader__container"
-    :class="{ planetHeader__clickable: header.canSort, [`planetHeader__${header.value}`]: true }"
+    :class="{
+      planetHeader__clickable: header.canSort,
+      [`planetHeader__${header.value}`]: true,
+    }"
     @click="handleClick"
   >
     <span>{{ header.label }}</span>

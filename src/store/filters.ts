@@ -103,7 +103,7 @@ export const useFiltersStore = defineStore("filters", () => {
 
   const changeFilter = (key: FilterFields, value: string) => {
     filtersState.value.filters[key] = value;
-    return (key === "name" && !filtersState.value.expandedFiltering);
+    return key === "name" && !filtersState.value.expandedFiltering;
   };
 
   const toggleExpandedFilters = () => {
@@ -140,6 +140,6 @@ export const useFiltersStore = defineStore("filters", () => {
     toggleExpandedFilters,
     clearHideUnknownResults,
     toggleFilteringUnknownResults,
-    clearFilters
+    clearFilters,
   };
 });

@@ -8,6 +8,5 @@
 
 <style scoped lang="postcss">
 .tableBody__container {
-
 }
 </style>

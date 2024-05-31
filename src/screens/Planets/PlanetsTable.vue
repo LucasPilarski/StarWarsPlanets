@@ -70,7 +70,8 @@ defineProps({
   @media only screen and (max-width: 760px) {
     height: auto;
     overflow: auto;
-    border: none;max-height: fit-content;
+    border: none;
+    /* max-height: fit-content; */
   }
 }
 

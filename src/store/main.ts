@@ -1,13 +1,9 @@
 import { defineStore } from "pinia";
-import type {
-  MappedPlanet,
-  MappedTableHeader,
-  Planet,
-} from "@/types";
+import type { MappedPlanet, MappedTableHeader, Planet } from "@/types";
 import { computed, ref } from "vue";
 import { useDictionariesStore } from "store/dictionaries.ts";
 import { useFiltersStore } from "store/filters.ts";
-import {useSortingStore} from "store/sorting.ts";
+import { useSortingStore } from "store/sorting.ts";
 
 type PlanetsApiResponse = {
   count: number;
@@ -141,7 +137,7 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   const clearFilters = () => {
-    filtersStore.clearFilters()
+    filtersStore.clearFilters();
     clearHideUnknownResults();
     unselectAllPlanets();
     filterPlanets(true);
@@ -156,7 +152,7 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   const changeSorting = (column: SortColumn) => {
-    sortingStore.changeSorting(column)
+    sortingStore.changeSorting(column);
     sortingStore.sortPlanets(mainState.value.list);
     unselectAllPlanets();
   };

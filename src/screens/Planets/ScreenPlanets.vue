@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { usePlanetsStore } from "store/main.ts";
 import TablePagination from "screens/Planets/TablePagination.vue";
-import PlanetsFilters from "screens/Planets/PlanetsFilters.vue";
+import PlanetsFilters from "screens/Planets/Filters/PlanetsFilters.vue";
 import PlanetsTable from "screens/Planets/PlanetsTable.vue";
-import CommonSelect from "components/Input/CommonInputSelect.vue";
+import PlanetsLimit from "screens/Planets/Filters/PlanetsLimit.vue";
 
 const planetsStore = usePlanetsStore();
 </script>
@@ -27,24 +27,11 @@ const planetsStore = usePlanetsStore();
         "
       />
 
-      <div class="screenPlanets__limitSection">
-        <p>
-          Selected planets population is {{ planetsStore.planetsPopulation }}
-        </p>
-        <label class="screenPlanets__limit">
-          Limit
-          <CommonSelect
-            :value="planetsStore.pagination.limit"
-            :options="[
-              { label: '10', value: '10' },
-              { label: '25', value: '25' },
-              { label: '50', value: '50' },
-              { label: '100', value: '100' },
-            ]"
-            @option-picked="planetsStore.changeLimit($event.target.value)"
-          />
-        </label>
-      </div>
+      <PlanetsLimit
+        :limit="planetsStore.pagination.limit"
+        :planets-population="planetsStore.planetsPopulation"
+        @change-limit="planetsStore.changeLimit($event.target.value)"
+      />
     </div>
 
     <PlanetsTable
@@ -72,17 +59,5 @@ const planetsStore = usePlanetsStore();
     font-size: 2rem;
     margin: 0;
   }
-}
-
-.screenPlanets__limitSection {
-  display: flex;
-  justify-content: space-between;
-}
-
-.screenPlanets__limit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 110px;
 }
 </style>
