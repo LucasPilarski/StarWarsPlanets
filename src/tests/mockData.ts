@@ -115,7 +115,7 @@ export default [
     rotation_period: "12",
     orbital_period: "5110",
     diameter: "118000",
-    climate: "temperate",
+    climate: "unknown",
     gravity: "1.5 (surface), 1 standard (Cloud City)",
     terrain: "gas giant",
     surface_water: "0",
@@ -129,7 +129,7 @@ export default [
   {
     name: "Endor",
     id: "7",
-    rotation_period: "18",
+    rotation_period: "unknown",
     orbital_period: "402",
     diameter: "4900",
     climate: "temperate",

@@ -44,6 +44,10 @@ const { name } = defineProps({
 .commonCheckbox__container {
   display: flex;
   align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .commonCheckbox__horizontal {

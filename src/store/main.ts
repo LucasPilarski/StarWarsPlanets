@@ -48,6 +48,12 @@ export const usePlanetsStore = defineStore("planets", () => {
     page: 1,
   });
 
+  const resetState = () => {
+    mainState.value.list = []
+    mainState.value.limit = 10
+    mainState.value.page = 1
+  }
+
   const planets = computed<MappedPlanet[]>(() => {
     return mainState.value.list
       .filter((planet) => planet.isAvailable)
@@ -214,7 +220,7 @@ export const usePlanetsStore = defineStore("planets", () => {
 
   const toggleFilteringUnknownResults = (field: string) => {
     filtersStore.toggleFilteringUnknownResults(field);
-    if (filtersStore.filtersState.filters) {
+    if (!filtersStore.filtersState.expandedFiltering) {
       filterPlanets();
     }
   };
@@ -247,5 +253,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     selectPlanet,
     toggleSelectAllPlanets,
     toggleFilteringUnknownResults,
+    resetState,
   };
 });

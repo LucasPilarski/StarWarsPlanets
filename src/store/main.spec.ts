@@ -1,6 +1,4 @@
 import {
-  afterAll,
-  afterEach,
   beforeAll,
   beforeEach,
   describe,
@@ -9,8 +7,13 @@ import {
 } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
 import { usePlanetsStore } from "store/main.ts";
-import mockData from "store/mockData.ts";
+import mockData from "tests//mockData.ts";
 import { globalMocks } from "tests/globalMocks.ts";
+
+beforeEach(async () => {
+  // Set the data once since it will be used by the entire suite and not changed by it
+  localStorage.setItem("planets", JSON.stringify(mockData));
+});
 
 describe("Planets Store", () => {
   beforeAll(() => {
@@ -21,25 +24,18 @@ describe("Planets Store", () => {
     beforeEach(() => {
       setActivePinia(createPinia());
     });
+
     test("Properly loads planets data from the API", async () => {
+      localStorage.removeItem("planets");
       const store = usePlanetsStore();
       await store.loadPlanets();
       expect(store.planets.length).toBeGreaterThan(0);
     });
-
-    afterAll(() => {
-      // Remove all the data so the other tests will not be affected by it
-      localStorage.removeItem("planets");
-    });
   });
 
   describe("Using localStorage data", () => {
-    beforeAll(() => {
+    beforeAll(async () => {
       // Set the data once since it will be used by the entire suite and not changed by it
-      localStorage.setItem("planets", JSON.stringify(mockData));
-    });
-
-    beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
       await store.loadPlanets();
@@ -64,16 +60,12 @@ describe("Planets Store", () => {
   });
 
   describe("Sorting function", () => {
-    beforeAll(() => {
-      // Set the data once since it will be used by the entire suite and not changed by it
-      localStorage.setItem("planets", JSON.stringify(mockData));
-    });
-
     beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
+      store.resetState()
       await store.loadPlanets();
-    });
+    })
 
     test("Dont sort planets if no sorting column is picked", () => {
       const store = usePlanetsStore();
@@ -148,21 +140,12 @@ describe("Planets Store", () => {
   });
 
   describe("Filtering function", () => {
-    beforeAll(() => {
-      // Set the data once since it will be used by the entire suite and not changed by it
-      localStorage.setItem("planets", JSON.stringify(mockData));
-    });
-
     beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
+      store.resetState()
       await store.loadPlanets();
-    });
-
-    afterEach(() => {
-      const store = usePlanetsStore();
-      store.clearFilters();
-    });
+    })
 
     test("Does not filter planets when no filter is provided", () => {
       const store = usePlanetsStore();
@@ -247,21 +230,12 @@ describe("Planets Store", () => {
   });
 
   describe("Planet population calculation", () => {
-    beforeAll(() => {
-      // Set the data once since it will be used by the entire suite and not changed by it
-      localStorage.setItem("planets", JSON.stringify(mockData));
-    });
-
     beforeEach(async () => {
       setActivePinia(createPinia());
       const store = usePlanetsStore();
+      store.resetState()
       await store.loadPlanets();
-    });
-
-    afterEach(() => {
-      const store = usePlanetsStore();
-      store.clearFilters();
-    });
+    })
 
     test("Returns properly calculated sum of population of selected planets", () => {
       const store = usePlanetsStore();

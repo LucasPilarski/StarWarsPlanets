@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import mockData from "store/mockData.ts";
+import mockData from "tests/mockData.ts";
 
 export const globalMocks = () => {
   // @ts-expect-error Not sure how to type mock for global fetch
