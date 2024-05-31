@@ -57,22 +57,22 @@ defineProps({
           >
           <div class="filters__checkboxesContainer">
             <CommonCheckbox
-                label="Population"
-                name="population"
-                :checked="hideUnknownResults.population"
-                @change="$emit('toggleFilteringUnknownResults', $event)"
+              label="Population"
+              name="population"
+              :checked="hideUnknownResults.population"
+              @change="$emit('toggleFilteringUnknownResults', $event)"
             />
             <CommonCheckbox
-                label="Rotation period"
-                name="rotation_period"
-                :checked="hideUnknownResults.rotation_period"
-                @change="$emit('toggleFilteringUnknownResults', $event)"
+              label="Rotation period"
+              name="rotation_period"
+              :checked="hideUnknownResults.rotation_period"
+              @change="$emit('toggleFilteringUnknownResults', $event)"
             />
             <CommonCheckbox
-                label="Climate"
-                name="climate"
-                :checked="hideUnknownResults.climate"
-                @change="$emit('toggleFilteringUnknownResults', $event)"
+              label="Climate"
+              name="climate"
+              :checked="hideUnknownResults.climate"
+              @change="$emit('toggleFilteringUnknownResults', $event)"
             />
           </div>
         </div>

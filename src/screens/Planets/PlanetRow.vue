@@ -18,9 +18,9 @@ defineProps({
   <tr class="planetRow__container">
     <td data-label="Select" class="planetRow__select">
       <CommonCheckbox
-          name="isSelected"
-          :checked="planet.isSelected"
-          @change="$emit('planetSelected', planet.id)"
+        name="isSelected"
+        :checked="planet.isSelected"
+        @change="$emit('planetSelected', planet.id)"
       />
     </td>
     <td data-label="Name" class="planetRow__name">{{ planet.name }}</td>

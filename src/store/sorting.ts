@@ -25,11 +25,13 @@ export const useSortingStore = defineStore("sorting", () => {
   };
 
   const sortPlanets = (planets: Planet[]) => {
-    if (sortingState.value.sortColumn !== "") {
+    if (sortingState.value.sortColumn !== null) {
       // Could use Array.toSorted() here but the method is a bit too new for that to be safe
       planets.sort((planetA, planetB) => {
-        const fieldA: string = planetA[sortingState.value.sortColumn];
-        const fieldB: string = planetB[sortingState.value.sortColumn];
+        const fieldA =
+          planetA[sortingState.value.sortColumn as Exclude<SortColumn, "">];
+        const fieldB =
+          planetB[sortingState.value.sortColumn as Exclude<SortColumn, "">];
         if (isNaN(parseInt(fieldA))) {
           /*
            * There are only two options, asc and desc. If asc is not picked desc is used explicitly, there is no empty option.

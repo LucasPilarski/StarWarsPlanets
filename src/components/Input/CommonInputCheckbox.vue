@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {PropType} from "vue";
+import type { PropType } from "vue";
 
 defineEmits(["change"]);
 const { name } = defineProps({
@@ -17,16 +17,19 @@ const { name } = defineProps({
   variant: {
     type: String as PropType<"horizontal" | "vertical">,
     required: false,
-    default: 'horizontal'
-  }
+    default: "horizontal",
+  },
 });
 </script>
 
 <template>
-  <label :class="{
-    commonCheckbox__horizontal: variant === 'horizontal',
-    commonCheckbox__vertical: variant === 'vertical',
-  }" class="commonCheckbox__container">
+  <label
+    :class="{
+      commonCheckbox__horizontal: variant === 'horizontal',
+      commonCheckbox__vertical: variant === 'vertical',
+    }"
+    class="commonCheckbox__container"
+  >
     <span class="commonCheckbox__label">{{ label }}</span>
     <input
       class="commonCheckbox__input"

@@ -2,7 +2,8 @@ import { vi } from "vitest";
 import mockData from "store/mockData.ts";
 
 export const globalMocks = () => {
-  global.fetch = vi.fn(() =>
+  // @ts-expect-error Not sure how to type mock for global fetch
+  globalThis.fetch = vi.fn(() =>
     Promise.resolve({
       data: {
         results: mockData,
