@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
+import type { SelectOption } from "@/types";
 
 defineProps({
   label: {
@@ -19,7 +20,7 @@ defineProps({
     default: "",
   },
   options: {
-    type: Array as PropType<{ label: string; value: string | number }[]>,
+    type: Array as PropType<SelectOption[]>,
     required: true,
     default: () => [],
   },

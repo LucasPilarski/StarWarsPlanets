@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import type {
   MappedPlanet,
   MappedTableHeader,
+  Pagination,
   Planet,
   UnknownResultsFields,
 } from "@/types";
@@ -76,7 +77,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     }));
   });
 
-  const pagination = computed(() => ({
+  const pagination = computed<Pagination>(() => ({
     limit: mainState.value.limit,
     currentPage: mainState.value.page,
     lastPage: Math.ceil(

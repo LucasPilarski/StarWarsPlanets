@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PlanetRow from "screens/Planets/PlanetRow.vue";
-import TableHeader from "components/Table/TableHeader/TableHeader.vue";
+import TableHeader from "components/Table/TableHeader.vue";
 import type { PropType } from "vue";
 import type { MappedPlanet, MappedTableHeader } from "@/types";
 import PlanetHeader from "screens/Planets/Header/PlanetHeader.vue";

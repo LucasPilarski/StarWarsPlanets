@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import type { MappedTableHeader } from "@/types";
-import SortIcon from "components/SortIcon.vue";
+import SortIcon from "components/SortIcon/SortIcon.vue";
 
 const emit = defineEmits(["sort"]);
 

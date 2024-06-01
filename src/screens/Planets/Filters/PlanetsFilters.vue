@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import type { FilterFields } from "store/main.ts";
 import CommonSelect from "components/Input/CommonInputSelect.vue";
-import type { SelectOption } from "@/types";
+import type { SelectOption, UnknownResultsFields } from "@/types";
 import CommonText from "components/Input/CommonInputText.vue";
 import CommonCheckbox from "components/Input/CommonInputCheckbox.vue";
 import CommonButton from "components/Button/CommonButton.vue";
@@ -32,7 +32,7 @@ defineProps({
     default: false,
   },
   hideUnknownResults: {
-    type: Object as PropType<Record<string, boolean>>,
+    type: Object as PropType<Record<UnknownResultsFields, boolean>>,
     required: true,
     default: () => ({}),
   },

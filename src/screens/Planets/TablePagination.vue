@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import CommonButton from "components/Button/CommonButton.vue";
+import type { Pagination } from "@/types";
 
 defineEmits(["changePage"]);
 defineProps({
   pagination: {
-    type: Object as PropType<{
-      currentPage: number;
-      lastPage: number;
-      limit: string | number;
-    }>,
+    type: Object as PropType<Pagination>,
     required: true,
     default: () => ({ currentPage: 1, lastPage: 1, limit: "10" }),
   },
