@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { FilterFields } from "store/main.ts";
-import type { MappedPlanet, UnknownResultsFields } from "@/types";
+import type { FilterFields, MappedPlanet, UnknownResultsFields } from "@/types";
 
-type FiltersState = {
+export type FiltersState = {
   filters: Record<FilterFields, string>;
   expandedFiltering: boolean;
   hideUnknownResults: Record<UnknownResultsFields, boolean>;

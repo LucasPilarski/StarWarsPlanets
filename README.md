@@ -46,9 +46,6 @@ even more time, so I decided to skip both.
 
 # Todo
 
-- Differentiate between empty and populated data
-- Add loading indicator
-- Resolve and catch for data fetching
 - Tests for Pinia
 - Tests for components
 - Styles

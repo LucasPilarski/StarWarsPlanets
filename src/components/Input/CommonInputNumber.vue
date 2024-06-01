@@ -41,6 +41,11 @@ const handleKeyup = (e: KeyboardEvent) => {
   display: flex;
   padding: 5px 0;
   flex-direction: column;
+  max-width: 250px;
+
+  @media only screen and (max-width: 760px) {
+    max-width: 100%;
+  }
 }
 
 .number__label {

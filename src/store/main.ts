@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import type {
+  FilterFields,
   MappedPlanet,
   MappedTableHeader,
   Pagination,
@@ -24,17 +25,6 @@ type MainState = {
   limit: number;
   page: number;
 };
-
-export type FilterFields =
-  | "name"
-  | "population_min"
-  | "population_max"
-  | "rotation_period_min"
-  | "rotation_period_max"
-  | "climate"
-  | "gravity"
-  | "created_before"
-  | "created_after";
 
 export const useMainStore = defineStore("main", () => {
   const dictionariesStore = useDictionariesStore();
@@ -97,34 +87,38 @@ export const useMainStore = defineStore("main", () => {
     });
   };
 
-  const fetchPlanets = (url?: string) => {
+  const fetchPlanets = (
+    url: string | null = null,
+  ): Promise<PlanetsApiResponse> => {
     return new Promise((resolve, reject) => {
       fetch(url ?? `https://swapi.dev/api/planets`)
         .then((response) => response.json())
         .then((response: PlanetsApiResponse) => {
-          response.results.forEach(handlePlanet);
-          if (response.next) {
-            fetchPlanets(response.next);
-          } else {
-            localStorage.setItem(
-              "planets",
-              JSON.stringify(mainState.value.list),
-            );
-            // @TODO Use better resolve
-            resolve(null);
-          }
+          resolve(response);
         })
-        // @TODO Use better reject
-        .catch(() => reject());
+        .catch(() =>
+          reject({
+            results: [],
+            next: null,
+            prev: null,
+            count: 0,
+          }),
+        );
     });
   };
 
-  const loadPlanets = async () => {
+  const loadPlanets = async (nextUrl: string | null = null) => {
     if (localStorage.getItem("planets") !== null) {
       const planetsData = JSON.parse(localStorage.getItem("planets") as string);
       planetsData.forEach(handlePlanet);
     } else {
-      await fetchPlanets();
+      const response = await fetchPlanets(nextUrl);
+      response.results.forEach(handlePlanet);
+      if (response.next !== null) {
+        await loadPlanets(response.next);
+      } else {
+        localStorage.setItem("planets", JSON.stringify(mainState.value.list));
+      }
     }
   };
 

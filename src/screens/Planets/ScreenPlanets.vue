@@ -16,9 +16,7 @@ const mainStore = useMainStore();
 
       <PlanetsFilters
         :climate-options="mainStore.dictionaries.climateOptions"
-        :filters="mainStore.filtersState.filters"
-        :expanded-filtering="mainStore.filtersState.expandedFiltering"
-        :hide-unknown-results="mainStore.filtersState.hideUnknownResults"
+        :filters-state="mainStore.filtersState"
         @filter-planets="mainStore.filterPlanets"
         @change-filter="mainStore.changeFilter"
         @clear-filters="mainStore.clearFilters"
