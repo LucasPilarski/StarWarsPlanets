@@ -74,7 +74,10 @@ describe("Planets screen components tree", () => {
             ?.querySelector(".planetRow__name")?.textContent ??
           mockData[10].name;
         expect(firstPlanetName).not.toBe(secondPlanetName);
-        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('2')
+        expect(
+          container.querySelector(".pagination__counter")?.children[0]
+            .textContent,
+        ).toBe("2");
       });
     });
 
@@ -105,64 +108,73 @@ describe("Planets screen components tree", () => {
             ?.querySelector(".planetRow__name")?.textContent ??
           mockData[0].name;
         expect(firstPlanetNameBefore).toBe(firstPlanetNameAfter);
-        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('1')
+        expect(
+          container.querySelector(".pagination__counter")?.children[0]
+            .textContent,
+        ).toBe("1");
       });
     });
 
     test("Renders last page of planets when last page pagination buttons is clicked", async () => {
       const { container } = render(ScreenPlanets);
       const firstPlanetNameBefore =
-          container
-              .querySelector(".planetRow__container")
-              ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
+        container
+          .querySelector(".planetRow__container")
+          ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
 
       // Last page button
       await fireEvent.click(
-          container
-              .querySelector(".pagination__container")
-              ?.querySelectorAll(".commonButton__container")[3] as Element,
+        container
+          .querySelector(".pagination__container")
+          ?.querySelectorAll(".commonButton__container")[3] as Element,
       );
 
       await waitFor(() => {
         const firstPlanetNameAfter =
-            container
-                .querySelector(".planetRow__container")
-                ?.querySelector(".planetRow__name")?.textContent ??
-            mockData[0].name;
+          container
+            .querySelector(".planetRow__container")
+            ?.querySelector(".planetRow__name")?.textContent ??
+          mockData[0].name;
         expect(firstPlanetNameBefore).not.toBe(firstPlanetNameAfter);
-        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('6')
+        expect(
+          container.querySelector(".pagination__counter")?.children[0]
+            .textContent,
+        ).toBe("6");
       });
     });
 
     test("Renders last and then first page of planets when last page and then first page pagination buttons are clicked", async () => {
       const { container } = render(ScreenPlanets);
       const firstPlanetNameBefore =
-          container
-              .querySelector(".planetRow__container")
-              ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
+        container
+          .querySelector(".planetRow__container")
+          ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
 
       // Last page button
       await fireEvent.click(
-          container
-              .querySelector(".pagination__container")
-              ?.querySelectorAll(".commonButton__container")[3] as Element,
+        container
+          .querySelector(".pagination__container")
+          ?.querySelectorAll(".commonButton__container")[3] as Element,
       );
 
       // First page button
       await fireEvent.click(
-          container
-              .querySelector(".pagination__container")
-              ?.querySelectorAll(".commonButton__container")[0] as Element,
+        container
+          .querySelector(".pagination__container")
+          ?.querySelectorAll(".commonButton__container")[0] as Element,
       );
 
       await waitFor(() => {
         const firstPlanetNameAfter =
-            container
-                .querySelector(".planetRow__container")
-                ?.querySelector(".planetRow__name")?.textContent ??
-            mockData[0].name;
+          container
+            .querySelector(".planetRow__container")
+            ?.querySelector(".planetRow__name")?.textContent ??
+          mockData[0].name;
         expect(firstPlanetNameBefore).toBe(firstPlanetNameAfter);
-        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('1')
+        expect(
+          container.querySelector(".pagination__counter")?.children[0]
+            .textContent,
+        ).toBe("1");
       });
     });
   });
@@ -182,11 +194,11 @@ describe("Planets screen components tree", () => {
     test("Renders list of the planets without the planets containing unknown population data", async () => {
       const { container } = render(ScreenPlanets);
 
-      await fireEvent.change(
+      await fireEvent.update(
         container.querySelector(
           ".screenPlanets__limit .text__input",
-        ) as Element,
-        { target: { value: 100 } },
+        ) as HTMLInputElement,
+        "100",
       );
       const populationFilteringInput = container.querySelectorAll(
         ".commonCheckbox__container",
@@ -211,11 +223,11 @@ describe("Planets screen components tree", () => {
     test("Renders list of the planets without the planets containing unknown population and rotation period data", async () => {
       const { container } = render(ScreenPlanets);
 
-      await fireEvent.change(
+      await fireEvent.update(
         container.querySelector(
           ".screenPlanets__limit .text__input",
-        ) as Element,
-        { target: { value: 100 } },
+        ) as HTMLInputElement,
+        "100",
       );
 
       await fireEvent.click(
@@ -256,11 +268,11 @@ describe("Planets screen components tree", () => {
     test("Renders list of the planets without the planets containing unknown population, rotation period and climate data", async () => {
       const { container } = render(ScreenPlanets);
 
-      await fireEvent.change(
+      await fireEvent.update(
         container.querySelector(
           ".screenPlanets__limit .text__input",
-        ) as Element,
-        { target: { value: 100 } },
+        ) as HTMLInputElement,
+        "100",
       );
 
       await fireEvent.click(
@@ -303,11 +315,11 @@ describe("Planets screen components tree", () => {
 
     test("Renders list of planets which names contains letter T", async () => {
       const { container } = render(ScreenPlanets);
-      await fireEvent.change(
+      await fireEvent.update(
         container.querySelector(
           ".screenPlanets__limit .text__input",
-        ) as Element,
-        { target: { value: 100 } },
+        ) as HTMLDListElement,
+        "100",
       );
 
       await fireEvent.keyUp(
@@ -323,6 +335,62 @@ describe("Planets screen components tree", () => {
               .children[1] as HTMLInputElement
           ).value,
         ).toBe("T");
+        expect(
+          container.querySelectorAll(".planetRow__container"),
+        ).toHaveLength(24);
+      });
+    });
+
+    test("Renders list of planets which names contains letter T and minimum and maximum population set", async () => {
+      const { container } = render(ScreenPlanets);
+      await fireEvent.update(
+        container.querySelector(
+          ".screenPlanets__limit .text__input",
+        ) as HTMLInputElement,
+        "100",
+      );
+
+      await fireEvent.click(
+        container.querySelectorAll(".filters__buttons")[0] as Element,
+      );
+
+      await fireEvent.keyUp(
+        container.querySelectorAll(".filters__list .text__container")[0]
+          .children[1] as Element,
+        { target: { value: "T" } },
+      );
+
+      await fireEvent.keyUp(
+        container.querySelectorAll(".filters__list .number__container")[0]
+          .children[1] as Element,
+        { target: { value: "100" } },
+      );
+
+      await fireEvent.keyUp(
+        container.querySelectorAll(".filters__list .number__container")[1]
+          .children[1] as Element,
+        { target: { value: "100000" } },
+      );
+
+      await waitFor(async () => {
+        expect(
+          (
+            container.querySelectorAll(".text__container")[0]
+              .children[1] as HTMLInputElement
+          ).value,
+        ).toBe("T");
+        expect(
+          (
+            container.querySelectorAll(".filters__list .number__container")[0]
+              .children[1] as HTMLInputElement
+          ).value,
+        ).toBe("100");
+        expect(
+          (
+            container.querySelectorAll(".filters__list .number__container")[1]
+              .children[1] as HTMLInputElement
+          ).value,
+        ).toBe("100000");
         expect(
           container.querySelectorAll(".planetRow__container"),
         ).toHaveLength(24);

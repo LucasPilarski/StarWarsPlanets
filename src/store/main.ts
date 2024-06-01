@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import type { MappedPlanet, MappedTableHeader, Planet } from "@/types";
+import type {
+  MappedPlanet,
+  MappedTableHeader,
+  Planet,
+  UnknownResultsFields,
+} from "@/types";
 import { computed, ref } from "vue";
 import { useDictionariesStore } from "store/dictionaries.ts";
 import { useFiltersStore } from "store/filters.ts";
@@ -218,7 +223,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     }));
   };
 
-  const toggleFilteringUnknownResults = (field: string) => {
+  const toggleFilteringUnknownResults = (field: UnknownResultsFields) => {
     filtersStore.toggleFilteringUnknownResults(field);
     if (!filtersStore.filtersState.expandedFiltering) {
       filterPlanets();

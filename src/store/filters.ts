@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { FilterFields } from "store/main.ts";
-import type {MappedPlanet, UnknownResultsFields} from "@/types";
+import type { MappedPlanet, UnknownResultsFields } from "@/types";
 
 type FiltersState = {
   filters: Record<FilterFields, string>;
@@ -118,7 +118,8 @@ export const useFiltersStore = defineStore("filters", () => {
 
   const clearHideUnknownResults = () => {
     Object.keys(filtersState.value.hideUnknownResults).forEach((key) => {
-      filtersState.value.hideUnknownResults[key as UnknownResultsFields] = false;
+      filtersState.value.hideUnknownResults[key as UnknownResultsFields] =
+        false;
     });
   };
 

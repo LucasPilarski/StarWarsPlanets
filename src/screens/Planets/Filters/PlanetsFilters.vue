@@ -26,7 +26,11 @@ defineProps({
     required: true,
     default: () => [],
   },
-  expandedFiltering: Boolean,
+  expandedFiltering: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   hideUnknownResults: {
     type: Object as PropType<Record<string, boolean>>,
     required: true,

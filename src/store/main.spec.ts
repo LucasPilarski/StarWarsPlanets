@@ -159,7 +159,7 @@ describe("Main Store", () => {
     test("Sort planets by their population in the descending order", () => {
       const store = usePlanetsStore();
       // Increase limit, otherwise first 10 planets will all have a population of unknown size
-      store.changeLimit('25')
+      store.changeLimit("25");
 
       // Click two times to switch between sorting direction
       store.changeSorting("population");
@@ -313,7 +313,7 @@ describe("Main Store", () => {
       store.changeLimit("100");
       store.changeFilter("rotation_period_max", "15");
       store.changeFilter("rotation_period_max", "45");
-      store.toggleFilteringUnknownResults('rotation_period')
+      store.toggleFilteringUnknownResults("rotation_period");
       store.filterPlanets();
 
       /*

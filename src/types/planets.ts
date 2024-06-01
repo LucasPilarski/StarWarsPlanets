@@ -1,4 +1,4 @@
-export type UnknownResultsFields = 'population' | 'rotation_period' | 'climate';
+export type UnknownResultsFields = "population" | "rotation_period" | "climate";
 
 // 1 equals 1 standard G, 2 equals 2 standard G etc.
 export type Gravity = "1" | "2" | "0.5";
