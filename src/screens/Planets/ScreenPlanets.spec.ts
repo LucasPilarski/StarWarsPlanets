@@ -9,7 +9,7 @@ import {
 import { cleanup, render } from "@testing-library/vue";
 import ScreenPlanets from "./ScreenPlanets.vue";
 import { createPinia, setActivePinia } from "pinia";
-import { usePlanetsStore } from "store/main.ts";
+import { useMainStore } from "store/main.ts";
 import { globalMocks } from "tests/globalMocks.ts";
 
 describe("Screen planets component", () => {
@@ -19,7 +19,7 @@ describe("Screen planets component", () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia());
-    const store = usePlanetsStore();
+    const store = useMainStore();
     await store.loadPlanets();
   });
 

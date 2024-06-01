@@ -1,12 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { Planet, SortDirection } from "@/types";
-import type { SortColumn } from "store/main.ts";
+import type { Planet, SortColumn, SortDirection, SortParams } from "@/types";
 
-type SortingState = {
-  sortColumn: SortColumn;
-  sortDirection: SortDirection;
-};
+type SortingState = SortParams;
 
 export const useSortingStore = defineStore("sorting", () => {
   const sortingState = ref<SortingState>({
@@ -14,18 +10,31 @@ export const useSortingStore = defineStore("sorting", () => {
     sortDirection: "asc",
   });
 
-  const changeSorting = (column: SortColumn) => {
-    if (sortingState.value.sortColumn === column) {
-      sortingState.value.sortDirection =
-        sortingState.value.sortDirection === "asc" ? "desc" : "asc";
-    } else {
-      sortingState.value.sortColumn = column;
-      sortingState.value.sortDirection = "asc";
+  const changeSorting = (
+    key: "column" | "direction",
+    value: SortColumn | SortDirection,
+  ) => {
+    // For direct manipulation of sorting column
+    if (key === "column") {
+      if (sortingState.value.sortColumn === value) {
+        sortingState.value.sortDirection =
+          sortingState.value.sortDirection === "asc" ? "desc" : "asc";
+      } else {
+        sortingState.value.sortColumn = value as SortColumn;
+        sortingState.value.sortDirection = "asc";
+      }
+    }
+    /*
+     * For direct manipulation of sorting direction
+     * Otherwise it will be changed alongside column
+     * */
+    if (key === "direction") {
+      sortingState.value.sortDirection = value as SortDirection;
     }
   };
 
   const sortPlanets = (planets: Planet[]) => {
-    if (sortingState.value.sortColumn !== null) {
+    if (sortingState.value.sortColumn !== "") {
       // Could use Array.toSorted() here but the method is a bit too new for that to be safe
       planets.sort((planetA, planetB) => {
         const fieldA =

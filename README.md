@@ -48,9 +48,12 @@ even more time, so I decided to skip both.
 
 - Differentiate between empty and populated data
 - Add loading indicator
+- Resolve and catch for data fetching
 - Tests for Pinia
 - Tests for components
-- Resolve and catch for data fetching
 - Styles
-- For mobile devices visible inputs for sorting (column, asc/desc)
 - Cleanup
+  - Readme update
+  - Tests names and comments update
+  - Add comments whenever necessary
+  - Class names checkup

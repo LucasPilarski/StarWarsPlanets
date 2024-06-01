@@ -1,3 +1,6 @@
+import type { SelectOption } from "types/input.ts";
+import type { SortDirection } from "types/sorting.ts";
+
 export type UnknownResultsFields = "population" | "rotation_period" | "climate";
 
 // 1 equals 1 standard G, 2 equals 2 standard G etc.
@@ -26,9 +29,7 @@ export type MappedPlanet = Planet & {
   id: string;
 };
 
-export type TableHeader = {
-  label: string;
-  value: string;
+export type TableHeader = SelectOption & {
   canSort: boolean;
 };
 
@@ -36,8 +37,5 @@ export type MappedTableHeader = TableHeader & {
   sortBy: boolean;
   sortDirection: SortDirection;
 };
-
-// @TODO Move this one into enum?
-export type SortDirection = "asc" | "desc";
 
 export type Pagination = Record<"currentPage" | "lastPage" | "limit", number>;

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { usePlanetsStore } from "store/main.ts";
+import { useMainStore } from "store/main.ts";
 import TablePagination from "screens/Planets/TablePagination.vue";
 import PlanetsFilters from "screens/Planets/Filters/PlanetsFilters.vue";
 import PlanetsTable from "screens/Planets/PlanetsTable.vue";
 import PlanetsLimit from "screens/Planets/Filters/PlanetsLimit.vue";
+import PlanetsSorting from "screens/Planets/PlanetsSorting.vue";
 
-const planetsStore = usePlanetsStore();
+const mainStore = useMainStore();
 </script>
 
 <template>
@@ -14,38 +15,45 @@ const planetsStore = usePlanetsStore();
       <h2 class="screenPlanets__title">Star Wars Planets</h2>
 
       <PlanetsFilters
-        :climate-options="planetsStore.climateOptions"
-        :filters="planetsStore.filtersState.filters"
-        :expanded-filtering="planetsStore.filtersState.expandedFiltering"
-        :hide-unknown-results="planetsStore.filtersState.hideUnknownResults"
-        @filter-planets="planetsStore.filterPlanets"
-        @change-filter="planetsStore.changeFilter"
-        @clear-filters="planetsStore.clearFilters"
-        @toggle-expanded-filters="planetsStore.toggleExpandedFilters"
+        :climate-options="mainStore.dictionaries.climateOptions"
+        :filters="mainStore.filtersState.filters"
+        :expanded-filtering="mainStore.filtersState.expandedFiltering"
+        :hide-unknown-results="mainStore.filtersState.hideUnknownResults"
+        @filter-planets="mainStore.filterPlanets"
+        @change-filter="mainStore.changeFilter"
+        @clear-filters="mainStore.clearFilters"
+        @toggle-expanded-filters="mainStore.toggleExpandedFilters"
         @toggle-filtering-unknown-results="
-          planetsStore.toggleFilteringUnknownResults
+          mainStore.toggleFilteringUnknownResults
         "
       />
 
       <PlanetsLimit
-        :limit="planetsStore.pagination.limit"
-        :planets-population="planetsStore.planetsPopulation"
-        @change-limit="planetsStore.changeLimit($event.target.value)"
+        :limit="mainStore.pagination.limit"
+        :planets-population="mainStore.planetsPopulation"
+        @change-limit="mainStore.changeLimit($event.target.value)"
       />
     </div>
 
+    <PlanetsSorting
+      :sorting="mainStore.sortingState"
+      :columns="mainStore.dictionaries.sortColumns"
+      :directions="mainStore.dictionaries.sortDirections"
+      @change-sorting="mainStore.changeSorting"
+    />
+
     <PlanetsTable
-      :planets="planetsStore.planets"
-      :headers="planetsStore.tableHeaders"
-      :all-planets-selected="planetsStore.allPlanetsSelected"
-      @sort="planetsStore.changeSorting"
-      @planet-selected="planetsStore.selectPlanet"
-      @all-planets-selected="planetsStore.toggleSelectAllPlanets"
+      :planets="mainStore.planets"
+      :headers="mainStore.tableHeaders"
+      :all-planets-selected="mainStore.allPlanetsSelected"
+      @sort="mainStore.changeSorting"
+      @planet-selected="mainStore.selectPlanet"
+      @all-planets-selected="mainStore.toggleSelectAllPlanets"
     />
 
     <TablePagination
-      :pagination="planetsStore.pagination"
-      @change-page="planetsStore.changePage($event)"
+      :pagination="mainStore.pagination"
+      @change-page="mainStore.changePage($event)"
     />
   </div>
 </template>

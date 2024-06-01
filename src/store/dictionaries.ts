@@ -2,9 +2,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { SelectOption, TableHeader } from "@/types";
 
-type DictionariesState = {
+export type DictionariesState = {
   tableHeaders: TableHeader[];
   climateOptions: SelectOption[];
+  sortColumns: SelectOption[];
+  sortDirections: SelectOption[];
 };
 
 export const useDictionariesStore = defineStore("dictionaries", () => {
@@ -19,6 +21,17 @@ export const useDictionariesStore = defineStore("dictionaries", () => {
       { label: "Url", value: "url", canSort: false },
     ],
     climateOptions: [{ label: "All", value: "" }],
+    sortColumns: [
+      { label: "Name", value: "name" },
+      { label: "Population", value: "population" },
+      { label: "Rotation period", value: "rotation_period" },
+      { label: "Climate", value: "climate" },
+      { label: "Gravity", value: "gravity" },
+    ],
+    sortDirections: [
+      { label: "Ascend", value: "asc" },
+      { label: "Descend", value: "desc" },
+    ],
   });
 
   const addClimateOption = (climate: string) => {
@@ -29,8 +42,7 @@ export const useDictionariesStore = defineStore("dictionaries", () => {
   };
 
   return {
-    headers: dictionariesState.value.tableHeaders,
-    climateOptions: dictionariesState.value.climateOptions,
+    dictionaries: dictionariesState,
     addClimateOption,
   };
 });

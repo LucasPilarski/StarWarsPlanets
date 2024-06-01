@@ -4,6 +4,7 @@ import type {
   MappedTableHeader,
   Pagination,
   Planet,
+  SortColumn,
   UnknownResultsFields,
 } from "@/types";
 import { computed, ref } from "vue";
@@ -24,14 +25,6 @@ type MainState = {
   page: number;
 };
 
-export type SortColumn =
-  | ""
-  | "name"
-  | "population"
-  | "rotation_period"
-  | "climate"
-  | "gravity";
-
 export type FilterFields =
   | "name"
   | "population_min"
@@ -43,7 +36,7 @@ export type FilterFields =
   | "created_before"
   | "created_after";
 
-export const usePlanetsStore = defineStore("planets", () => {
+export const useMainStore = defineStore("main", () => {
   const dictionariesStore = useDictionariesStore();
   const filtersStore = useFiltersStore();
   const sortingStore = useSortingStore();
@@ -70,7 +63,7 @@ export const usePlanetsStore = defineStore("planets", () => {
   });
 
   const headers = computed<MappedTableHeader[]>(() => {
-    return dictionariesStore.headers.map((header) => ({
+    return dictionariesStore.dictionaries.tableHeaders.map((header) => ({
       ...header,
       sortBy: header.value === sortingStore.sortingState.sortColumn,
       sortDirection: sortingStore.sortingState.sortDirection,
@@ -95,7 +88,7 @@ export const usePlanetsStore = defineStore("planets", () => {
     });
     planet.climate.split(", ").forEach((climate) => {
       if (
-        !dictionariesStore.climateOptions.find(
+        !dictionariesStore.dictionaries.climateOptions.find(
           (option) => option.value === climate,
         )
       ) {
@@ -163,8 +156,8 @@ export const usePlanetsStore = defineStore("planets", () => {
     }
   };
 
-  const changeSorting = (column: SortColumn) => {
-    sortingStore.changeSorting(column);
+  const changeSorting = (key: "column" | "direction", value: SortColumn) => {
+    sortingStore.changeSorting(key, value);
     sortingStore.sortPlanets(mainState.value.list);
     unselectAllPlanets();
   };
@@ -240,13 +233,14 @@ export const usePlanetsStore = defineStore("planets", () => {
   };
 
   return {
+    dictionaries: dictionariesStore.dictionaries,
     tableHeaders: headers,
     planets,
     pagination,
     planetsPopulation,
     allPlanetsSelected,
-    climateOptions: dictionariesStore.climateOptions,
     filtersState: filtersStore.filtersState,
+    sortingState: sortingStore.sortingState,
     loadPlanets,
     changePage,
     changeFilter,

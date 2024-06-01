@@ -7,7 +7,7 @@ import {
   test,
 } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
-import { usePlanetsStore } from "store/main.ts";
+import { useMainStore } from "store/main.ts";
 import mockData from "tests//mockData.ts";
 import { globalMocks } from "tests/globalMocks.ts";
 import { cleanup } from "@testing-library/vue";
@@ -33,7 +33,7 @@ describe("Main Store", () => {
 
     test("Properly loads planets data from the API", async () => {
       localStorage.removeItem("planets");
-      const store = usePlanetsStore();
+      const store = useMainStore();
       await store.loadPlanets();
       expect(store.planets.length).toBeGreaterThan(0);
     });
@@ -43,7 +43,7 @@ describe("Main Store", () => {
     beforeAll(async () => {
       // Set the data once since it will be used by the entire suite and not changed by it
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       await store.loadPlanets();
     });
 
@@ -52,17 +52,17 @@ describe("Main Store", () => {
     });
 
     test("Properly loads planets data from localStorage", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
       expect(store.planets.length).toBeGreaterThan(0);
     });
 
     test("Returns the number of planets equal to the table page limit", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
       expect(store.planets.length).toBe(10);
     });
 
     test("Returns 20 planets when the limit is set to 20", async () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
       await store.loadPlanets();
       store.changeLimit("25");
       expect(store.planets.length).toBe(25);
@@ -72,7 +72,7 @@ describe("Main Store", () => {
   describe("Sorting function", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
@@ -82,7 +82,7 @@ describe("Main Store", () => {
     });
 
     test("Dont sort planets if no sorting column is picked", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
       // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tatooine");
       expect(store.planets[1].name).toBe("Alderaan");
@@ -93,8 +93,8 @@ describe("Main Store", () => {
     });
 
     test("Sort planets by their name in the ascending order", () => {
-      const store = usePlanetsStore();
-      store.changeSorting("name");
+      const store = useMainStore();
+      store.changeSorting("column", "name");
       // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Alderaan");
       expect(store.planets[1].name).toBe("Aleen Minor");
@@ -105,11 +105,11 @@ describe("Main Store", () => {
     });
 
     test("Sort planets by their name in the descending order", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       // Click two times to switch between sorting direction
-      store.changeSorting("name");
-      store.changeSorting("name");
+      store.changeSorting("column", "name");
+      store.changeSorting("column", "name");
 
       // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("unknown");
@@ -121,9 +121,9 @@ describe("Main Store", () => {
     });
 
     test("Sort planets by their population in the ascending order", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
-      store.changeSorting("population");
+      store.changeSorting("column", "population");
       // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tund");
       expect(store.planets[0].population).toBe("0");
@@ -136,14 +136,14 @@ describe("Main Store", () => {
     });
 
     test("Sort planets by their population in the ascending order", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       // Use the function once to set the direction.
       // Use it the second time to reverse it.
       // Use it the third time to get back to the original settings.
-      store.changeSorting("population");
-      store.changeSorting("population");
-      store.changeSorting("population");
+      store.changeSorting("column", "population");
+      store.changeSorting("column", "population");
+      store.changeSorting("column", "population");
 
       // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tund");
@@ -157,13 +157,14 @@ describe("Main Store", () => {
     });
 
     test("Sort planets by their population in the descending order", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
       // Increase limit, otherwise first 10 planets will all have a population of unknown size
       store.changeLimit("25");
 
       // Click two times to switch between sorting direction
-      store.changeSorting("population");
-      store.changeSorting("population");
+      store.changeSorting("column", "population");
+      store.changeSorting("column", "population");
+
       // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Umbara");
       expect(store.planets[0].population).toBe("unknown");
@@ -179,7 +180,7 @@ describe("Main Store", () => {
   describe("Filtering function", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
@@ -189,7 +190,7 @@ describe("Main Store", () => {
     });
 
     test("Does not filter planets when no filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -202,7 +203,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their names when the names filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -219,7 +220,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their climate when the climate filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -236,7 +237,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their population when the min population filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -253,7 +254,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their population when the max population filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -270,7 +271,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their rotation period when the minimum rotation period filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -287,7 +288,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their rotation period when the maximum rotation period filter is provided", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -304,7 +305,7 @@ describe("Main Store", () => {
     });
 
     test("Filter planets based on their rotation period when the minimum and maximum rotation period filter is provided and unknown results are ignored", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       /*
        * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
@@ -326,7 +327,7 @@ describe("Main Store", () => {
   describe("Planet population calculation", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
@@ -336,7 +337,7 @@ describe("Main Store", () => {
     });
 
     test("Returns properly calculated sum of population of selected planets", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       store.changeLimit("25");
       store.selectPlanet("1");
@@ -347,7 +348,7 @@ describe("Main Store", () => {
     });
 
     test("Returns properly calculated sum of population of selected planets when all planets are selected", () => {
-      const store = usePlanetsStore();
+      const store = useMainStore();
 
       store.changeLimit("25");
       store.toggleSelectAllPlanets();

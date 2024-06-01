@@ -108,7 +108,7 @@ defineProps({
     width: auto;
   }
 
-  .planetRow__rotationPeriod {
+  .planetRow__rotation_period {
     width: auto;
   }
 

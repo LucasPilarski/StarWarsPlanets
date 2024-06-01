@@ -9,7 +9,7 @@ import {
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/vue";
 import ScreenPlanets from "screens/Planets/ScreenPlanets.vue";
 import { createPinia, setActivePinia } from "pinia";
-import { usePlanetsStore } from "store/main.ts";
+import { useMainStore } from "store/main.ts";
 import { globalMocks } from "tests/globalMocks.ts";
 import mockData from "./mockData.ts";
 
@@ -25,7 +25,7 @@ describe("Planets screen components tree", () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia());
-    const store = usePlanetsStore();
+    const store = useMainStore();
     store.resetState();
     await store.loadPlanets();
   });
@@ -35,7 +35,7 @@ describe("Planets screen components tree", () => {
   });
 
   test("Renders planets table properly", () => {
-    const store = usePlanetsStore();
+    const store = useMainStore();
     const { container } = render(ScreenPlanets);
     expect(container.querySelectorAll(".planetRow__container")).toHaveLength(
       store.pagination.limit,
@@ -45,7 +45,7 @@ describe("Planets screen components tree", () => {
   describe("Pagination components", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
@@ -182,7 +182,7 @@ describe("Planets screen components tree", () => {
   describe("Filtering components", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
@@ -423,7 +423,7 @@ describe("Planets screen components tree", () => {
   describe("Sorting components", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
@@ -451,7 +451,7 @@ describe("Planets screen components tree", () => {
   describe("Selecting components", () => {
     beforeEach(async () => {
       setActivePinia(createPinia());
-      const store = usePlanetsStore();
+      const store = useMainStore();
       store.resetState();
       await store.loadPlanets();
     });
