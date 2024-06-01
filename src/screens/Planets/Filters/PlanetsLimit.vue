@@ -19,7 +19,9 @@ defineEmits(["changeLimit"]);
 
 <template>
   <div class="planetsLimit__container">
-    <p>Selected planets population is {{ planetsPopulation }}</p>
+    <p class="planetsLimit__population">
+      Selected planets population is {{ planetsPopulation }}
+    </p>
     <label class="screenPlanets__limit">
       <!--  This should be a part of the component itself, left here due to the time constraints and problems with styling    -->
       <span class="screenPlanets__limitLabel">Limit</span>

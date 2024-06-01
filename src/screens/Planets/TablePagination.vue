@@ -33,7 +33,6 @@ defineProps({
       <span>{{ pagination.lastPage }}</span>
     </div>
     <CommonButton
-      id="pagination__nextPageButton"
       label=">"
       :disabled="pagination.currentPage === pagination.lastPage"
       @click="$emit('changePage', pagination.currentPage + 1)"

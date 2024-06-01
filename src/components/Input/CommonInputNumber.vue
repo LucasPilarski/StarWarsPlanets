@@ -25,10 +25,10 @@ const handleKeyup = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <label class="text__container">
-    <span class="text__label">{{ label }}</span>
+  <label class="number__container">
+    <span class="number__label">{{ label }}</span>
     <input
-      class="text__input"
+      class="number__input"
       :value="value"
       type="number"
       @keyup="handleKeyup"
@@ -37,18 +37,18 @@ const handleKeyup = (e: KeyboardEvent) => {
 </template>
 
 <style scoped lang="postcss">
-.text__container {
+.number__container {
   display: flex;
   padding: 5px 0;
   flex-direction: column;
 }
 
-.text__label {
+.number__label {
   padding: 0 0 5px;
   font-weight: bold;
 }
 
-.text__input {
+.number__input {
   border: 1px solid black;
   padding: 3px 6px;
   border-radius: 10px;

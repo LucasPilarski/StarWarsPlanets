@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import PlanetRow from "screens/Planets/PlanetRow.vue";
 import TableHeader from "components/Table/TableHeader/TableHeader.vue";
-import TableBody from "components/Table/TableBody/TableBody.vue";
 import type { PropType } from "vue";
 import type { MappedPlanet, MappedTableHeader } from "@/types";
 import PlanetHeader from "screens/Planets/Header/PlanetHeader.vue";
@@ -46,17 +45,17 @@ defineProps({
           @sort="$emit('sort', $event)"
         />
       </TableHeader>
-      <TableBody>
+      <tbody>
         <PlanetRow
           v-for="planet in planets"
           :key="planet.name"
           :planet="planet"
           @planet-selected="$emit('planetSelected', $event)"
         />
-      </TableBody>
+      </tbody>
     </table>
   </div>
-  <div v-else>No results to show</div>
+  <div v-else class="planetsTable__noPlanets">No results to show</div>
 </template>
 
 <style scoped lang="postcss">

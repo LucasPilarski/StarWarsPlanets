@@ -27,7 +27,7 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["text", "json", "html", "clover", "text-summary"],
-      exclude: ["/node_modules/**"],
+      exclude: ["/node_modules/**", "postcss.config.js"],
     },
   },
 });

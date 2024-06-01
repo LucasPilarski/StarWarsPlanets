@@ -52,7 +52,5 @@ even more time, so I decided to skip both.
 - Tests for components
 - Resolve and catch for data fetching
 - Styles
-- Different table for smaller screens (https://css-tricks.com/responsive-data-tables/)
 - For mobile devices visible inputs for sorting (column, asc/desc)
 - Cleanup
-- Separate store for filtering?

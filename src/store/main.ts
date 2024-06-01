@@ -240,7 +240,6 @@ export const usePlanetsStore = defineStore("planets", () => {
     planetsPopulation,
     allPlanetsSelected,
     climateOptions: dictionariesStore.climateOptions,
-    // This one does not reload when necessary, why?
     filtersState: filtersStore.filtersState,
     loadPlanets,
     changePage,
