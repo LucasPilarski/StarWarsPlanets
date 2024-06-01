@@ -74,6 +74,7 @@ describe("Planets screen components tree", () => {
             ?.querySelector(".planetRow__name")?.textContent ??
           mockData[10].name;
         expect(firstPlanetName).not.toBe(secondPlanetName);
+        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('2')
       });
     });
 
@@ -104,6 +105,64 @@ describe("Planets screen components tree", () => {
             ?.querySelector(".planetRow__name")?.textContent ??
           mockData[0].name;
         expect(firstPlanetNameBefore).toBe(firstPlanetNameAfter);
+        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('1')
+      });
+    });
+
+    test("Renders last page of planets when last page pagination buttons is clicked", async () => {
+      const { container } = render(ScreenPlanets);
+      const firstPlanetNameBefore =
+          container
+              .querySelector(".planetRow__container")
+              ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
+
+      // Last page button
+      await fireEvent.click(
+          container
+              .querySelector(".pagination__container")
+              ?.querySelectorAll(".commonButton__container")[3] as Element,
+      );
+
+      await waitFor(() => {
+        const firstPlanetNameAfter =
+            container
+                .querySelector(".planetRow__container")
+                ?.querySelector(".planetRow__name")?.textContent ??
+            mockData[0].name;
+        expect(firstPlanetNameBefore).not.toBe(firstPlanetNameAfter);
+        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('6')
+      });
+    });
+
+    test("Renders last and then first page of planets when last page and then first page pagination buttons are clicked", async () => {
+      const { container } = render(ScreenPlanets);
+      const firstPlanetNameBefore =
+          container
+              .querySelector(".planetRow__container")
+              ?.querySelector(".planetRow__name")?.textContent ?? mockData[0].name;
+
+      // Last page button
+      await fireEvent.click(
+          container
+              .querySelector(".pagination__container")
+              ?.querySelectorAll(".commonButton__container")[3] as Element,
+      );
+
+      // First page button
+      await fireEvent.click(
+          container
+              .querySelector(".pagination__container")
+              ?.querySelectorAll(".commonButton__container")[0] as Element,
+      );
+
+      await waitFor(() => {
+        const firstPlanetNameAfter =
+            container
+                .querySelector(".planetRow__container")
+                ?.querySelector(".planetRow__name")?.textContent ??
+            mockData[0].name;
+        expect(firstPlanetNameBefore).toBe(firstPlanetNameAfter);
+        expect(container.querySelector('.pagination__counter')?.children[0].textContent).toBe('1')
       });
     });
   });

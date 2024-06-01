@@ -269,20 +269,57 @@ describe("Main Store", () => {
       expect(store.planets.length).equals(20);
     });
 
-    test("Show all the planets after filtering is reset to its original state", () => {
+    test("Filter planets based on their rotation period when the minimum rotation period filter is provided", () => {
       const store = usePlanetsStore();
 
-      store.changeLimit("25");
-      store.changeFilter("population_max", "1000");
+      /*
+       * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("100");
+      store.changeFilter("rotation_period_min", "25");
       store.filterPlanets();
 
-      const filteredPlanets = store.planets.length;
+      /*
+       * There are 38 planets with rotation period of 25 or more
+       * */
+      expect(store.planets.length).equals(38);
+    });
 
-      store.clearFilters();
+    test("Filter planets based on their rotation period when the maximum rotation period filter is provided", () => {
+      const store = usePlanetsStore();
 
-      const filterResetPlanets = store.planets.length;
+      /*
+       * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("100");
+      store.changeFilter("rotation_period_max", "30");
+      store.filterPlanets();
 
-      expect(filterResetPlanets).toBeGreaterThan(filteredPlanets);
+      /*
+       * There are 55 planets with rotation period of 30 or less.
+       * */
+      expect(store.planets.length).equals(55);
+    });
+
+    test("Filter planets based on their rotation period when the minimum and maximum rotation period filter is provided and unknown results are ignored", () => {
+      const store = usePlanetsStore();
+
+      /*
+       * There are 60 planets in mock data and Pinia returns the number of planets equals to the table limit.
+       * Therefore we have to first increase the limit and then apply filtering.
+       * */
+      store.changeLimit("100");
+      store.changeFilter("rotation_period_max", "15");
+      store.changeFilter("rotation_period_max", "45");
+      store.toggleFilteringUnknownResults('rotation_period')
+      store.filterPlanets();
+
+      /*
+       * There are 58 planets with rotation period between 15 and 45, but only 46 if we remove the unknown values.
+       * */
+      expect(store.planets.length).equals(46);
     });
   });
 
