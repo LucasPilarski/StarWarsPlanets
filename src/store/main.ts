@@ -189,10 +189,7 @@ export const useMainStore = defineStore("main", () => {
   });
 
   const allPlanetsSelected = computed(() => {
-    return (
-      planets.value.filter((planet) => planet.isSelected).length ===
-      pagination.value.limit
-    );
+    return planets.value.every((planet) => planet.isSelected);
   });
 
   const toggleSelectAllPlanets = () => {
