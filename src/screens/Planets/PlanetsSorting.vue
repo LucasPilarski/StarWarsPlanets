@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CommonSelect from "components/Input/CommonInputSelect.vue";
+import Select from "components/Input/InputSelect.vue";
 import type { PropType } from "vue";
 import type { SelectOption, SortParams } from "@/types";
 defineEmits(["changeSorting"]);
@@ -24,17 +24,21 @@ defineProps({
 
 <template>
   <div class="sorting__container">
-    <CommonSelect
+    <Select
       :label="'Sorting column'"
       :value="sorting.sortColumn"
       :options="columns"
-      @option-picked="$emit('changeSorting', 'column', $event.target.value)"
+      :name="'column'"
+      :variant="'vertical'"
+      @option-picked="$emit('changeSorting', $event)"
     />
-    <CommonSelect
+    <Select
       :label="'Sorting direction'"
       :value="sorting.sortDirection"
       :options="directions"
-      @option-picked="$emit('changeSorting', 'direction', $event.target.value)"
+      :name="'direction'"
+      :variant="'vertical'"
+      @option-picked="$emit('changeSorting', $event)"
     />
   </div>
 </template>

@@ -210,7 +210,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter("name", "Tat");
+      store.changeFilter({ name: "name", value: "Tat" });
       store.filterPlanets();
 
       /*
@@ -227,7 +227,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter("climate", "arid");
+      store.changeFilter({ name: "climate", value: "arid" });
       store.filterPlanets();
 
       /*
@@ -244,7 +244,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter("population_min", "1000000000000");
+      store.changeFilter({ name: "population_min", value: "1000000000000" });
       store.filterPlanets();
 
       /*
@@ -261,7 +261,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter("population_max", "1000");
+      store.changeFilter({ name: "population_max", value: "1000" });
       store.filterPlanets();
 
       /*
@@ -278,7 +278,8 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("100");
-      store.changeFilter("rotation_period_min", "25");
+
+      store.changeFilter({ name: "rotation_period_min", value: "25" });
       store.filterPlanets();
 
       /*
@@ -295,7 +296,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("100");
-      store.changeFilter("rotation_period_max", "30");
+      store.changeFilter({ name: "rotation_period_max", value: "30" });
       store.filterPlanets();
 
       /*
@@ -312,15 +313,15 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("100");
-      store.changeFilter("rotation_period_max", "15");
-      store.changeFilter("rotation_period_max", "45");
+      store.changeFilter({ name: "rotation_period_min", value: "15" });
+      store.changeFilter({ name: "rotation_period_max", value: "45" });
       store.toggleFilteringUnknownResults("rotation_period");
       store.filterPlanets();
 
       /*
-       * There are 58 planets with rotation period between 15 and 45, but only 46 if we remove the unknown values.
+       * There are 58 planets with rotation period between 15 and 45, but only 43 if we remove the unknown values.
        * */
-      expect(store.planets.length).equals(46);
+      expect(store.planets.length).equals(43);
     });
   });
 

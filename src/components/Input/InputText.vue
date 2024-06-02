@@ -14,7 +14,6 @@ defineProps({
   },
 });
 
-/* @TODO Pass key to the keyUp event (the same goes for the rest of the inputs) */
 defineEmits(["keyup"]);
 </script>
 
@@ -25,7 +24,12 @@ defineEmits(["keyup"]);
       class="text__input"
       :value="value"
       type="text"
-      @keyup="$emit('keyup', $event)"
+      @keyup="
+        $emit('keyup', {
+          name,
+          value: ($event.target as HTMLInputElement).value,
+        })
+      "
     />
   </label>
 </template>

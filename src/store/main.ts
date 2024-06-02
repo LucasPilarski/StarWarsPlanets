@@ -127,8 +127,14 @@ export const useMainStore = defineStore("main", () => {
     unselectAllPlanets();
   };
 
-  const changeFilter = (key: FilterFields, value: string) => {
-    const shouldFilterPlanets = filtersStore.changeFilter(key, value);
+  const changeFilter = ({
+    name,
+    value,
+  }: {
+    name: FilterFields;
+    value: string;
+  }) => {
+    const shouldFilterPlanets = filtersStore.changeFilter(name, value);
     if (shouldFilterPlanets) {
       filterPlanets();
       unselectAllPlanets();
@@ -151,7 +157,7 @@ export const useMainStore = defineStore("main", () => {
   };
 
   const changeSorting = (key: "column" | "direction", value: SortColumn) => {
-    sortingStore.changeSorting(key, value);
+    sortingStore.changeSorting({ key, value });
     sortingStore.sortPlanets(mainState.value.list);
     unselectAllPlanets();
   };

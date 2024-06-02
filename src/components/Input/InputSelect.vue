@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { SelectOption } from "@/types";
+import type { LayoutVariant, SelectOption } from "@/types";
 
 defineProps({
   label: {
-    type: String,
-    default: "",
-  },
-  labelClass: {
     type: String,
     default: "",
   },
@@ -24,18 +20,34 @@ defineProps({
     required: true,
     default: () => [],
   },
+  variant: {
+    type: String as PropType<LayoutVariant>,
+    required: false,
+    default: "horizontal",
+  },
 });
 
 defineEmits(["optionPicked"]);
 </script>
 
 <template>
-  <label class="select__container">
-    <span class="text__label" :class="labelClass">{{ label }}</span>
+  <label
+    class="select__container"
+    :class="{
+      select__horizontal: variant === 'horizontal',
+      select__vertical: variant === 'vertical',
+    }"
+  >
+    <span class="select__label">{{ label }}</span>
     <select
-      class="text__input"
+      class="select__input"
       :value="value"
-      @change="$emit('optionPicked', $event)"
+      @change="
+        $emit('optionPicked', {
+          name,
+          value: ($event.target as HTMLInputElement).value,
+        })
+      "
     >
       <option
         v-for="option in options"
@@ -61,18 +73,26 @@ defineEmits(["optionPicked"]);
   }
 }
 
-.text__label {
+.select__horizontal {
+  flex-direction: row;
+
+  .select__label {
+    margin: 5px 10px 0 0;
+  }
+}
+
+.select__vertical {
+  flex-direction: column;
+}
+
+.select__label {
   padding: 0 0 5px;
   font-weight: bold;
 }
 
-.text__input {
+.select__input {
   border: 1px solid black;
-  padding: 3px 6px;
+  padding: 2px 6px;
   border-radius: 10px;
-}
-
-.screenPlanets__limitLabel {
-  padding-top: 5px;
 }
 </style>

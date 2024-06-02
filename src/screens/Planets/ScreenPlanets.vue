@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMainStore } from "store/main.ts";
-import TablePagination from "screens/Planets/TablePagination.vue";
+import TablePagination from "components/Table/TablePagination.vue";
 import PlanetsFilters from "screens/Planets/Filters/PlanetsFilters.vue";
 import PlanetsTable from "screens/Planets/PlanetsTable.vue";
 import PlanetsLimit from "screens/Planets/Filters/PlanetsLimit.vue";
@@ -29,7 +29,7 @@ const mainStore = useMainStore();
       <PlanetsLimit
         :limit="mainStore.pagination.limit"
         :planets-population="mainStore.planetsPopulation"
-        @change-limit="mainStore.changeLimit($event.target.value)"
+        @change-limit="mainStore.changeLimit($event.value)"
       />
     </div>
 

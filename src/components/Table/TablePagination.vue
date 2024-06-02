@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import CommonButton from "components/Button/CommonButton.vue";
+import Button from "components/Button/CommonButton.vue";
 import type { Pagination } from "@/types";
 
 defineEmits(["changePage"]);
@@ -15,12 +15,12 @@ defineProps({
 
 <template>
   <div class="pagination__container">
-    <CommonButton
+    <Button
       label="<<"
       :disabled="pagination.currentPage <= 1"
       @click="$emit('changePage', 1)"
     />
-    <CommonButton
+    <Button
       label="<"
       :disabled="pagination.currentPage <= 1"
       @click="$emit('changePage', pagination.currentPage - 1)"
@@ -29,12 +29,12 @@ defineProps({
       <span>{{ pagination.currentPage }}</span> /
       <span>{{ pagination.lastPage }}</span>
     </div>
-    <CommonButton
+    <Button
       label=">"
       :disabled="pagination.currentPage === pagination.lastPage"
       @click="$emit('changePage', pagination.currentPage + 1)"
     />
-    <CommonButton
+    <Button
       label=">>"
       :disabled="pagination.currentPage === pagination.lastPage"
       @click="$emit('changePage', pagination.lastPage)"

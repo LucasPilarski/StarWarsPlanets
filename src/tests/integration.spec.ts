@@ -196,12 +196,12 @@ describe("Planets screen components tree", () => {
 
       await fireEvent.update(
         container.querySelector(
-          ".screenPlanets__limit .text__input",
+          ".screenPlanets__limit .select__input",
         ) as HTMLInputElement,
         "100",
       );
       const populationFilteringInput = container.querySelectorAll(
-        ".commonCheckbox__container",
+        ".filters__checkboxes .checkbox__container",
       )[0];
 
       await fireEvent.click(populationFilteringInput as Element);
@@ -210,7 +210,7 @@ describe("Planets screen components tree", () => {
         expect(
           (
             populationFilteringInput.querySelector(
-              ".commonCheckbox__input",
+              ".checkbox__input",
             ) as HTMLInputElement
           ).checked,
         ).toBe(true);
@@ -225,38 +225,38 @@ describe("Planets screen components tree", () => {
 
       await fireEvent.update(
         container.querySelector(
-          ".screenPlanets__limit .text__input",
+          ".screenPlanets__limit .select__input",
         ) as HTMLInputElement,
         "100",
       );
 
       await fireEvent.click(
-        container.querySelectorAll(".commonCheckbox__container")[0] as Element,
+        container.querySelectorAll(".checkbox__container")[0] as Element,
       );
       await fireEvent.click(
-        container.querySelectorAll(".commonCheckbox__container")[1] as Element,
+        container.querySelectorAll(".checkbox__container")[1] as Element,
       );
 
       await waitFor(async () => {
         expect(
           (
             container
-              .querySelectorAll(".commonCheckbox__container")[0]
-              .querySelector(".commonCheckbox__input") as HTMLInputElement
+              .querySelectorAll(".checkbox__container")[0]
+              .querySelector(".checkbox__input") as HTMLInputElement
           ).checked,
         ).toBe(true);
         expect(
           (
             container
-              .querySelectorAll(".commonCheckbox__container")[1]
-              .querySelector(".commonCheckbox__input") as HTMLInputElement
+              .querySelectorAll(".checkbox__container")[1]
+              .querySelector(".checkbox__input") as HTMLInputElement
           ).checked,
         ).toBe(true);
         expect(
           (
             container
-              .querySelectorAll(".commonCheckbox__container")[2]
-              .querySelector(".commonCheckbox__input") as HTMLInputElement
+              .querySelectorAll(".checkbox__container")[2]
+              .querySelector(".checkbox__input") as HTMLInputElement
           ).checked,
         ).toBe(false);
         expect(
@@ -270,41 +270,41 @@ describe("Planets screen components tree", () => {
 
       await fireEvent.update(
         container.querySelector(
-          ".screenPlanets__limit .text__input",
+          ".screenPlanets__limit .select__input",
         ) as HTMLInputElement,
         "100",
       );
 
       await fireEvent.click(
-        container.querySelectorAll(".commonCheckbox__container")[0] as Element,
+        container.querySelectorAll(".checkbox__container")[0] as Element,
       );
       await fireEvent.click(
-        container.querySelectorAll(".commonCheckbox__container")[1] as Element,
+        container.querySelectorAll(".checkbox__container")[1] as Element,
       );
       await fireEvent.click(
-        container.querySelectorAll(".commonCheckbox__container")[2] as Element,
+        container.querySelectorAll(".checkbox__container")[2] as Element,
       );
 
       await waitFor(async () => {
         expect(
           (
             container
-              .querySelectorAll(".commonCheckbox__container")[0]
-              .querySelector(".commonCheckbox__input") as HTMLInputElement
+              .querySelectorAll(".checkbox__container")[0]
+              .querySelector(".checkbox__input") as HTMLInputElement
           ).checked,
         ).toBe(true);
         expect(
           (
             container
-              .querySelectorAll(".commonCheckbox__container")[1]
-              .querySelector(".commonCheckbox__input") as HTMLInputElement
+              .querySelectorAll(".checkbox__container")[1]
+              .querySelector(".checkbox__input") as HTMLInputElement
           ).checked,
         ).toBe(true);
         expect(
           (
             container
-              .querySelectorAll(".commonCheckbox__container")[2]
-              .querySelector(".commonCheckbox__input") as HTMLInputElement
+              .querySelectorAll(".checkbox__container")[2]
+              .querySelector(".checkbox__input") as HTMLInputElement
           ).checked,
         ).toBe(true);
         expect(
@@ -317,7 +317,7 @@ describe("Planets screen components tree", () => {
       const { container } = render(ScreenPlanets);
       await fireEvent.update(
         container.querySelector(
-          ".screenPlanets__limit .text__input",
+          ".screenPlanets__limit .select__input",
         ) as HTMLDListElement,
         "100",
       );
@@ -345,7 +345,7 @@ describe("Planets screen components tree", () => {
       const { container } = render(ScreenPlanets);
       await fireEvent.update(
         container.querySelector(
-          ".screenPlanets__limit .text__input",
+          ".screenPlanets__limit .select__input",
         ) as HTMLInputElement,
         "100",
       );
@@ -465,19 +465,13 @@ describe("Planets screen components tree", () => {
 
       const planetSelectCell = container.querySelectorAll(".planetRow__select");
       await fireEvent.click(
-        planetSelectCell[0].querySelector(
-          ".commonCheckbox__container",
-        ) as Element,
+        planetSelectCell[0].querySelector(".checkbox__container") as Element,
       );
       await fireEvent.click(
-        planetSelectCell[1].querySelector(
-          ".commonCheckbox__container",
-        ) as Element,
+        planetSelectCell[1].querySelector(".checkbox__container") as Element,
       );
       await fireEvent.click(
-        planetSelectCell[2].querySelector(
-          ".commonCheckbox__container",
-        ) as Element,
+        planetSelectCell[2].querySelector(".checkbox__container") as Element,
       );
 
       await waitFor(async () => {

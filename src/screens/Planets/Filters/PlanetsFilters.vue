@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import CommonSelect from "components/Input/CommonInputSelect.vue";
+import Select from "components/Input/InputSelect.vue";
 import type { SelectOption } from "@/types";
-import CommonText from "components/Input/CommonInputText.vue";
-import CommonCheckbox from "components/Input/CommonInputCheckbox.vue";
-import CommonButton from "components/Button/CommonButton.vue";
-import CommonNumber from "components/Input/CommonInputNumber.vue";
+import InputText from "components/Input/InputText.vue";
+import Checkbox from "components/Input/InputCheckbox.vue";
+import Button from "components/Button/CommonButton.vue";
+import InputNumber from "components/Input/InputNumber.vue";
 import type { FiltersState } from "store/filters.ts";
 
 defineEmits([
@@ -33,36 +33,39 @@ defineProps({
   <div class="filters__container">
     <div class="filters__list">
       <div class="filters__column">
-        <CommonText
+        <InputText
           :value="filtersState.filters.name"
           label="Name"
-          @keyup="$emit('changeFilter', 'name', $event.target.value)"
+          :name="'name'"
+          @keyup="$emit('changeFilter', $event)"
         />
-        <CommonSelect
+        <Select
           v-show="filtersState.expandedFiltering"
           :label="'Climate'"
           :value="filtersState.filters.climate"
           :options="climateOptions"
-          @option-picked="$emit('changeFilter', 'climate', $event.target.value)"
+          :name="'climate'"
+          :variant="'vertical'"
+          @option-picked="$emit('changeFilter', $event)"
         />
         <div class="filters__checkboxes">
           <span class="filters__checkboxesLabel">
             Hide unknown results for:
           </span>
           <div class="filters__checkboxesContainer">
-            <CommonCheckbox
+            <Checkbox
               label="Population"
               name="population"
               :checked="filtersState.hideUnknownResults.population"
               @change="$emit('toggleFilteringUnknownResults', $event)"
             />
-            <CommonCheckbox
+            <Checkbox
               label="Rotation period"
               name="rotation_period"
               :checked="filtersState.hideUnknownResults.rotation_period"
               @change="$emit('toggleFilteringUnknownResults', $event)"
             />
-            <CommonCheckbox
+            <Checkbox
               label="Climate"
               name="climate"
               :checked="filtersState.hideUnknownResults.climate"
@@ -72,36 +75,36 @@ defineProps({
         </div>
       </div>
       <div v-show="filtersState.expandedFiltering" class="filters__column">
-        <CommonNumber
+        <InputNumber
           :value="filtersState.filters.population_min"
           label="Population min"
-          @keyup="$emit('changeFilter', 'population_min', $event.target.value)"
+          :name="'population_min'"
+          @keyup="$emit('changeFilter', $event)"
         />
-        <CommonNumber
+        <InputNumber
           :value="filtersState.filters.population_max"
           label="Population max"
-          @keyup="$emit('changeFilter', 'population_max', $event.target.value)"
+          :name="'population_max'"
+          @keyup="$emit('changeFilter', $event)"
         />
       </div>
       <div v-show="filtersState.expandedFiltering" class="filters__column">
-        <CommonNumber
+        <InputNumber
           :value="filtersState.filters.rotation_period_min"
           label="Rotation period min"
-          @keyup="
-            $emit('changeFilter', 'rotation_period_min', $event.target.value)
-          "
+          :name="'rotation_period_min'"
+          @keyup="$emit('changeFilter', $event)"
         />
-        <CommonNumber
+        <InputNumber
           :value="filtersState.filters.rotation_period_max"
           label="Rotation period max"
-          @keyup="
-            $emit('changeFilter', 'rotation_period_max', $event.target.value)
-          "
+          :name="'rotation_period_max'"
+          @keyup="$emit('changeFilter', $event)"
         />
       </div>
     </div>
     <div class="filters__buttons">
-      <CommonButton
+      <Button
         :label="
           !filtersState.expandedFiltering
             ? 'Expanded filtering'
@@ -109,12 +112,12 @@ defineProps({
         "
         @click="$emit('toggleExpandedFilters')"
       />
-      <CommonButton
+      <Button
         v-if="filtersState.expandedFiltering"
         :label="'Filter results'"
         @click="$emit('filterPlanets')"
       />
-      <CommonButton :label="'Clear filters'" @click="$emit('clearFilters')" />
+      <Button :label="'Clear filters'" @click="$emit('clearFilters')" />
     </div>
   </div>
 </template>
@@ -150,7 +153,7 @@ defineProps({
   flex-direction: column;
   max-width: 180px;
   justify-content: space-between;
-  padding: 0 0 5px;
+  padding: 5px 0;
 }
 
 .filters__checkboxesContainer {

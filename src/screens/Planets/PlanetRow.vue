@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import type { MappedPlanet } from "@/types";
-import CommonCheckbox from "components/Input/CommonInputCheckbox.vue";
+import Checkbox from "components/Input/InputCheckbox.vue";
 
 defineEmits(["planetSelected"]);
 
@@ -17,10 +17,10 @@ defineProps({
 <template>
   <tr class="planetRow__container">
     <td data-label="Select" class="planetRow__select">
-      <CommonCheckbox
-        name="isSelected"
+      <Checkbox
+        :name="planet.id"
         :checked="planet.isSelected"
-        @change="$emit('planetSelected', planet.id)"
+        @change="$emit('planetSelected', $event)"
       />
     </td>
     <td data-label="Name" class="planetRow__name">{{ planet.name }}</td>

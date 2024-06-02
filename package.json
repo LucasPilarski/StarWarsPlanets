@@ -35,7 +35,7 @@
     "eslint-plugin-vue": "^9.26.0",
     "jsdom": "^24.1.0",
     "postcss": "^8.4.38",
-    "postcss-load-config": "^5.1.0",
+    "postcss-load-config": "^6.0.0",
     "postcss-plugin": "^1.0.0",
     "postcss-preset-env": "^9.5.14",
     "postcss-prettify": "^0.3.4",

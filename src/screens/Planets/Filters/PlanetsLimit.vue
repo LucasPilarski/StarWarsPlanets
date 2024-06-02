@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CommonSelect from "components/Input/CommonInputSelect.vue";
+import Select from "components/Input/InputSelect.vue";
 
 defineProps({
   planetsPopulation: {
@@ -22,11 +22,11 @@ defineEmits(["changeLimit"]);
     <p class="planetsLimit__population">
       Selected planets population is {{ planetsPopulation }}
     </p>
-    <label class="screenPlanets__limit">
-      <!--  This should be a part of the component itself, left here due to the time constraints and problems with styling    -->
-      <span class="screenPlanets__limitLabel">Limit</span>
-      <CommonSelect
+    <div class="screenPlanets__limit">
+      <Select
         :value="limit"
+        :label="'Limit'"
+        :variant="'horizontal'"
         :options="[
           { label: '10', value: '10' },
           { label: '25', value: '25' },
@@ -35,7 +35,7 @@ defineEmits(["changeLimit"]);
         ]"
         @option-picked="$emit('changeLimit', $event)"
       />
-    </label>
+    </div>
   </div>
 </template>
 
@@ -49,11 +49,5 @@ defineEmits(["changeLimit"]);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 110px;
-}
-
-.screenPlanets__limitLabel {
-  padding-top: 5px;
-  font-weight: bold;
 }
 </style>

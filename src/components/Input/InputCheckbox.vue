@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
+import type { LayoutVariant } from "@/types";
 
 defineEmits(["change"]);
-const { name } = defineProps({
+defineProps({
   label: {
     type: String,
     required: false,
@@ -15,7 +16,7 @@ const { name } = defineProps({
     default: "",
   },
   variant: {
-    type: String as PropType<"horizontal" | "vertical">,
+    type: String as PropType<LayoutVariant>,
     required: false,
     default: "horizontal",
   },
@@ -25,14 +26,14 @@ const { name } = defineProps({
 <template>
   <label
     :class="{
-      commonCheckbox__horizontal: variant === 'horizontal',
-      commonCheckbox__vertical: variant === 'vertical',
+      checkbox__horizontal: variant === 'horizontal',
+      checkbox__vertical: variant === 'vertical',
     }"
-    class="commonCheckbox__container"
+    class="checkbox__container"
   >
-    <span class="commonCheckbox__label">{{ label }}</span>
+    <span class="checkbox__label">{{ label }}</span>
     <input
-      class="commonCheckbox__input"
+      class="checkbox__input"
       type="checkbox"
       :checked="checked"
       @change="$emit('change', name)"
@@ -41,7 +42,7 @@ const { name } = defineProps({
 </template>
 
 <style scoped lang="postcss">
-.commonCheckbox__container {
+.checkbox__container {
   display: flex;
   align-items: center;
 
@@ -50,19 +51,19 @@ const { name } = defineProps({
   }
 }
 
-.commonCheckbox__horizontal {
+.checkbox__horizontal {
   flex-direction: row;
 }
 
-.commonCheckbox__vertical {
+.checkbox__vertical {
   flex-direction: column;
 }
 
-.commonCheckbox__label {
+.checkbox__label {
   font-weight: bold;
 }
 
-.commonCheckbox__input {
+.checkbox__input {
   width: 16px;
   height: 16px;
 }

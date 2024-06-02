@@ -10,10 +10,13 @@ export const useSortingStore = defineStore("sorting", () => {
     sortDirection: "asc",
   });
 
-  const changeSorting = (
-    key: "column" | "direction",
-    value: SortColumn | SortDirection,
-  ) => {
+  const changeSorting = ({
+    key,
+    value,
+  }: {
+    key: "column" | "direction";
+    value: SortColumn | SortDirection;
+  }) => {
     // For direct manipulation of sorting column
     if (key === "column") {
       if (sortingState.value.sortColumn === value) {

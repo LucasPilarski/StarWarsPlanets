@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps({
+const { name } = defineProps({
   label: {
     type: String,
     default: "",
@@ -17,10 +17,14 @@ defineProps({
 const emit = defineEmits(["keyup"]);
 
 const handleKeyup = (e: KeyboardEvent) => {
-  (e.target as HTMLInputElement).value = (
-    e.target as HTMLInputElement
-  ).value.replace(/\D+/g, "");
-  emit("keyup", e);
+  /*
+   * Remove characters that are not digits.
+   */
+  const clearedValue = (e.target as HTMLInputElement).value.replace(/\D+/g, "");
+  emit("keyup", {
+    name,
+    value: clearedValue,
+  });
 };
 </script>
 
