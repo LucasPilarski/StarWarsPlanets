@@ -26,7 +26,7 @@ defineEmits(["keyup"]);
       type="text"
       @keyup="
         $emit('keyup', {
-          name,
+          key: name,
           value: ($event.target as HTMLInputElement).value,
         })
       "

@@ -44,7 +44,7 @@ defineEmits(["optionPicked"]);
       :value="value"
       @change="
         $emit('optionPicked', {
-          name,
+          key: name,
           value: ($event.target as HTMLInputElement).value,
         })
       "

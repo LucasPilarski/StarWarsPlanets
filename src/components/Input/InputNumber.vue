@@ -22,7 +22,7 @@ const handleKeyup = (e: KeyboardEvent) => {
    */
   const clearedValue = (e.target as HTMLInputElement).value.replace(/\D+/g, "");
   emit("keyup", {
-    name,
+    key: name,
     value: clearedValue,
   });
 };

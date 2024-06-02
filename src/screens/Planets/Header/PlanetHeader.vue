@@ -17,11 +17,16 @@ const props = defineProps({
       sortDirection: "",
     }),
   },
+  name: {
+    type: String,
+    required: true,
+    default: "",
+  },
 });
 
 const handleClick = () => {
   if (props.header.canSort) {
-    emit("sort", props.header.value);
+    emit("sort", { key: props.name, value: props.header.value });
   }
 };
 </script>

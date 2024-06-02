@@ -33,10 +33,12 @@ defineProps({
   background: white;
   padding: 5px 10px;
 
-  &:hover {
-    cursor: pointer;
-    background: black;
-    color: white;
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      background: black;
+      color: white;
+    }
   }
 
   &:disabled {

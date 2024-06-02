@@ -94,7 +94,7 @@ describe("Main Store", () => {
 
     test("Sort planets by their name in the ascending order", () => {
       const store = useMainStore();
-      store.changeSorting("column", "name");
+      store.changeSorting({ key: "column", value: "name" });
       // We will check only first three and last three sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Alderaan");
       expect(store.planets[1].name).toBe("Aleen Minor");
@@ -108,8 +108,8 @@ describe("Main Store", () => {
       const store = useMainStore();
 
       // Click two times to switch between sorting direction
-      store.changeSorting("column", "name");
-      store.changeSorting("column", "name");
+      store.changeSorting({ key: "column", value: "name" });
+      store.changeSorting({ key: "column", value: "name" });
 
       // We will check only first three and last three sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("unknown");
@@ -123,7 +123,7 @@ describe("Main Store", () => {
     test("Sort planets by their population in the ascending order", () => {
       const store = useMainStore();
 
-      store.changeSorting("column", "population");
+      store.changeSorting({ key: "column", value: "population" });
       // We will check only first two and last two sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tund");
       expect(store.planets[0].population).toBe("0");
@@ -141,9 +141,9 @@ describe("Main Store", () => {
       // Use the function once to set the direction.
       // Use it the second time to reverse it.
       // Use it the third time to get back to the original settings.
-      store.changeSorting("column", "population");
-      store.changeSorting("column", "population");
-      store.changeSorting("column", "population");
+      store.changeSorting({ key: "column", value: "population" });
+      store.changeSorting({ key: "column", value: "population" });
+      store.changeSorting({ key: "column", value: "population" });
 
       // We will check only first two and last two sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tund");
@@ -162,8 +162,8 @@ describe("Main Store", () => {
       store.changeLimit("25");
 
       // Click two times to switch between sorting direction
-      store.changeSorting("column", "population");
-      store.changeSorting("column", "population");
+      store.changeSorting({ key: "column", value: "population" });
+      store.changeSorting({ key: "column", value: "population" });
 
       // We will check only first two and last two sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Umbara");
@@ -210,7 +210,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter({ name: "name", value: "Tat" });
+      store.changeFilter({ key: "name", value: "Tat" });
       store.filterPlanets();
 
       /*
@@ -227,7 +227,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter({ name: "climate", value: "arid" });
+      store.changeFilter({ key: "climate", value: "arid" });
       store.filterPlanets();
 
       /*
@@ -244,7 +244,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter({ name: "population_min", value: "1000000000000" });
+      store.changeFilter({ key: "population_min", value: "1000000000000" });
       store.filterPlanets();
 
       /*
@@ -261,7 +261,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("25");
-      store.changeFilter({ name: "population_max", value: "1000" });
+      store.changeFilter({ key: "population_max", value: "1000" });
       store.filterPlanets();
 
       /*
@@ -279,7 +279,7 @@ describe("Main Store", () => {
        * */
       store.changeLimit("100");
 
-      store.changeFilter({ name: "rotation_period_min", value: "25" });
+      store.changeFilter({ key: "rotation_period_min", value: "25" });
       store.filterPlanets();
 
       /*
@@ -296,7 +296,7 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("100");
-      store.changeFilter({ name: "rotation_period_max", value: "30" });
+      store.changeFilter({ key: "rotation_period_max", value: "30" });
       store.filterPlanets();
 
       /*
@@ -313,8 +313,8 @@ describe("Main Store", () => {
        * Therefore we have to first increase the limit and then apply filtering.
        * */
       store.changeLimit("100");
-      store.changeFilter({ name: "rotation_period_min", value: "15" });
-      store.changeFilter({ name: "rotation_period_max", value: "45" });
+      store.changeFilter({ key: "rotation_period_min", value: "15" });
+      store.changeFilter({ key: "rotation_period_max", value: "45" });
       store.toggleFilteringUnknownResults("rotation_period");
       store.filterPlanets();
 

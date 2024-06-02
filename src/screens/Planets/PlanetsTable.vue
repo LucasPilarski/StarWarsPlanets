@@ -42,7 +42,8 @@ defineProps({
           v-for="header in headers"
           :key="header.value"
           :header="header"
-          @sort="$emit('sort', 'column', $event)"
+          :name="'column'"
+          @sort="$emit('sort', $event)"
         />
       </TableHeader>
       <tbody>
