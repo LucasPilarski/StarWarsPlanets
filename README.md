@@ -53,14 +53,3 @@ even more time, so I decided to skip both.
 
 In this and many more cases the reason is pretty much the same: at some point I had to stop working on this project and accept
 the fact that there will be holes in it. _Done is better than perfect_, therefore let's ship it already.
-
-# Todo
-
-- Tests for Pinia
-- Tests for components
-- Styles
-- Cleanup
-  - Readme update
-  - Tests names and comments update
-  - Add comments whenever necessary
-  - Class names checkup

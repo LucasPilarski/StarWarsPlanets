@@ -83,7 +83,7 @@ describe("Main Store", () => {
 
     test("Dont sort planets if no sorting column is picked", () => {
       const store = useMainStore();
-      // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
+      // We will check only first three and last three sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tatooine");
       expect(store.planets[1].name).toBe("Alderaan");
       expect(store.planets[2].name).toBe("Yavin IV");
@@ -95,7 +95,7 @@ describe("Main Store", () => {
     test("Sort planets by their name in the ascending order", () => {
       const store = useMainStore();
       store.changeSorting("column", "name");
-      // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
+      // We will check only first three and last three sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Alderaan");
       expect(store.planets[1].name).toBe("Aleen Minor");
       expect(store.planets[2].name).toBe("Bespin");
@@ -111,7 +111,7 @@ describe("Main Store", () => {
       store.changeSorting("column", "name");
       store.changeSorting("column", "name");
 
-      // We will check only three first and three last sorted results, that should be enough to be sure that the sorting works as intended
+      // We will check only first three and last three sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("unknown");
       expect(store.planets[1].name).toBe("Zolan");
       expect(store.planets[2].name).toBe("Yavin IV");
@@ -124,7 +124,7 @@ describe("Main Store", () => {
       const store = useMainStore();
 
       store.changeSorting("column", "population");
-      // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
+      // We will check only first two and last two sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tund");
       expect(store.planets[0].population).toBe("0");
       expect(store.planets[1].name).toBe("Dantooine");
@@ -145,7 +145,7 @@ describe("Main Store", () => {
       store.changeSorting("column", "population");
       store.changeSorting("column", "population");
 
-      // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
+      // We will check only first two and last two sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Tund");
       expect(store.planets[0].population).toBe("0");
       expect(store.planets[1].name).toBe("Yavin IV");
@@ -165,7 +165,7 @@ describe("Main Store", () => {
       store.changeSorting("column", "population");
       store.changeSorting("column", "population");
 
-      // We will check only two first and two last sorted results, that should be enough to be sure that the sorting works as intended
+      // We will check only first two and last two sorted results, that should be enough to be sure that the sorting works as intended
       expect(store.planets[0].name).toBe("Umbara");
       expect(store.planets[0].population).toBe("unknown");
       expect(store.planets[1].name).toBe("Shili");
